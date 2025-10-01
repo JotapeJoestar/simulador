@@ -1,0 +1,3 @@
+SELECT ((select sum(valor9) as 'press' from (SELECT `valor9` FROM `drillingrig` WHERE `Usuario`='jesus' and `pozo`='tabasco' and `tipo`='EM_BHA')  as total)
+
+/((0,052*(SELECT valor1 from var_rt WHERE `Usuario`='jesus' and NombreDB='tabasco' and Namevar='Depth'))+(SELECT valor1 FROM  drillingrig where `Usuario`='jesus' and `pozo`='tabasco' and tipo='Mud'))

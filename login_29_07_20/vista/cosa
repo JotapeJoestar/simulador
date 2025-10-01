@@ -1,0 +1,136 @@
+<?php 
+
+include('conexion.php');
+// curso actual
+
+if (isset($_POST['dwnld'])) {
+$actu=$_POST['actu'];
+$estuiz=$_POST['estuiz'];
+
+
+
+// echo $actu;
+// echo $estuiz;
+$consul="SELECT * FROM final WHERE idestudiantef='$estuiz' AND idcurso ='$actu'";
+
+$consulqry=mysqli_query($conexion,$consul);
+
+
+
+?>
+<table style="border:1px solid black; background-color:blue;color:white">
+<tr>
+<td style="border:1px solid black; background-color:green;color:white">idevaluacion`,</td>
+<td style="border:1px solid black; background-color:green;color:white"> `idestudiantef`,</td>
+<td style="border:1px solid black; background-color:green;color:white"> `idcurso`,</td>
+<td style="border:1px solid black; background-color:green;color:white"> `codigo_eva`,</td>
+<td style="border:1px solid black; background-color:green;color:white"> `fecha_inicio`,</td>
+<td style="border:1px solid black; background-color:green;color:white"> `fecha_final`, </td>
+<td style="border:1px solid black; background-color:green;color:white"> `terminado`,</td>
+<td style="border:1px solid black; background-color:green;color:white">  `resp1`, </td>
+
+</tr>
+<?php 
+
+while ($rowdata= mysqli_fetch_array($consulqry)) {
+	
+$consult=$rowdata['terminado'];
+
+              $devaluacion      =$rowdata['idevaluacion'];
+              $idestudiantef    =$rowdata['idestudiantef'];
+              $idcurso          =$rowdata['idcurso'];
+              $codigo_eva       =$rowdata['codigo_eva'];
+              $fecha_inicio     =$rowdata['fecha_inicio'];
+              $fecha_final      =$rowdata['fecha_final'];
+              $terminado        =$rowdata['terminado'];
+              $resp1            =$rowdata['resp1'];
+              $resp2            =$rowdata['resp2'];
+              $resp3            =$rowdata['resp3'];
+              $resp4            =$rowdata['resp4'];
+              $resp5            =$rowdata['resp5'];
+              $resp6            =$rowdata['resp6'];
+              $resp7            =$rowdata['resp7'];
+              $resp8            =$rowdata['resp8'];
+              $resp9            =$rowdata['resp9'];
+              $resp10           =$rowdata['resp10'];
+        
+
+
+
+ ?>
+ <form action="#" method="POST">
+<tr>
+	
+<td><input type="text" name="a1" value="<?php echo     $devaluacion   ; ?>"></td>
+<td><input type="text" name="a2" value="<?php echo     $idestudiantef   ; ?>"></td>
+<td><input type="text" name="a3" value="<?php echo     $idcurso    ; ?>"></td>
+<td><input type="text" name="a4" value="<?php echo     $codigo_eva   ; ?>"></td>
+<td><input type="text" name="a5" value="<?php echo     $fecha_inicio    ; ?>"></td>
+<td><input type="text" name="a6" value="<?php echo     $fecha_final   ; ?>"></td>
+<td><input type="text" name="a7" value="<?php echo     $terminado  ; ?>"></td>
+<td><input type="text" name="a8" value="<?php echo     $resp1    ; ?>"></td>
+<td><input type="text" name="a9" value="<?php echo     $resp1      ; ?>"></td>
+<td><input type="text" name="a10" value="<?php echo    $resp2     ; ?>"></td>
+<td><input type="text" name="a11" value="<?php echo    $resp3      ; ?>"></td>
+<td><input type="text" name="a12" value="<?php echo    $resp4      ; ?>"></td>
+<td><input type="text" name="a13" value="<?php echo    $resp5      ; ?>"></td>
+<td><input type="text" name="a14" value="<?php echo    $resp6      ; ?>"></td>
+<td><input type="text" name="a15" value="<?php echo    $resp7      ; ?>"></td>
+<td><input type="text" name="a16" value="<?php echo    $resp8      ; ?>"></td>
+
+
+</tr>
+
+
+</table>
+ 
+	
+<input type="submit" name="crear" value="crear">
+
+ </form>
+
+<?php 
+}
+
+}
+	
+
+if ( isset($_POST['crear'])) {
+
+	$a1= $_POST['a1'];
+	$a2= $_POST['a2'];
+	$a3= $_POST['a3'];
+	$a4= $_POST['a4'];
+	$a5= $_POST['a5'];
+	$a6= $_POST['a6'];
+	$a7= $_POST['a7'];
+	$a8= $_POST['a8'];
+	$a9= $_POST['a9'];
+	$a10= $_POST['a10'];
+	$a11= $_POST['a11'];
+	$a12= $_POST['a12'];
+	$a13= $_POST['a13'];
+	$a14= $_POST['a14'];
+	$a15= $_POST['a15'];
+	$a16= $_POST['a16'];
+
+
+
+
+$ar=fopen("estesotro.txt","x")or die("error al crear");
+$open=$a1."|".$a2."|".$a3."|".$a4."|".$a5."|".$a6."|".$a7."|".$a8."|".$a9."|".$a10."|".$a11."|".$a12."|".$a13."|".$a14."|".$a15."|".$a16;
+fwrite($ar, $open);
+
+
+
+
+}
+
+
+
+ ?>	
+
+
+ <form action="admin_save.php" method="POST">	
+<input type="submit" name="subir" value="subir">
+ </form>	

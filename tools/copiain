@@ -1,0 +1,2358 @@
+<?php 
+session_start();
+ 
+$usuval=$_SESSION['username'];
+$cod_usuario=$_SESSION['codigo_rol'];
+$pozo=$_SESSION['pozocon'];
+if ($usuval==null||$usuval='') {
+  echo "Es necesario iniciar sesión/
+Login required";
+
+
+
+
+?>
+<br>
+<br>
+<a href="../simul/login_29_07_20/vista" style="background:rgb(0,100,150);font-size:75px;">||regresar</a>
+<?php  
+die();
+}else{
+   
+    ?>
+<!DOCTYPE>
+<html>
+
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Last-Modified" content="0">
+<meta http-equiv="Cache-Control" content="no-cache, mustrevalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<link rel="stylesheet" type="text/css" href="css/cssmod1.css">
+
+<?php include('conexion.php'); ?>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <style type="text/css">
+    </style>
+    <?php 
+     $mostrar_perforador = mysqli_query($conexion,"SELECT * FROM `roles` WHERE codigo='$cod_usuario'");
+       while ($data = mysqli_fetch_assoc($mostrar_perforador)) {
+             
+             $rol_perforador = $data['rol_perforador'];
+             $rol_bop_remoto = $data['rol_bop_remoto'];
+             $rol_choque_remoto = $data['rol_choque_remoto'];
+             $rol_instructor = $data['rol_instructor'];
+             $rol_visitante = $data['rol_visitante'];
+          } 
+          if ($rol_perforador==0) {
+            ?>
+    <script>
+    //no drilling control-no  control - no choque control 
+    alert('no se puede editar ningun valor ya que no se tienen permisos');
+    </script>
+    <h1 style="position:absolute;left:250px;top:-10px;
+  color: white;font-size: 15px;line-height: 20px;background-color: #198951;">no drilling control</h1>
+    <?php }
+            if ($rol_perforador==0) {
+    ?>
+    <script>
+    alert('no se puede editar ningun valor ya que no se tienen permisos');
+    </script>
+    <?php
+     ?>
+    <script type="text/javascript" src="valmanifold.js"></script>
+    <?php } ?>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <img src="img/Fondo.png" class="imcont">
+    <div class="imgmenu">
+        <!--bop-->
+        <li><img src="img/Boton_6.png" id="myBtn" class="myBtn del"></li>
+        <li><img src="img/Boton_5.png" id="myBtn2" class="myBtn del2"></li>
+        <li><img src="img/Boton_4.png" id="myBtn4" class="myBtn del4"></li>
+        <li><a href="login_29_07_20/vista/inicio_in.php"><img src="img/Boton_3.png" id="myBtn3" href="paranatalia"
+                    class="myBtn del3"></a></li>
+    </div>
+    <div class="panel">
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <?php 
+                  include('bopmodal1.php');
+                ?>
+            </div>
+        </div>
+    </div>
+    <!--fin manifold-->
+    <!--fin bop -->
+
+
+
+    <div id="myModal1" class="modal">
+        <span class="close">&times;</span>
+        <?php 
+       include('choquemodal.php');
+    ?>
+    </div>
+
+    <div id="myModal2" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img src="img/fnd1.png">
+            <div class="separador" id="separador"></div>
+            <div class="titlep p1">P1</div>
+            <p style="position:relative;color:red;top:-900px;left:90px;font-size:15px;">SSP :<i class="ie" id="ie">0</i>
+            </p><br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">CCp :<i class="ie">0</i></p>
+            <br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">TOTAL STK :<i class="ie">0</i>
+            </p><br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">TOTAL RPM :<i class="ie">0</i>
+            </p><br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">GAIN-LOOS (BBLS) :<i
+                    class="ie">0</i></p><br><br> <br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">DEPTH INI:<i class="ie">
+                </i>>0</i></p><br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">DEPTH END:<i class="ie">0</i>
+            </p><br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">NEW ,MUD MW:<i class="ie">0</i>
+            </p><br><br> <br> <br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">DEPTH :<i class="ie">0</i></p>
+            <br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">BIT DEPTH :<i class="ie">0</i>
+            </p><br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">LEAK PREES :<i class="ie">0</i>
+            </p><br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">SHOE PRESURE:<i
+                    class="ie">0</i></p><br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">BOTON PRESHURE :<i class="ie">
+                </i>>0</i></p><br>
+            <p style="position:relative;color:red;top:-1000px;left:90px;font-size:15px;">FORMATION PRESHURE:<i
+                    class="ie">0</i></p><br>
+            <div id="nav2de" onscroll="subirlinea()">
+                <div id=nav2dei>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- PARTES DE LA PANTALLA PRINCIPAL-->
+    <form>
+        <div class="submenu">
+            <img src="img/Control_remoto_bop.png">
+            <img src="img/Alineacion1.png">
+        </div>
+        <div class="sistema1"> <img src="img/Alineacion2.png"></div>
+        </table>
+    </form>
+    <div>
+        <img height="180" class="video" src="img/sinlodo.gif" alt="" id="video">
+    </div>
+
+
+    <header class="siteHeader">
+        <img src="img/tuberia.png" id="imgmov" class="imgmov" />
+    </header>
+
+    <div class="texto">
+
+        <a id="clear" class=" btx4 "></a>
+    </div>
+    <div class="group-buttons">
+        <button class=" btx2" id="disminuye" href="#"></button>
+        <button class=" btx3" id="incrementa" href="#"></button>
+
+
+        <a class=" btx6" id="despr" onclick="setTimeout(timeoutiron, 4000);"> </a>
+        <input type="hidden" id="hide_bitDepth" name="hide_bitDepth" value="<?php echo $foo36;?>">
+
+        <!-- <input id="acum_peso_stuck_pipe" type="hidden" name="acum_peso_stuck_pipe" value="<?php   echo $foo39; ?>"> -->
+
+        <a class="btx9" id="cuna" onMousedown="cambia_imagen()"> </a>
+    </div>
+    <div class="irondiv">
+        <img src="img/ironquieto.png" id="ironr" class="iron">
+        <img src="" id="stop" name="stop" class="stop">
+    </div>
+    <div class="module">
+        <!--   <img src="img/Fondo_consola.png" class="moduloss" alt="Girl in a jacket" width="1440" height="600">
+      <img src="img/Martin_decker.png" class="imrelocon">-->
+
+        <div id="agujauno" class="gear_panel"></div>
+        <div id="agujados" class="gear_panel_2"></div>
+        <style type="text/css">
+        .mdboton {
+            position: absolute;
+            left: 1115px;
+            top: -30px;
+        }
+        </style>
+        <?php 
+         $query_pmps1=mysqli_query($conexion,"SELECT valor1 FROM `setupvar_rt` WHERE `Usuario`='$usuval' AND `NombreDB`='$pozo' AND`Namevar`='SPMB1'");
+         $query_pmps2=mysqli_query($conexion,"SELECT valor1 FROM `setupvar_rt` WHERE `Usuario`='$usuval' AND `NombreDB`='$pozo' AND`Namevar`='SPMB2'");
+         $query_pmpstotal1=mysqli_query($conexion,"SELECT valor1 FROM `setupvar_rt` WHERE `Usuario`='$usuval' AND `NombreDB`='$pozo' AND`Namevar`='STKB1'");
+         $query_pmpstotal2=mysqli_query($conexion,"SELECT valor1 FROM `setupvar_rt` WHERE `Usuario`='$usuval' AND `NombreDB`='$pozo' AND`Namevar`='STKB2'");
+         $query_total=mysqli_query($conexion,"SELECT valor1 FROM `setupvar_rt` WHERE `Usuario`='$usuval' AND `NombreDB`='$pozo' AND`Namevar`='SPMtotal'");
+         $query_totalskpm=mysqli_query($conexion,"SELECT valor1 FROM `setupvar_rt` WHERE `Usuario`='$usuval' AND `NombreDB`='$pozo' AND`Namevar`='STKTotal'");
+        
+         while ($rowpms=mysqli_fetch_assoc($query_pmps1)) {
+             $p1stkpm=$rowpms['valor1'];
+        }
+              while ($rows_pmps2=mysqli_fetch_assoc($query_pmps2)) {
+             $p2stkpm=$rows_pmps2['valor1'];
+        }
+              while ($rows_pmpstotal1=mysqli_fetch_assoc($query_pmpstotal1)) {
+             $p1total=$rows_pmpstotal1['valor1'];
+        }
+              while ($rows_pmpstotal2=mysqli_fetch_assoc($query_pmpstotal2)) {
+             $p2total=$rows_pmpstotal2['valor1'];
+        }
+              while ($rows_total=mysqli_fetch_assoc($query_total)) {
+             $totalstk=$rowpms['valor1'];
+        }
+              while ($rows_totalskpm=mysqli_fetch_assoc($query_totalskpm)) {
+             $totalstkpm=$rows_totalskpm['valor1'];
+        }
+
+        
+
+         ?>
+        <img src="img/mdboton.png" id="mdboton" class="mdboton" />
+        <!--  <div class="table_data">-->
+        <form class="contenedor_consol">
+            <label class="titlelabel td1 ">PUMP1-STK/MIN</label>
+            <input id="p1_spm" class="dis d1" type="text" name="dis1" value="<?php echo $p1stkpm ?>" readonly="">
+
+            <label class="titlelabel td2">PUMP1-TOTAL STK</label>
+            <input class="dis  d2" type="text" id="p1_total_spm" name="dis2" readonly="" value="<?php echo $p1total ?>">
+
+            <label class="titlelabel td3">PUMP2-TOTAL STK</label>
+            <input class="dis d3" type="text" id="p2_total_spm" name="dis3" readonly="" value="<?php echo $p2total ?>">
+
+            <label class="titlelabel td4">TOTAL STROKES</label>
+            <input class="dis d4" type="text" id="total_strokes" name="dis4" readonly=""
+                value="<?php echo $totalstk ?>">
+
+            <label class="titlelabel td5">PUMP2-STK/MIN</label>
+            <input class="dis d5" type="text" name="dis5" id="p2_spm" readonly="" value="<?php echo $p2stkpm ?>">
+
+            <label class="titlelabel td6">TOTAL-STK/MIN</label>
+            <input class="dis d6" type="text" name="dis6" id="total_spm" readonly="" value="<?php echo $totalstkpm ?>">
+            <img class="btn11" id="resetp1" src="img/btn1.png">
+            <img class="btn12" id="resetp2" src="img/btn2.png">
+            <img class="btn13" id="resetp3" src="img/btn3.png">
+            <input type="hidden" value="<?php echo $rol_perforador?>" id="perforador">
+
+
+
+
+            <?php 
+    if ($rol_perforador==0) {
+    ?>
+
+            <p class="ff al">P1</p>
+            <div id="myRange" class="myrag">
+            </div>
+
+            <p class="ff al2">P2</p>
+            <div id="2"></div>
+            <p class="ff al3">RPM</p>
+            <div id="myRange3"></div>
+            <?php
+  }else{ 
+     ?>
+
+            <p class="ff al">P1</p>
+            <div id="myRange" class="myrag">
+                <div id="myRangei" class="myrag"></div>
+            </div>
+
+
+            <p class="ff al2">P2</p>
+            <div id="myRange2">
+                <div id="myRangei2" class="myrag"></div>
+            </div>
+            <p class="ff al3">RPM</p>
+            <div id="myRange3">
+                <div id="myRangei3" class="myrag"></div>
+            </div>
+            <?php } ?>
+            <!-- <button onclick="start()" id="start"type="button" name="button">START</button> -->
+            <label class="titlelabel std1 ">HOLE DEPTH</label>
+            <input class="dis sd1" type="text" name="dis7" id="hole_depth" readonly="" value="<?php   echo $foo26; ?>">
+            <label class="titlelabel std2">ROP</label>
+            <input class="dis  sd2" type="text" name="rop" readonly="" id="rop" value="<?php   echo $foo27; ?>">
+            <label class="titlelabel std3">BIT DEPTH</label>
+            <input class="dis sd3" type="Number" name="bit_depth" id="bit_depth" readonly="" value="">
+            <input type="hidden" name="defval" id="defval" value="<?php   echo $foo28; ?>">
+            <label class="titlelabel std4">CASSING PRESSURE</label>
+            <input class="dis sd4" type="text" name="cassing_pressure" readonly="" id="cassing_pressure"
+                value="<?php   echo $foo29; ?>">
+            <!-- <?php 
+    if ($rol_perforador==1) {
+    ?>
+
+            <script type="text/javascript" src="fluid_volume.js"></script>
+
+            <?php }else{
+    
+}?> -->
+            <script type="text/javascript"src="fluid_volume.js" ></script>
+            <label class="titlelabel std5">FLUID VOLUME</label>
+            <input class="dis sd5" type="text" name="fluid_volume" readonly="" id="fluid_volume"
+                value="<?php   echo $foo30; ?>">
+
+            <label class="titlelabel std6">PUMP PRESSURE</label>
+            <input class="dis sd6" type="text" name="pump_pressure" readonly="" id="pump_pressure"
+                value="<?php   echo $foo31; ?>">
+            <label class="titlelabel std7">RPM</label>
+            <input class="dis sd7" type="text" name="dis13" readonly="" id="rpm" value="">
+            <label class="titlelabel std8">TORQUE</label>
+            <input class="dis sd8" type="text" name="torque" readonly="" id="torque" value="">
+            <label class="titlelabel std9">TIME</label>
+            <input class="dis sd9" type="text" name="time" readonly="" id="time" value="<?php   echo $foo34; ?>">
+            <input id="hideblock_high" type="hidden" name="hideblock_high" value=" ">
+            <label class="titlelabel std10">BLOCK HIGH</label>
+            <input class="dis sd10" id="block_high" type="text" readonly="" name="dis16"
+                value="<?php   echo $foo35; ?>">
+            <label class="titlelabel std11">ECD</label>
+            <input class="dis sd11" id="ecd" type="text" readonly="" name="dis17" value="<?php   echo $foo45; ?>">
+            <input id="Hl" type="hidden" name="Hl" value="<?php echo $foo37;?>">
+            <input id="Hlaux" type="hidden" name="Hlaux" value="<?php echo $foo37;?>">
+            <input id="cuñas" type="hidden" name="cuñas" value="<?php echo $foo38;?>">
+            <input id="pesoBloque" type="hidden" name="pesoBloque" value="<?php  echo $foo39; ?>">
+            <input id="zeroWob" type="hidden" name="zeroWob" value=" ">
+            <input id="durezaRoca" type="hidden" name="durezaRoca" value="<?php echo $foo40; ?>">
+            <input id="ctePer" type="hidden" name="ctePer" value="<?php   echo $foo41; ?>">
+            <input id="diaBit" type="hidden" name="diaBit" value="<?php   echo $foo42; ?>">
+            <input id="estadoConectado" type="hidden" name="estadoConectado" value="<?php echo $foo43; ?>">
+             <input id="aaa" type="hidden" name="aaa" value="">
+
+            <input id="wobfisico" type="hidden" name="wobfisico" value="0">
+            <input id="WOBteorico" type="hidden" name="WOBteorico" value="0">
+            <img class="btn16" src="img/btn3.png">
+            <img class="btn17" src="img/btn3.png">
+            <!--
+<p class="titleindi">HIGT ALARM</p>
+<p class="titlelow">LOW ALARM</p>
+
+-->
+            <p class="rwtitle rwpos">RETURN FLOW</p>
+            <div class="ligth">
+                <p class="marck mk1">H</p>
+            </div>
+            <div class="ligthon">
+                <p class="marck mk2">L</p>
+            </div>
+            <div class="border">
+                <input type="text" id="return_flow" class="datafg" value="<?php echo $foo46; ?>">
+            </div>
+            <p class="rwtitle rwpos2">GAIN</p>
+
+            <div class="ligth2">
+                <p class="marck mk3">H</p>
+            </div>
+            <div class="ligthon2">
+                <p class="marck mk4">L</p>
+            </div>
+            <div class="border">
+                <input type="text" id="gain " name="datafg2 border" class="datafg2" value="<?php echo $foo47; ?>">
+            </div>
+            <div class="titlep tab1 ">FLOW</div>
+            <div class="titlep tab2 ">GAIN</div>
+            <p style="position: absolute;left:1144px;top:-19px; font-size:11px;text-align: center;">
+                100<br>-<br>-<br>-<br>0<br>-<br>-<br>--100</p>
+            <progress id="progresbar" class="progresbar" value="<?php echo $foo46; ?>" max="100"> </progress>
+            <progress id="progresbar2" class="progresbar2" value="<?php echo $foo47; ?>" max="100"> </progress>
+
+
+
+            <!-- The Modal -->
+
+    </div>
+
+    </form>
+    </form>
+
+    <button id="modmute">Mute</button>
+    <div id="tvesModalmute" class="modalContainer2">
+        <div class="modal-content2">
+            <span class="close2">×</span>
+            <h2>Mute</h2>
+            <button>audio on</button>
+
+            <input type="submit" style="background-color:green;color:white;position:absolute;top:90px;" name="nomute"
+                id="nomute" value="audio on">
+            <input type="submit" style="background-color:red;color:white;position:absolute;top:90px;left:20px;"
+                name="muteall" id="muteall" value="audio off">
+        </div>
+    </div>
+
+  
+    
+
+    <button id="btnModal2">Faills Bottom</button>
+    <div id="tvesModal2" class="modalContainer2" style="width:500px;height:450px;top:360px">
+        <div class="modal-content2" style="width:340px;height:370px">
+            <span class="close2">×</span>
+            <h2>Faills Bottom </h2>
+
+                 <?php 
+    if ($rol_perforador==0) {
+    ?>
+       <h1>usted no tiene permisos</h1>
+
+<?php }else{
+
+$queryconsul=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='NozzleTapada'");
+$res=mysqli_fetch_array($queryconsul);
+   $tipoFallant=$res['val1'];
+   $Tiempo1=$res['Tiempo'];
+   $instantaneo=$res['Instantaneo'];
+   $Temorizado=$res['Temorizado'];
+   $FallaAct=$res['FallaAct'];
+$queryconsul2=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='NozzleLavada'");
+ $res2=mysqli_fetch_array($queryconsul2);
+   $tipoFallant2=$res2['val1'];
+   $Tiempo2=$res2['Tiempo'];
+   $instantaneo2=$res2['Instantaneo'];
+   $Temorizado2=$res2['Temorizado'];
+   $FallaAct2=$res2['FallaAct'];
+
+
+
+
+
+
+
+ ?>
+<table style="background-color:#0CC5C8">
+    <tr>
+        <label>NOZZLES</label></td>
+    </tr>
+<?php   if ($tipoFallant==1) {?>
+     <tr>
+           <td>
+                <input type="checkbox" name="nztapada" id="nztapada" checked>
+                <label>nozzle tapada</label>
+           </td>
+     </tr>
+     <tr>
+           <td>
+                <input type="checkbox" name="nzlavada" id="nzlavada">
+                <label>nozzle lavada</label>
+           </td>
+     </tr>
+              
+     <tr>
+            <td> 
+                 <label style="font-weight:bold;">Time Mode</label>
+            </td>   
+     </tr>
+
+    <?php if ( $instantaneo==1 ){?>
+            <tr>
+                   <td>
+                       <input type="checkbox" name="ins" id="ins" checked>
+                       <label>Instantaneo</label>
+                   </td>     
+            </tr>
+
+            <tr>
+                   <td> 
+                       <input type="checkbox" name="temp" id="temp" >
+                       <label>Temporizado</label>
+                   </td>
+            </tr>
+
+<?php } ?>
+<?php   if ($Temorizado==1) { ?>
+     <tr>
+            <td>
+                <input type="checkbox" name="ins" id="ins">
+                <label>Instantaneo</label>
+            </td>     
+     </tr>
+
+      <tr>
+             <td> 
+                 <input type="checkbox" name="temp" id="temp" checked >
+                 <label>Temporizado</label>
+             </td>
+      </tr>
+      <tr>
+ <?php  }
+ if ($Temorizado==0 AND $instantaneo==0){ ?>
+        <tr>
+            <td>
+                <input type="checkbox" name="ins" id="ins">
+                <label>Instantaneo</label>
+            </td>     
+     </tr>
+
+      <tr>
+             <td> 
+                 <input type="checkbox" name="temp" id="temp" >
+                 <label>Temporizado</label>
+             </td>
+      </tr>
+      <tr>
+<?php     } ?>       
+
+            <td> 
+                 <label  >Time(minut)</label>
+                 <input type="text" name="timemin" id="timemin" value="<?php echo $Tiempo1 ?>" style="width:70px;">
+            </td>
+      </tr>
+      <?php if ($FallaAct==1 ){?>
+
+      <tr>
+         <td>
+              <input type="checkbox" name="fa" id="fa" checked>
+              <label>Falla Actv</label>
+         </td>         
+      </tr>
+          
+      <?php }else{ ?>
+
+     <tr>
+         <td>
+              <input type="checkbox" name="fa" id="fa">
+              <label>Falla Actv</label>
+         </td>         
+      </tr>
+
+
+
+<?php }} ?>
+         
+
+<!-- si nz lavada-->
+
+<?php   if ($tipoFallant2==1) {?>
+     <tr>
+           <td>
+                <input type="checkbox" name="nztapada" id="nztapada" >
+                <label>nozzle tapada</label>
+           </td>
+     </tr>
+     <tr>
+           <td>
+                <input type="checkbox" name="nzlavada" id="nzlavada" checked>
+                <label>nozzle lavada</label>
+           </td>
+     </tr>
+              
+     <tr>
+            <td> 
+                 <label style="font-weight:bold;">Time Mode</label>
+            </td>   
+     </tr>
+
+    <?php if ( $instantaneo2==1 ){?>
+            <tr>
+                   <td>
+                       <input type="checkbox" name="ins" id="ins" checked>
+                       <label>Instantaneo</label>
+                   </td>     
+            </tr>
+
+            <tr>
+                   <td> 
+                       <input type="checkbox" name="temp" id="temp" >
+                       <label>Temporizado</label>
+                   </td>
+            </tr>
+
+<?php } ?>
+<?php   if ($Temorizado2==1) { ?>
+     <tr>
+            <td>
+                <input type="checkbox" name="ins" id="ins">
+                <label>Instantaneo</label>
+            </td>     
+     </tr>
+
+      <tr>
+             <td> 
+                 <input type="checkbox" name="temp" id="temp" checked >
+                 <label>Temporizado</label>
+             </td>
+      </tr>
+      <tr>
+ <?php  }
+ if ($Temorizado2==0 AND $instantaneo2==0){ ?>
+        <tr>
+            <td>
+                <input type="checkbox" name="ins" id="ins">
+                <label>Instantaneo</label>
+            </td>     
+     </tr>
+
+      <tr>
+             <td> 
+                 <input type="checkbox" name="temp" id="temp" >
+                 <label>Temporizado</label>
+             </td>
+      </tr>
+      <tr>
+<?php     } ?>       
+
+            <td> 
+                 <label  >Time(minut)</label>
+                 <input type="text" name="timemin" id="timemin" value="<?php echo $Tiempo2 ?>" style="width:70px;">
+            </td>
+      </tr>
+ <?php if ($FallaAct2==1 ){?>
+
+      <tr>
+         <td>
+              <input type="checkbox" name="fa" id="fa" checked>
+              <label>Falla Actv</label>
+         </td>         
+      </tr>
+          
+      <?php }else{ ?>
+
+     <tr>
+         <td>
+              <input type="checkbox" name="fa" id="fa">
+              <label>Falla Actv</label>
+         </td>         
+      </tr>
+
+
+
+<?php }} ?>
+         
+
+
+
+
+            </table>
+
+
+
+<?php   
+
+$queryconsul3=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='Diferencial'");
+$res3=mysqli_fetch_array($queryconsul3);
+   $Diferencial=$res3['val1'];
+   $Tiempo3=$res3['Tiempo'];
+   $instantaneo3=$res3['Instantaneo'];
+   $Temorizado3=$res3['Temorizado'];
+   $FallaAct3=$res3['FallaAct'];
+$queryconsul4=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='Empaquetamiento'");
+ $res4=mysqli_fetch_array($queryconsul4);
+   $Empaquetamiento=$res4['val1'];
+   $Tiempo4=$res4['Tiempo'];
+   $instantaneo4=$res4['Instantaneo'];
+   $Temorizado4=$res4['Temorizado'];
+   $FallaAct4=$res4['FallaAct'];
+
+
+
+
+
+
+ ?>
+
+
+        </table>
+  <table style="background-color:#0CC5C8;position: absolute;left:265px;top:125px">
+  
+                       <tr>
+                    
+                    <label style="position:absolute;top:105px;left:265px">Stup pipe</label></td>
+
+                </tr>
+                 
+      <?php     if ($Diferencial==1) {?>         
+       <tr>
+            <td>
+                <input type="checkbox" checked name="Dferencial" id="Dferencial">
+                <label>Dferencial</label>
+            </td>
+       </tr>
+              
+        <tr>
+                <td>
+                    <input type="checkbox" name="empaquetamiento" id="empaquetamiento">
+                    <label>empaquetamiento</label>
+                </td>
+        </tr>
+              
+        </tr>
+        <tr>
+                <td> 
+                   <label style="font-weight:bold;">Time Mode</label>
+               </td>    
+        </tr>
+
+        </tr>
+<?php   if ($instantaneo3==1) {?>
+
+
+
+         <tr>
+                <td>
+                    <input type="checkbox" name="Instantaneo" id="Instantaneo" checked>
+                    <label>Instantaneo</label>
+                </td>
+        </tr>
+        <tr>
+                <td> 
+                       <input type="checkbox" name="Temporizado" id="Temporizado">
+                      <label>Temporizado</label>
+               </td>
+        </tr>
+<?php   } ?>
+
+<?php   if ($Temorizado3==1) {?>
+
+
+
+         <tr>
+                <td>
+                    <input type="checkbox" name="Instantaneo" id="Instantaneo" >
+                    <label>Instantaneo</label>
+                </td>
+        </tr>
+        <tr>
+                <td> 
+                       <input type="checkbox" name="Temporizado" id="Temporizado" checked>
+                      <label>Temporizado</label>
+               </td>
+        </tr>
+<?php   } ?>
+
+<?php   if ($Temorizado3==0 AND $instantaneo3==0 ) {?>
+
+
+
+         <tr>
+                <td>
+                    <input type="checkbox" name="Instantaneo" id="Instantaneo" >
+                    <label>Instantaneo</label>
+                </td>
+        </tr>
+        <tr>
+                <td> 
+                       <input type="checkbox" name="Temporizado" id="Temporizado" >
+                      <label>Temporizado</label>
+               </td>
+        </tr>
+<?php   } ?>
+
+
+        <tr>
+                <td> 
+                    <label>Time(minut)</label>
+                    <input type="text" name="timemin2" id="timemin2" value="<?php echo $Tiempo3 ?>" style="width:70px;">
+                </td>
+        </tr>
+
+         <?php  if ( $FallaAct3==1) { ?>
+         <tr>
+                <td>
+                    <input type="checkbox" name="fa2" id="fa2" checked>
+                    <label>Falla Actv</label>
+                </td>    
+        </tr>
+<?php   }else{ ?>
+
+         <tr>
+                <td>
+                    <input type="checkbox" name="fa2" id="fa2">
+                    <label>Falla Actv</label>
+                </td>    
+        </tr>
+
+
+    <?php  } }?>                
+               
+
+
+
+  <?php     if ($Empaquetamiento==1) {?>         
+       <tr>
+            <td>
+                <input type="checkbox"  name="Dferencial" id="Dferencial">
+                <label>Dferencial</label>
+            </td>
+       </tr>
+              
+        <tr>
+                <td>
+                    <input type="checkbox" name="empaquetamiento" checked id="empaquetamiento">
+                    <label>empaquetamiento</label>
+                </td>
+        </tr>
+              
+        </tr>
+        <tr>
+                <td> 
+                   <label style="font-weight:bold;">Time Mode</label>
+               </td>    
+        </tr>
+
+        </tr>
+      <?php   if ($instantaneo4==1) {?>
+
+
+
+         <tr>
+                <td>
+                    <input type="checkbox" name="Instantaneo" id="Instantaneo" checked>
+                    <label>Instantaneo</label>
+                </td>
+        </tr>
+        <tr>
+                <td> 
+                       <input type="checkbox" name="Temporizado" id="Temporizado">
+                      <label>Temporizado</label>
+               </td>
+        </tr>
+<?php   } ?>
+
+<?php   if ($Temorizado4==1) {?>
+
+
+
+         <tr>
+                <td>
+                    <input type="checkbox" name="Instantaneo" id="Instantaneo" >
+                    <label>Instantaneo</label>
+                </td>
+        </tr>
+        <tr>
+                <td> 
+                       <input type="checkbox" name="Temporizado" id="Temporizado" checked>
+                      <label>Temporizado</label>
+               </td>
+        </tr>
+<?php   } ?>
+
+<?php   if ($instantaneo4==0 AND $Temorizado4==0 ) {?>
+
+
+
+         <tr>
+                <td>
+                    <input type="checkbox" name="Instantaneo" id="Instantaneo" >
+                    <label>Instantaneo</label>
+                </td>
+        </tr>
+        <tr>
+                <td> 
+                       <input type="checkbox" name="Temporizado" id="Temporizado" >
+                      <label>Temporizado</label>
+               </td>
+        </tr>
+<?php   } ?>
+
+
+
+        <tr>
+                <td> 
+                    <label>Time(minut)</label>
+                    <input type="text" name="timemin2" id="timemin2" value="<?php echo $Tiempo3 ?>" style="width:70px;">
+                </td>
+        </tr>
+         <?php  if ( $FallaAct4==1) { ?>
+         <tr>
+                <td>
+                    <input type="checkbox" name="fa2" id="fa2" checked>
+                    <label>Falla Actv</label>
+                </td>    
+        </tr>
+<?php   }else{ ?>
+
+         <tr>
+                <td>
+                    <input type="checkbox" name="fa2" id="fa2">
+                    <label>Falla Actv</label>
+                </td>    
+        </tr>
+
+
+    <?php  }} ?>
+
+           
+
+            </table>
+            <input type="submit" name="validarfalla" id="validarfalla" value="SAVE" style="position:absolute;top:290px;left:200px;width:100px;height:50px;background-color:#36B5E5;border:10px solid #A3A0B9 ; font-size:1.2em;font-weight:bold;font-color:#ffffff;" >
+   
+
+
+<script type="text/javascript">
+ var nztapada=document.getElementById('nztapada').checked;
+var nzlavada=document.getElementById('nzlavada').checked;
+var ins=document.getElementById('ins').checked;
+var temp=document.getElementById('temp').checked;
+var timemin=document.getElementById('timemin').value;
+var fa=document.getElementById('fa').checked;
+var Dferencial=document.getElementById('Dferencial').checked;
+var empaquetamiento=document.getElementById('empaquetamiento').checked;
+var Instantaneo=document.getElementById('Instantaneo').checked;
+var Temporizado=document.getElementById('Temporizado').checked;
+var timemin2=document.getElementById('timemin2').value;
+var fa2=document.getElementById('fa2').checked;
+
+$('#nztapada').click(function(){
+  
+ document.getElementById('nzlavada').checked=false;
+
+})
+$('#nzlavada').click(function(){
+  
+ document.getElementById('nztapada').checked=false;
+
+})
+$('#ins').click(function(){
+  
+ document.getElementById('temp').checked=false;
+
+})
+$('#temp').click(function(){
+  
+ document.getElementById('ins').checked=false;
+
+})
+$('#Dferencial').click(function(){
+  
+ document.getElementById('empaquetamiento').checked=false;
+
+})
+$('#empaquetamiento').click(function(){
+  
+ document.getElementById('Dferencial').checked=false;
+
+})
+$('#Instantaneo').click(function(){
+  
+ document.getElementById('Temporizado').checked=false;
+
+})
+$('#Temporizado').click(function(){
+  
+ document.getElementById('Instantaneo').checked=false;
+
+})
+
+
+
+
+if (nztapada==true ) {
+    document.getElementById('nzlavada').checked=false;
+
+}   
+ 
+$('#validarfalla').click(function(){
+var nztapada=document.getElementById('nztapada').checked;
+var nzlavada=document.getElementById('nzlavada').checked;
+var ins=document.getElementById('ins').checked;
+var temp=document.getElementById('temp').checked;
+var timemin=document.getElementById('timemin').value;
+var fa=document.getElementById('fa').checked;
+var Dferencial=document.getElementById('Dferencial').checked;
+var empaquetamiento=document.getElementById('empaquetamiento').checked;
+var Instantaneo=document.getElementById('Instantaneo').checked;
+var Temporizado=document.getElementById('Temporizado').checked;
+var timemin2=document.getElementById('timemin2').value;
+var fa2=document.getElementById('fa2').checked;
+   
+
+
+
+ 
+
+    alert(nztapada);
+
+if (nztapada==true ) {
+    nztapada=1;
+    
+
+}else{
+    nztapada=0;
+}    
+if (nzlavada==true ) {
+    nzlavada=1;
+    
+
+}else{
+    nzlavada=0;
+}    
+
+
+if (ins==true){
+    ins=1;
+}else{
+    ins=0;
+}
+if (temp==true) {
+    temp=1;
+}else{
+    temp=0;
+}
+if (fa==true) {
+    fa=1;
+}else{
+    fa=0;
+}
+if (Dferencial==true) {
+    Dferencial=1;
+}else{
+    Dferencial=0;
+}
+if (empaquetamiento==true) {
+    empaquetamiento=1;
+}else{
+    empaquetamiento=0;
+}
+if (Instantaneo==true) {
+    Instantaneo=1;
+}else{
+    Instantaneo=0;
+}
+if (Temporizado==true){
+    Temporizado=1;
+}else{
+    Temporizado=0;
+}
+if (fa2==true) {
+fa2=1;
+}else{
+    fa2=0;
+}
+$.ajax({
+    url: "fallas.php",
+    data: {
+    nztapada:nztapada,
+    nzlavada:nzlavada,
+    ins:ins,
+    temp:temp,
+    timemin:timemin,
+    fa:fa,
+    Dferencial:Dferencial,
+    empaquetamiento:empaquetamiento,
+    Instantaneo:Instantaneo,
+    Temporizado:Temporizado,
+    timemin2:timemin2,
+    fa2:fa2
+    },
+    type: "POST",
+    success: function (datos) {
+      $("#rchan").value = 'holakase';
+    }
+  })
+
+
+
+
+
+/*if( ( v = $("#nztapada:checked").val() ) != null ){
+    alert('a perro conoses la llave');
+}else{
+    alert('no xd');
+}*/
+
+
+
+
+})
+
+
+</script>
+
+
+
+
+                     <?php } ?>
+        </div>
+    </div>
+    
+
+
+
+    <button id="btnModalwell">Faills Surface</button>
+    <div id="tvesModalwell" class="modalContainer2"  style="width:600px;height:650px;top:150px">
+        <div class="modal-content2" style="width:350px;height:590px">
+            <span class="close2">×</span>
+            <h2>Faills Surface </h2>
+            
+                 <?php 
+    if ($rol_perforador==0) {
+    ?>
+       <h1>usted no tiene permisos</h1>
+
+<?php }else{ ?>
+
+
+
+<?php   
+
+$queryconsul5=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='ApagadoParcial' AND  componente='PUMPNo1'");
+$res5=mysqli_fetch_array($queryconsul5);
+   $apagadoParcial=$res5['val1'];
+   $Tiempo5=$res5['Tiempo'];
+   $instantaneo5=$res5['Instantaneo'];
+   $Temorizado5=$res5['Temorizado'];
+   $FallaAct5=$res5['FallaAct'];
+
+$queryconsul6=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='Apagado Total' AND  componente='PUMPNo1'");
+$res6=mysqli_fetch_array($queryconsul6);
+   $apagadototal=$res6['val1'];
+   $Tiempo6=$res6['Tiempo'];
+   $instantaneo6=$res6['Instantaneo'];
+   $Temorizado6=$res6['Temorizado'];
+   $FallaAct6=$res6['FallaAct'];
+
+
+ ?>
+
+
+
+
+
+
+              <table style="background-color:#0CC5C8;position: absolute;left:130px;top:108px">
+                <?php if ( $apagadoParcial==1) { ?>
+                <tr>
+                     <td>  <input type="checkbox" name="apaga" id="apaga" checked>
+                    <label>apagado parcial</label></td>
+
+                   
+
+                </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="apagatotal" id="apagatotal" >
+                    <label>apagado total</label></td>
+                </tr>
+              
+                     </tr>
+              
+                   <tr>
+                    <td> 
+                    <label>Time Mode</label></td>
+                    
+                </tr>
+
+                     </tr>
+              <?php if ($instantaneo5==1) {?>
+                   <tr>
+                    <td>  <input type="checkbox" name="insta" id="insta" checked >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temporalz" id="temporalz">
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php } ?>
+
+
+
+                   <?php if ($Temorizado5==1) {?>
+                   <tr>
+                    <td>  <input type="checkbox" name="insta" id="insta"  >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temporalz" id="temporalz" checked>
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php } ?>
+                    </tr>
+
+                   <tr>
+                    <td> 
+                    <label>Time(minut)</label>
+                 <input type="text" name="timetre" id="timetre" value="<?php echo $Tiempo5 ?>" style="width:70px;"></td>
+                    
+                </tr>
+
+
+        <?php if ($FallaAct5==1) { ?>
+                   <tr>
+                    <td>  <input type="checkbox" name="fallatre" id="fallatre" checked>
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+     <?php }else{?>
+
+           <tr>
+                    <td>  <input type="checkbox" name="fallatre" id="fallatre"  >
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+   <?php } ?>
+
+
+        <?php } ?>
+
+
+
+   <?php if ( $apagadototal==1) { ?>
+                <tr>
+                     <td>  <input type="checkbox" name="apaga" id="apaga" >
+                    <label>apagado parcial</label></td>
+
+                   
+
+                </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="apagatotal" id="apagatotal" checked>
+                    <label>apagado total</label></td>
+                </tr>
+              
+                     </tr>
+              
+                   <tr>
+                    <td> 
+                    <label>Time Mode</label></td>
+                    
+                </tr>
+
+                     </tr>
+                 <?php if ($instantaneo6==1) {?>
+                   <tr>
+                    <td>  <input type="checkbox" name="insta" id="insta" checked >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temporalz" id="temporalz">
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php } ?>
+
+
+
+                   <?php if ($Temorizado6==1) {?>
+                   <tr>
+                    <td>  <input type="checkbox" name="insta" id="insta"  >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temporalz" id="temporalz" checked>
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php } ?>
+
+                    </tr>
+
+                   <tr>
+                    <td> 
+                    <label>Time(minut)</label>
+                 <input type="text" name="timetre" id="timetre" value="<?php echo $Tiempo6 ?>" style="width:70px;"></td>
+                    
+                </tr>
+
+             
+
+        <?php if ($FallaAct6==1) { ?>
+                   <tr>
+                    <td>  <input type="checkbox" name="fallatre" id="fallatre" checked>
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+     <?php }else{?>
+
+           <tr>
+                    <td>  <input type="checkbox" name="fallatre" id="fallatre"  >
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+   <?php } ?>
+
+        <?php } ?>
+
+
+
+    </table>
+<!-- tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2tabla2--->
+<?php   
+
+$queryconsul7=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='ApagadoParcial' AND  componente='PUMPNo2'");
+$res7=mysqli_fetch_array($queryconsul7);
+   $apagadoParcial7=$res7['val1'];
+   $Tiempo7=$res7['Tiempo'];
+   $instantaneo7=$res7['Instantaneo'];
+   $Temorizado7=$res7['Temorizado'];
+   $FallaAct7=$res7['FallaAct'];
+
+$queryconsul8=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='ApagadoTotal' AND  componente='PUMPNo2'");
+$res8=mysqli_fetch_array($queryconsul8);
+   $apagadototal8=$res8['val1'];
+   $Tiempo8=$res8['Tiempo'];
+   $instantaneo8=$res8['Instantaneo'];
+   $Temorizado8=$res8['Temorizado'];
+   $FallaAct8=$res8['FallaAct'];
+
+
+ ?>
+
+
+              <table style="background-color:#0CC5C8;position: absolute;left:300px;top:108px">
+              
+  <?php  if ( $apagadoParcial7==1) { ?>
+                 <tr>
+                    <td>  <input type="checkbox" name="apagadop2" id="apagadop2" checked>
+                    <label>apagado parcial</label></td>
+
+                </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="apagatotap2" id="apagatotap2">
+                    <label>apagado total</label></td>
+                    
+                </tr>
+              
+                     </tr>
+              
+                   <tr>
+                    <td> 
+                    <label>Time Mode</label></td>
+                    
+                </tr>
+             <?php if ($instantaneo7==1) {?>
+                      </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins4" id="ins4" checked>
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp4" id="temp4" >
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+
+           <?php  } ?>
+
+
+              <?php if ($Temorizado7==1) {?>
+                      </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins4" id="ins4" >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp4" id="temp4" checked >
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+
+           <?php  } ?>
+
+
+             <?php if ($Temorizado7==0 AND $instantaneo7==0) {?>
+                      </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins4" id="ins4" >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp4" id="temp4"  >
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+
+           <?php  } ?>
+              
+                    </tr>
+
+                   <tr>
+                    <td> 
+                    <label>Time(minut)</label>
+                 <input type="text" name="timemin3" id="timemin3" value="<?php echo $Tiempo7 ?>" style="width:70px;"></td>
+                    
+                </tr>
+
+                </tr>
+         <?php  if ($FallaAct7==1) { ?>
+                   <tr>
+                    <td>  <input type="checkbox" name="falla3" id="falla3" checked >
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+            <?php }
+             if ($FallaAct7==0) {
+             ?>
+                <tr> 
+                    <td>  <input type="checkbox" name="falla3" id="falla3"  >
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+
+         <?php } ?>
+
+             <?php } ?>
+   
+
+
+
+
+
+        <?php  if ( $apagadototal8==1) { ?>
+                 <tr>
+                    <td>  <input type="checkbox" name="apagadop2" id="apagadop2" >
+                    <label>apagado parcial</label></td>
+
+                </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="apagatotap2" id="apagatotap2" checked>
+                    <label>apagado total</label></td>
+                    
+                </tr>
+              
+                     </tr>
+              
+                   <tr>
+                    <td> 
+                    <label>Time Mode</label></td>
+                    
+                </tr>
+
+                    <?php if ($instantaneo8==1) {?>
+                      </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins4" id="ins4" checked>
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp4" id="temp4" >
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+
+           <?php  } ?>
+
+
+              <?php if ($Temorizado8==1) {?>
+                      </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins4" id="ins4" >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp4" id="temp4" checked >
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+
+           <?php  } ?>
+
+
+             <?php if ($Temorizado8==0 AND $instantaneo8==0) {?>
+                      </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins4" id="ins4" >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp4" id="temp4"  >
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+
+           <?php  } ?>
+              
+                    </tr>
+
+                   <tr>
+                    <td> 
+                    <label>Time(minut)</label>
+                 <input type="text" name="timemin3" id="timemin3" value="<?php echo $Tiempo8 ?>" style="width:70px;"></td>
+                    
+                </tr>
+
+                </tr>
+         <?php  if ($FallaAct8==1) { ?>
+                   <tr>
+                    <td>  <input type="checkbox" name="falla3" id="falla3" checked >
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+            <?php }
+             if ($FallaAct8==0) {
+             ?>
+                <tr> 
+                    <td>  <input type="checkbox" name="falla3" id="falla3"  >
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+
+         <?php } ?>
+
+             <?php } ?>
+
+              
+            </table>
+
+ 
+
+
+<!-- tabla3  tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3 tabla3-->
+
+<?php   
+
+$queryconsul9=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='ChokeTapado'");
+$res9=mysqli_fetch_array($queryconsul9);
+   $Tapado=$res9['val1'];
+   $Choqueno=$res9['var2'];
+   $porsent=$res9['var3'];
+   $insta=$res9['Instantaneo']; 
+   $Temor=$res9['Temorizado'];
+   $Tiem=$res9['Tiempo'];
+   $fallass=$res9['FallaAct'];
+$queryconsul10=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='Choke Lavada'");
+$res10=mysqli_fetch_array($queryconsul10);
+   $Lavada=$res10['val1'];
+   $Choqueno2=$res10['var2'];
+   $porsent2=$res10['var3'];
+   $insta2=$res10['Instantaneo']; 
+   $Temor2=$res10['Temorizado'];
+   $Tiem2=$res10['Tiempo'];
+   $fallass2=$res10['FallaAct'];
+
+ ?>
+
+
+              <table style="background-color:#0CC5C8;position: absolute;left:130px;top:308px">
+                <?php if ($Tapado==1) { ?>
+                     <tr>
+                    <td>  <input type="checkbox" name="cht" id="cht" checked>
+                    <label>Choke tapada</label></td>
+
+                </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="chl" id="chl">
+                    <label>Choke lavada</label></td>
+                    
+                </tr>
+                                   <tr>
+                    <td> 
+                    <label>Choque No</label>
+                 <input type="text" name="choqueno"  id="choqueno" value="<?php echo $Choqueno ?>" style="width:70px;"></td>
+                     </tr>
+
+
+                <tr>
+                    <td> 
+                    <label>porcent</label>
+                 <input type="text" name="porcentge"  id="porcentge" value="<?php echo $porsent ?>" style="width:70px;"></td>
+                     </tr>
+                    
+              
+              
+                   <tr>
+                    <td> 
+                    <label>Time Mode</label></td>
+                    
+                </tr>
+                    
+                    <?php   if ($insta==1 ) {?>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins5" id="ins5" checked >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp5" id="temp5">
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php   } ?>
+                  
+
+
+                    <?php   if ($Temor==1 ) {?>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins5" id="ins5"  >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp5" id="temp5" checked>
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php   } ?>
+                 <?php   if ($Temor==0 AND $insta==0 ) {?>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins5" id="ins5"  >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp5" id="temp5" >
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php   } ?>
+
+                   <tr>
+                    <td> 
+                    <label>Time(minut)</label>
+                 <input type="text" name="timemin4" id="timemin4" value="<?php echo $Tiem ?>" style="width:70px;"></td>
+                    
+                </tr>
+
+              <?php     if ($fallass==1 ) {?>
+                   <tr>
+                    <td>  <input type="checkbox" name="fallault" id="fallault" checked>
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+                <?php } ?>
+
+
+
+          <?php     if ($fallass==0 ) {?>
+                <tr>
+                    <td>  <input type="checkbox" name="fallault" id="fallault" >
+                    <label>Falla Actv</label></td>
+                </tr>
+                <?php } ?>
+            <?php } ?>
+
+
+            <?php if ($Lavada==1) { ?>
+                     <tr>
+                    <td>  <input type="checkbox" name="cht" id="cht" >
+                    <label>Choke tapada</label></td>
+
+                </tr>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="chl" id="chl" checked>
+                    <label>Choke lavada</label></td>
+                    
+                </tr>
+                                   <tr>
+                    <td> 
+                    <label>Choque No</label>
+                 <input type="text" name="choqueno"  id="choqueno" value="<?php echo $Choqueno2 ?>" style="width:70px;"></td>
+                     </tr>
+
+
+                <tr>
+                    <td> 
+                    <label>porcent</label>
+                 <input type="text" name="porcentge"  id="porcentge" value="<?php echo $porsent2 ?>" style="width:70px;"></td>
+                     </tr>
+                    
+              
+              
+                   <tr>
+                    <td> 
+                    <label>Time Mode</label></td>
+                    
+                </tr>
+                    
+                    <?php   if ($insta2==1 ) {?>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins5" id="ins5" checked >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp5" id="temp5">
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php   } ?>
+                  
+
+
+                    <?php   if ($Temor2==1 ) {?>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins5" id="ins5"  >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp5" id="temp5" checked>
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php   } ?>
+                 <?php   if ($Temor2==0 AND $insta2==0 ) {?>
+              
+                   <tr>
+                    <td>  <input type="checkbox" name="ins5" id="ins5"  >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp5" id="temp5" >
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+                <?php   } ?>
+
+                   <tr>
+                    <td> 
+                    <label>Time(minut)</label>
+                 <input type="text" name="timemin4" id="timemin4" value="<?php echo $Tiem2 ?>" style="width:70px;"></td>
+                    
+                </tr>
+
+              <?php     if ($fallass2==1 ) {?>
+                   <tr>
+                    <td>  <input type="checkbox" name="fallault" id="fallault" checked>
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+                <?php } ?>
+
+
+
+          <?php     if ($fallass2==0 ) {?>
+                <tr>
+                    <td>  <input type="checkbox" name="fallault" id="fallault" >
+                    <label>Falla Actv</label></td>
+                </tr>
+                <?php } ?>
+            <?php } ?>
+
+               
+            </table>
+ <!--- tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4 tabla4-->           
+  <table style="background-color:#0CC5C8;position: absolute;left:300px;top:308px">
+<?php   
+$queryconsul9=mysqli_query($conexion,"SELECT * FROM fallas WHERE Usuario='$usuval' AND NombreDB='$pozo' AND tipoFalla='Goteo'");
+$res9=mysqli_fetch_array($queryconsul9);
+   $goteo=$res9['val1'];
+   $Choqueno=$res9['var2'];
+   $porsenta=$res9['var3'];
+   $insta=$res9['Instantaneo']; 
+   $Temor=$res9['Temorizado'];
+   $Tiem=$res9['Tiempo'];
+   $fallass=$res9['FallaAct'];
+
+
+ ?>
+
+
+ <?php  
+if ($goteo==1) {?>
+                <tr>
+                    <td>  <input type="checkbox" name="goteo" id="goteo" checked>
+                    <label>Goteo</label></td>
+                    </tr>
+                <tr> 
+ <?php    } ?> 
+
+
+
+ <?php  
+if ($goteo==0) {?>
+            <tr>
+                 <td>
+                    <input type="checkbox" name="goteo" id="goteo">
+                    <label>Goteo</label></td>
+                </tr>
+            <tr> 
+ <?php    } ?> 
+
+
+
+        <td> 
+           <label>porcent</label>
+             <input type="text" name="porcent" id="porcent" value="<?php echo $porsenta ?>"  style="width:70px;">
+         </td>       
+     </tr>
+                     
+              
+                   <tr>
+                    <td> 
+                    <label>Time Mode</label></td>
+                    
+                </tr>
+
+                     </tr>
+        <?php   if ($insta==1) {?>
+                   <tr>
+                    <td>  <input type="checkbox" name="ins6" id="ins6" checked>
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp6" id="temp6">
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+             </tr>
+         <?php  } ?>
+
+
+                 <?php   if ($Temor==1) {?>
+                   <tr>
+                    <td>  <input type="checkbox" name="ins6" id="ins6" >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp6" id="temp6" checked>
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+             </tr>
+     <?php  } ?>
+
+                      <?php   if ($Temor==0 AND $insta==0) {?>
+                   <tr>
+                    <td>  <input type="checkbox" name="ins6" id="ins6" >
+                    <label>Instantaneo</label></td>
+                    
+                </tr>
+
+                   <tr>
+                    <td>  <input type="checkbox" name="temp6" id="temp6">
+                    <label>Temporizado</label></td>
+                    
+                </tr>
+             </tr>
+     <?php  } ?>
+
+                   <tr>
+                    <td> 
+                    <label>Time(minut)</label>
+                 <input type="text" name="timemin5" id="timemin5" value="<?php echo $Tiem ?>" style="width:70px;"></td>
+                    
+                </tr>
+
+             <?php  if ($fallass==1) { ?>   
+                <tr>
+                    <td>  <input type="checkbox" name="fallaultimate" id="fallaultimate" checked >
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+            <?php   } ?>
+             <?php  if ($fallass==0) { ?>   
+                <tr>
+                    <td>  <input type="checkbox" name="fallaultimate" id="fallaultimate" >
+                    <label>Falla Actv</label></td>
+                    
+                </tr>
+            <?php   } ?>
+            </table>
+
+<input type="submit" name="validarfalla2" id="validarfalla2" value="SAVE" style="position:absolute;top:550px;left:230px;width:100px;height:50px;background-color:#36B5E5;border:10px solid #A3A0B9 ; font-size:1.2em;font-weight:bold;font-color:#ffffff;" >
+   
+
+
+<script type="text/javascript">
+ var apaga=document.getElementById('apaga').checked;
+var apagatotal=document.getElementById('apagatotal').checked;
+var insta=document.getElementById('insta').checked;
+var temporalz=document.getElementById('temporalz').checked;
+var timetre=document.getElementById('timetre').value;
+var fallatre=document.getElementById('fallatre').checked;
+
+
+ var apagadop2=document.getElementById('apagadop2').checked;
+var apagatotap2=document.getElementById('apagatotap2').checked;
+var ins4=document.getElementById('ins4').checked;
+var temp4=document.getElementById('temp4').checked;
+var timemin3=document.getElementById('timemin3').value;
+var falla3=document.getElementById('falla3').checked;
+//
+
+ var cht=document.getElementById('cht').checked;
+var chl=document.getElementById('chl').checked;
+var choqueno=document.getElementById('choqueno').value;
+var porcentge=document.getElementById('porcentge').value;
+var ins5=document.getElementById('ins5').checked;
+var temp5=document.getElementById('temp5').checked;
+var timemin4=document.getElementById('timemin4').value;
+var fallault=document.getElementById('fallault').checked;
+
+
+ var goteo=document.getElementById('goteo').checked;
+var porcent=document.getElementById('porcent').value;
+var ins6=document.getElementById('ins6').checked;
+var temp6=document.getElementById('temp6').checked;
+var timemin5=document.getElementById('timemin5').value;
+var fallaultimate=document.getElementById('fallaultimate').checked;
+
+
+$('#apaga').click(function(){
+  
+ document.getElementById('apagatotal').checked=false;
+
+})
+$('#apagatotal').click(function(){
+  
+ document.getElementById('apaga').checked=false;
+
+})
+$('#insta').click(function(){
+  
+ document.getElementById('temporalz').checked=false;
+
+})
+$('#temporalz').click(function(){
+  
+ document.getElementById('insta').checked=false;
+
+})
+
+
+
+$('#apagadop2').click(function(){
+  
+ document.getElementById('apagatotap2').checked=false;
+
+})
+$('#apagatotap2').click(function(){
+  
+ document.getElementById('apagadop2').checked=false;
+
+})
+$('#ins4').click(function(){
+  
+ document.getElementById('temp4').checked=false;
+
+})
+$('#temp4').click(function(){
+  
+ document.getElementById('ins4').checked=false;
+
+})
+
+
+$('#cht').click(function(){
+  
+ document.getElementById('chl').checked=false;
+
+})
+$('#chl').click(function(){
+  
+ document.getElementById('cht').checked=false;
+
+})
+$('#ins5').click(function(){
+  
+ document.getElementById('temp5').checked=false;
+
+})
+$('#temp5').click(function(){
+  
+ document.getElementById('ins5').checked=false;
+
+})
+  
+
+
+
+
+
+  $('#ins6').click(function(){
+  
+ document.getElementById('temp6').checked=false;
+
+})
+$('#temp6').click(function(){
+  
+ document.getElementById('ins6').checked=false;
+
+})
+ 
+$('#validarfalla2').click(function(){
+ var apaga=document.getElementById('apaga').checked;
+var apagatotal=document.getElementById('apagatotal').checked;
+var insta=document.getElementById('insta').checked;
+var temporalz=document.getElementById('temporalz').checked;
+var timetre=document.getElementById('timetre').value;
+var fallatre=document.getElementById('fallatre').checked;
+
+
+ var apagadop2=document.getElementById('apagadop2').checked;
+var apagatotap2=document.getElementById('apagatotap2').checked;
+var ins4=document.getElementById('ins4').checked;
+var temp4=document.getElementById('temp4').checked;
+var timemin3=document.getElementById('timemin3').value;
+var falla3=document.getElementById('falla3').checked;
+//
+
+ var cht=document.getElementById('cht').checked;
+var chl=document.getElementById('chl').checked;
+var choqueno=document.getElementById('choqueno').value;
+var porcentge=document.getElementById('porcentge').value;
+var ins5=document.getElementById('ins5').checked;
+var temp5=document.getElementById('temp5').checked;
+var timemin4=document.getElementById('timemin4').value;
+var fallault=document.getElementById('fallault').checked;
+
+
+ var goteo=document.getElementById('goteo').checked;
+var porcent=document.getElementById('porcent').value;
+var ins6=document.getElementById('ins6').checked;
+var temp6=document.getElementById('temp6').checked;
+var timemin5=document.getElementById('timemin5').value;
+var fallaultimate=document.getElementById('fallaultimate').checked;
+
+
+
+if (apaga==true) {
+    apaga=1;
+}else{
+    apaga=0;
+}
+
+if (apagatotal==true) {
+    apagatotal=1;
+}else{
+    apagatotal=0;
+}
+if (insta==true) {
+    insta=1;
+}else{
+    insta=0;
+}
+if (temporalz==true) {
+   temporalz=1;
+}else{
+    temporalz=0;
+}
+if (fallatre==true){
+    fallatre=1;
+}else{
+    fallatre=0;
+}
+
+
+
+
+
+
+
+if (apagadop2==true) {
+    apagadop2=1;
+}else{
+    apagadop2=0;
+}
+
+if (apagatotap2==true) {
+    apagatotap2=1;
+}else{
+    apagatotap2=0;
+}
+
+if (ins4==true) {
+    ins4=1;
+}else{
+    ins4=0;
+}
+if (temp4==true) {
+   temp4=1;
+}else{
+    temp4=0;
+}
+if (falla3==true){
+    falla3=1;
+}else{
+    falla3=0;
+}
+
+
+
+if (cht==true) {
+    cht=1;
+}else{
+    cht=0;
+}
+
+if (chl==true) {
+    chl=1;
+}else{
+    chl=0;
+}
+
+if (ins5==true) {
+    ins5=1;
+}else{
+    ins5=0;
+}
+if (temp5==true) {
+   temp5=1;
+}else{
+    temp5=0;
+}
+if (fallault==true){
+    fallault=1;
+}else{
+    fallault=0;
+}
+
+
+
+if (goteo==true) {
+    goteo=1;
+}else{
+    goteo=0;
+}
+
+if (ins6==true) {
+    ins6=1;
+}else{
+    ins6=0;
+}
+
+if (temp6==true) {
+    temp6=1;
+}else{
+    temp6=0;
+}
+if (fallaultimate==true) {
+   fallaultimate=1;
+}else{
+    fallaultimate=0;
+}
+
+
+alert('data save');
+
+$.ajax({
+    url: "fallas.php",
+    data: {
+    apaga:apaga,
+    apagatotal:apagatotal,
+    insta:insta,
+    temporalz:temporalz,
+    timetre:timetre,
+    fallatre:fallatre,
+
+    apagadop2:apagadop2,
+    apagatotap2:apagatotap2,
+    ins4:ins4,
+    temp4:temp4,
+    timemin3:timemin3,
+    falla3:falla3,
+
+    cht:cht,
+    chl:chl,
+    choqueno:choqueno,
+    porcentge:porcentge,
+    ins5:ins5,
+    temp5:temp5,
+    timemin4:timemin4,
+    fallault:fallault,
+
+
+    goteo:goteo,
+    porcent:porcent,
+    ins6:ins6,
+    temp6:temp6,
+    timemin5:timemin5,
+    fallaultimate:fallaultimate
+              
+    },
+    type: "POST",
+    success: function (datos) {
+      $("#rchan").value = 'holakase';
+    }
+  })
+
+  })
+
+
+
+/*if( ( v = $("#nztapada:checked").val() ) != null ){
+    alert('a perro conoses la llave');
+}else{
+    alert('no xd');
+}*/
+
+
+
+</script>
+
+
+   <?php } ?>
+
+        </div>
+    </div>
+
+
+
+
+    <button id="btnModalun">UNITS</button>
+    <div id="tvesModalun" class="modalContainer2">
+        <div class="modal-content2">
+            <span class="close2">×</span>
+            <h2>UNITS </h2>
+            <p>cosas de UNITS</p>
+        </div>
+    </div>
+
+    <button id="btnModalgr">GRAPH</button>
+    <div id="tvesModalgr" class="modalContainer2">
+        <div class="modal-content2">
+            <span class="close2">×</span>
+            <h2>GRAPH </h2>
+            <p>cosas de GRAPH</p>
+        </div>
+    </div>
+
+
+    <button id="btnModalset">SET</button>
+    <div id="tvesModalset" class="modalContainer2">
+        <div class="modal-content2">
+            <span class="close2">×</span>
+            <h2>SET </h2>
+            <p>cosas de SET</p>
+        </div>
+    </div>
+
+
+    <button id="btnModalpause">PAUSE</button>
+    <div id="tvesModalpause" class="modalContainer2">
+        <div class="modal-content2">
+            <span class="close2">×</span>
+            <h2>PAUSE </h2>
+            <p>cosas de PAUSE</p>
+        </div>
+    </div>
+
+
+    <button id="btnModalcir">CIRCULATION</button>
+    <div id="tvesModalcir" class="modalContainer2">
+        <div class="modal-content2">
+            <span class="close2">×</span>
+            <h2>CIRCULATION </h2>
+            <p>cosas de CIRCULATION</p>
+        </div>
+    </div>
+
+
+    <button id="btnModalhd">HIDRACULICS</button>
+    <div id="tvesModalhd" class="modalContainer2">
+        <div class="modal-content2">
+            <span class="close2">×</span>
+            <h2>HIDRACULICS </h2>
+            <p>cosas de HIDRACULICS</p>
+        </div>
+    </div>
+
+
+    <button id="btnModalupdate">UPDATE</button>
+    <div id="tvesModalupdate" class="modalContainer2">
+        <div class="modal-content2">
+            <span class="close2">×</span>
+            <h2>HIDRACULICS </h2>
+            <p>cosas de HIDRACULICS</p>
+        </div>
+    </div>
+
+    <button id="btnModalmss">MSS</button>
+    <div id="tvesModalmss" class="modalContainer2">
+        <div class="modal-content2">
+            <span class="close2">×</span>
+            <h2>MSS </h2>
+            <p>cosas de MSS</p>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+    //setTimeout('document.location.reload()',1000);
+    </script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+    </div>
+    <p id="subirpor" style="position:absolute;top:1060px;left:1000px">arriba</p>
+    <p id="bajarpor" style="position:absolute;top:1000px;left:1000px">bajar</p>
+    <p id="stopall" style="position:absolute;top:1000px;left:100px">stop</p>
+
+    <script type="text/javascript" src="jssimulador.js"></script>
+
+
+
+
+
+    
+
+    <?php 
+    if ($rol_perforador==0) {
+    ?>
+
+    <script type="text/javascript" src="ajaxTR.js"></script>
+
+    <?php }else{
+    
+}?>
+    <?php 
+  if ($rol_bop_remoto==1) {
+    }else{
+?>
+    <script type="text/javascript" src="bop_funciones.js"></script>
+    <script type="text/javascript" src="pumpsTR.js"></script>
+    <?php
+    }
+  if ($rol_choque_remoto==0) {
+    }else{
+?>
+    <script type="text/javascript" src="choque_funciones.js"></script>
+    <?php } ?>
+
+</html>
+
+<?php } ?>

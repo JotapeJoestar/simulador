@@ -1,0 +1,51 @@
+<?php 	
+
+
+include('conexad.php');
+
+if (isset($_POST['subir'])) {
+	
+
+$ar=fopen("estesotro.txt","r")or die("error al subir");
+$todo=fread($ar, filesize('estesotro.txt'));
+
+
+echo $todo;
+
+$ttuse=explode('|',  $todo);
+
+$a1=$ttuse[0];
+$a2=$ttuse[1];
+$a3=$ttuse[2];
+$a4=$ttuse[3];
+$a5=$ttuse[4];
+$a6=$ttuse[5];
+$a7=$ttuse[6];
+$a8=$ttuse[7];
+$a9=$ttuse[8];
+$a10=$ttuse[9];
+$a11=$ttuse[10];
+$a12=$ttuse[11];
+$a13=$ttuse[12];
+$a14=$ttuse[13];
+$a15=$ttuse[14];
+$a16=$ttuse[15];
+
+
+
+
+mysqli_query($conad,"INSERT INTO final(idevaluacion, idestudiantef, idcurso, codigo_eva, fecha_inicio, fecha_final, terminado, resp1, resp2, resp3, resp4, resp5, resp6, resp7, resp8, resp9)VALUES('$a1','$a2','$a3','$a4','$a5','$a6','$a7','$a8','$a9','$a10','$a11','$a12','$a13','$a14','$a15','$a16')");
+
+
+?>
+
+<script >
+	
+alert('cargado');
+
+</script>
+
+<?php 
+}
+
+ ?>

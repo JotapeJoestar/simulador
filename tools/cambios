@@ -1,0 +1,11 @@
+cambios 
+1 css cabie valores en el archivo cssmod1
+2 en la carpeta de login reintegre el archivo modal.css con nuevos valores
+3 agregue nuevas imagenes en la carpeta index para sustituir los votones en la parte de el comienzo
+4 realize un nuevo esquema en la carpeta modales en el archivo de modal con nuevos parametros 
+5 en los archivos de eliminar in inicio in crear in cambie los botones que redireccionan 
+6 en el archivo de template realize cambios 
+7 en el archivo bopmodal reemplaze las consultas que se hacian a var_rt para mostrar al inicio datos de setup
+8 en index modifique la funcionalidad de los modales tambien realize cambios al entorno de choque 
+9 en prueba hice un comentario con la consuta que actualiza spp
+10 en jssimulador.js adjunte la funcionalidad de  los modales para el menu de perforacion ajuste la conexion para que sea condicional a la altura de el bloque y el estado de las bombas realize cambios a la parte de choque para que muestre datos de la base de datos de los campos de el index

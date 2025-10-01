@@ -1,0 +1,254 @@
+/* CSS DE MODALES */
+.modal-content1 {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 90%;
+  overflow: scroll;
+}
+
+.modal-content2 {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 50%;
+  overflow: scroll;
+  float: right;
+}
+
+/* The Close Button */
+.close1 {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close1:hover,
+.close1:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.cerrar {
+  color: #ffffff;
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 6;
+  cursor: pointer;
+}
+
+.setup
+{
+  position: absolute;
+  margin-top: -312.3px;
+} 
+
+.botonescero {
+  top: 0%;
+}
+
+.BotonGra {
+  border-color: #5c5f68;
+  margin-top: 0px;
+  border-top: 3px solid #5c5f68;
+  background-color: #ffffff;
+  width: 40px;
+}
+
+.selecD {
+  position: relative;
+  top: -5%;
+  color: #ffffff;
+  left: -3%;
+}
+
+.inputGra {
+  width: 10%;
+  height: 6%;
+  margin-left: 5px;
+  margin-top: 2px;
+}
+
+.selectGra {
+  width: 100%;
+  height: 5%;
+  border-color: black;
+  float: left;
+  margin-top: -1px;
+  margin-left: -1px;
+}
+
+.ConfGra {
+  width: 60%;
+  height: 5%;
+  top: 0%;
+}
+
+.datosinput {
+  width: 40%;
+}
+
+.savegrafb {
+  width: 80px;
+  height: 80px;
+  top: 4%;
+  margin-left: 88px;
+}
+
+.datf1l1 {
+  font-size: 16px;
+  position: fixed;
+  max-width: 270px;
+  min-width: 150px;
+}
+
+.datgraletr {
+  position: absolute;
+  margin-left: 315px;
+  font-size: 17px;
+  margin-top: 100px;
+  background-color: rgba(255, 255, 255, 0.2);
+  visibility: hidden;
+}
+
+.lienzx {
+  margin-top: 3px;
+}
+
+.FechasGraf {
+  position: fixed;
+  margin-top: 3px;
+  margin-left: 3px;
+  border-color: black;
+  width: 100px;
+}
+
+.botonesBurbujas {
+  top: 0%;
+  width: 48%;
+  margin-left: 66px;
+  margin-top: 4px;
+}
+
+.variables {
+  top: 280px;
+  left: 170px;
+  list-style-type: none;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: white;
+  font-size: 17px;
+  line-height: 150%;
+}
+.burbuji {
+  position: absolute;
+  width: 6%;
+  height: 3%;
+  z-index: 2;
+  top: 90%;
+  right: 5px;
+  bottom: 0;
+  margin: auto;
+  left: 0;
+  visibility: hidden;
+}
+.botones_control {
+  position: relative;
+  top: 0px;
+}
+
+.peppa {
+  display: unset;
+  justify-content: space-around;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* .dibujo-canvas{
+  background-color: rgba(255,255,255,0.20);
+  width: 97%;
+  margin-left: -9px;
+} */
+
+.select1 {
+  width: 50%;
+}
+
+/* 
+body {
+    background-image:url('img/imagenes/fondo.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+ 
+} */
+
+.row::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+[class*="col-"] {
+  float: left;
+  padding: 12px;
+  margin-left: -67px;
+  max-width: 60%;
+}
+
+.minimod {
+  float: right;
+  margin-top: -550px;
+  width: 66%;
+  margin-right: -120px;
+}
+
+html {
+  font-family: "Lucida Sans", sans-serif;
+}
+
+.header {
+  padding: 5px;
+  position: absolute;
+  margin: 0;
+  width: 1000px;
+
+  background-color: #3710e7;
+  width: auto;
+}
+
+#barra_botones {
+  margin: 0;
+  padding: 0;
+  height: 400px;
+  width: 100px;
+}
+
+.graficaprueba {
+  width: 100%;
+  height: 100%;
+}
+
+.botonesBurbujas {
+  top: 0%;
+  width: 48%;
+  margin-left: 66px;
+  margin-top: 4px;
+}
+
+.menu {
+  color: #3710e7;
+  margin-top: 10%;
+}
+
+.aside {
+  background-color: black;
+  padding: 15px;
+  color: #ffffff;
+  text-align: center;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}

@@ -1,0 +1,24 @@
+* **** ** ** **** * Para tener en cuenta * **** ** ** **** * 
+
+El archivo conexion.php contiene los datos para la conexion con el servidor de base de datos, sin embargo algunos datos .php contienen su propia conexion, por lo tanto cuando se requiera hacer cambio en la conexion (bien sea para ambiente de prueba o de produccion) es necesario cambiar los archivos php que contengan su propia conexion
+
+Este archivo explica brevemente el orden de ejecucion de las carpetas y sus relaciones.
+
+Ayudarse con su herramienta de preferencia para buscar las funciones de js utilizando el id de cada objeto (El codigo esta escrito de manera que solo se usa la etiqueta por getElementById)
+
+Todos estos archivos se encuentran en la carpeta simulador
+
+1. Login_29_07_20 en esta carpeta se encuentra el index, manejo de los usuarios, configuracion del taladro. 
+    Carpeta para vistas (donde se muestra todo lo que ve el usuario).
+    Carpeta model (Donde se encuentran las consultas que se ejecutan al inicar el programa).
+
+2. Fuera de la carpeta login encontramos los archivos necesarios para el funcionamiento del entorno de perforacion.
+    2.1. Dentro de la ruta simulador/login_29_07_20/vista/inicio_in.php# cada opcion se puede encontrar dentro del propio archivo de la vista (Modales)
+
+3. Cuando se selecciona el pozo y la opcion de perforacion, se usan los siguientes archivos
+    3.1. En la carpeta Bop_Modulo se encuentra el archivo Bopmodal.php en el cual se hacen las consultas iniciales de base de datos para traer la informacion del pozo.
+    3.2. La carpeta de Bop_Modulo contiene los archivos relacionados al funcionamiento de la BOP (Opcion en la parte superior izquierda en el entorno de perforacion). 
+    3.3. La carpeta de choque_modulo contiene los archivos relacionados al funcionamiento del Choke (Opcion en la parte superior izquierda al lado de la opcion de BOP en el entorno de perforacion).
+    3.4. La carpeta Modulo_graficas contiene los archivos relacionados al funcionamiento de Graficas (Ultima opcion de izquierda a derecha en la parte superior izquierda).
+    3.5. En el archivo indexs.php se encuentra principalmente la vista de el entorno de perforacion (Tambien se encuentra un poco de codigo php para validar permisos de los perfiles/roles de los usuarios).
+
