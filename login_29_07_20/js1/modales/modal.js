@@ -364,6 +364,8 @@ function confirmardatosgraf() {
     }).responseText;
     jsdac = JSON.parse(Datasel);
 
+    console.log(jsdac);
+
     d0 = jsdac[0];
     d1 = jsdac[1];
     d2 = jsdac[2];
@@ -434,6 +436,8 @@ function confirmardatosgraf() {
     colorl8 = d36;
     anchol8 = d37;
 
+    console.log("se imprime primera variable ------------------");
+    console.log(d0);
 
     document.getElementById("select1").value = d0;
     document.getElementById("colorl1").value = d1;

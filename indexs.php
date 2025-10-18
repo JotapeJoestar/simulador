@@ -780,7 +780,8 @@ if ($usuval==null||$usuval='') {
     <p id="bajarpor" style="position:absolute;top:1000px;left:1000px">bajar</p>
     <p id="stopall" style="position:absolute;top:1000px;left:100px">stop</p>
     
-    <script type="text/javascript" src="index_modulo/jssimulador.js"></script> <!-- LLAMA LA RUTINA PARA CORRER EL RELOJ TIME -->
+    <script type="text/javascript" src="index_modulo/adapters/async/dbservices.js"></script>
+    <script type="text/javascript" src="index_modulo/services/jssimulador.js"></script> <!-- LLAMA LA RUTINA PARA CORRER EL RELOJ TIME -->
     <script type="text/javascript" src="Modulo_graficas/burbuja.js"></script> <!-- LLAMA LAS RUTINAS DEL MODULO DE GRAFICAS -->
 
     <?php if ($rol_bop_remoto==1 OR $rol_instructor==1) { ?>

@@ -1,4 +1,39 @@
-﻿i
+const dbServices = window.dbServices;
+if (!dbServices) {
+  throw new Error("dbServices no esta disponible.");
+}
+
+const {
+  saveNewMud,
+  savePozo,
+  updateAlert1,
+  updateAlert2,
+  updateAlert3,
+  updateAlert4,
+  fetchAlarmData,
+  fetchSpeedConfig,
+  updateSpeedSettings,
+  fetchFluidMetrics,
+  fetchBopValveStates,
+  fetchMiniBopValveStates,
+  fetchCirculationValves,
+  updateCirculationValve,
+  fetchFechaData,
+  sendPauseData,
+  sendPruebaData
+} = dbServices;
+
+const ajaxRequest = window.ajaxRequest;
+
+
+async function postPrueba(payload = {}) {
+  try {
+    return await sendPruebaData(payload);
+  } catch (error) {
+    console.error("Error al enviar datos a prueba.php:", error);
+    return null;
+  }
+}
 
 // *******************************************************************************************
 // 1. Archivo que contiene multiples funciones de js
@@ -21,15 +56,73 @@ let d2 = document.getElementById("d2");
 let d3 = document.getElementById("d3");
 var ironr = document.getElementById('ironr');
 var palanca1 = document.getElementById('palanca1');
-var progresbar = document.getElementById('progresbar').value;
-var progresbar2 = document.getElementById('progresbar2').value;
-var progresbar3 = document.getElementById('progresbar3').value;
+var progresbar = progresbarElement.value;
+var progresbar2 = progresbar2Element.value;
+var progresbar3 = progresbar3Element.value;
 /* var progresbar4 = document.getElementById('progresbar4').value; */
 var subirpor = document.getElementById('subirpor');
-var return_flow = document.getElementById('return_flow');
+var return_flow = returnFlowInput;
 var gain = document.getElementById('gain');
 var separador = document.getElementById('separador');
 var nav2de = document.getElementById('nav2de');
+const cbPauseElement = document.getElementById('cbPause');
+const btnModalpause = document.getElementById('btnModalpause');
+const modalpause = document.getElementById('tvesModalpause');
+const blockHighElement = document.getElementById('block_high');
+const x = document.getElementById('myRange');
+const x2 = document.getElementById('myRange2');
+const x3 = document.getElementById('myRange3');
+const p1SpmInput = document.getElementById('p1_spm');
+const p2SpmInput = document.getElementById('p2_spm');
+const totalSpmInput = document.getElementById('total_spm');
+const rpmInput = document.getElementById('rpm');
+const ropInput = document.getElementById('rop');
+const showDepthInput = document.getElementById('show_depth');
+const holeDepthInput = document.getElementById('hole_depth');
+const pumpPressureInput = document.getElementById('pump_pressure');
+const fluidVolumeInput = document.getElementById('fluid_volume');
+const bitDepthInput = document.getElementById('bit_depth');
+const totalStrokesInput = document.getElementById('total_strokes');
+const p1TotalSpmInput = document.getElementById('p1_total_spm');
+const p2TotalSpmInput = document.getElementById('p2_total_spm');
+const cassingPressureInput = document.getElementById('cassing_pressure');
+const pumpOffImage = document.getElementById('pumpoff');
+const wobfisicoInput = document.getElementById('wobfisico');
+const calp1SpmInput = document.getElementById('calp1_spm');
+const calp2SpmInput = document.getElementById('calp2_spm');
+const texcargLabel = document.getElementById('texcarg');
+const ecdInput = document.getElementById('ecd');
+const torqueInput = document.getElementById('torque');
+const returnFlowInput = document.getElementById('return_flow');
+const continuepracInput = document.getElementById('continueprac');
+const zeroWobInput = document.getElementById('zeroWob');
+const alarmCheckbox1 = document.getElementById('alarmcheckbox1');
+const alarmCheckbox2 = document.getElementById('alarmcheckbox2');
+const alarmCheckbox3 = document.getElementById('alarmcheckbox3');
+const alarmCheckbox4 = document.getElementById('alarmcheckbox4');
+const slipsControl = slipsControl;
+const ironrAuxElement = document.getElementById('ironraux');
+const palanchoqueLever = document.getElementById('palanchoque');
+const palancaKillLever = document.getElementById('palancakill');
+const axulElement = document.getElementById('axul');
+const axul2Element = document.getElementById('axul2');
+const axul3Element = document.getElementById('axul3');
+const axul4Element = document.getElementById('axul4');
+const circuval1Text = document.getElementById('circuval1text');
+const circuval2Text = document.getElementById('circuval2text');
+const circuval3Text = document.getElementById('circuval3text');
+const circuval4Text = document.getElementById('circuval4text');
+const circuval5Text = document.getElementById('circuval5text');
+const circuval6Text = document.getElementById('circuval6text');
+const circumot1Text = document.getElementById('circumot1text');
+const progresbarElement = document.getElementById('progresbar');
+const progresbar2Element = document.getElementById('progresbar2');
+const progresbar3Element = document.getElementById('progresbar3');
+const timeInput = document.getElementById('time');
+const agujadosHiddenInput = document.getElementById('agujadoshidden');
+const showHoleInput = document.getElementById('show_hole');
+const btnModalAlarm = document.getElementById('btnModalalarm');
+const acumPesoStuckPipe = document.getElementById('acum_peso_stuck_pipe');
 //audios////audios////audios////audios////audios////audios////audios////audios//
 
 
@@ -84,7 +177,7 @@ var modal1 = document.getElementById("myModal1");
 var modal2 = document.getElementById("myModal2");
 var anula = -45;
 agu2.style.transform = "rotate(" + anula + "deg)";
-var block_high = document.getElementById("block_high").value;
+let block_high = blockHighElement ? blockHighElement.value : 0;
 //a pixeles
 ///var sumdisplay= Math.abs(block_high*24,0044);
 var imgdawn = document.getElementById('imgmov');
@@ -94,7 +187,7 @@ let limit = -833;
 var incrementa = document.getElementById('incrementa');
 var disminuye = document.getElementById('disminuye');
 //imgdawn.style.marginTop = ""+idt+"px";
-var bitd = document.getElementById('bit_depth');
+var bitd = bitDepthInput;
 var defval = document.getElementById('defval');
 bitd.value = defval.value;
 var contador1 = 0;
@@ -140,7 +233,7 @@ var box12 = document.getElementById('box12');
 var resdb12 = document.getElementById('resdb12');
 var box13 = document.getElementById('box13');
 var resdb13 = document.getElementById('resdb13');
-var hole_depth = document.getElementById('hole_depth');
+var hole_depth = holeDepthInput;
 var box14 = document.getElementById('box14');
 var resdb14 = document.getElementById('resdb14');
 var box15 = document.getElementById('box15');
@@ -165,43 +258,39 @@ var box24 = document.getElementById('box24');
 var resdb24 = document.getElementById('resdb24');
 var box25 = document.getElementById('box25');
 var resdb25 = document.getElementById('resdb25');
-var p1_spmau = document.getElementById('p1_spm');
-var p2_spmau = document.getElementById('p2_spm');
-var x = document.getElementById("myRange");
+var p1_spmau = p1SpmInput;
+var p2_spmau = p2SpmInput;
 var defaultVal = x.defaultValue;
 var currentVal2 = x.scrollTop;
 let count = 0;
 let counter;
 let tiempob1;
 let tiempob2;
-var click = document.getElementById("myRange");
+var click = x;
 /* var subir5r1 = document.getElementById("subir5r1");
 var subir5r2 = document.getElementById("subir5r2");
 subir5r1.addEventListener('click', Subir5d1);
 subir5r2.addEventListener('click', Subir5d2); */
-var valord = document.getElementById("p1_total_spm");
+var valord = p1TotalSpmInput;
 var restartbtn = document.getElementById("desactivar");
 click.addEventListener('mouseup', myFunction);
 click.addEventListener('scroll', myFunctionVal);
-var x2 = document.getElementById("myRange2");
-var x3 = document.getElementById("myRange3");
 var defaultVal2 = x2.defaultValue;
 var currentVal2 = x2.scrollTop;
 let count2 = 0;
 let counter2;
-var click2 = document.getElementById("myRange2");
-var valord2 = document.getElementById("p2_total_spm");
+var click2 = x2;
+var valord2 = p2TotalSpmInput;
 var restartbtn2 = document.getElementById("desactivar");
 click2.addEventListener('mouseup', myFunction2);
 click2.addEventListener('scroll', myFunctionVal2);
-var click3 = document.getElementById("myRange3");
+var click3 = x3;
 click3.addEventListener('mouseup', myFunction3);
 click3.addEventListener('scroll', myFunctionVal3);
-var total_spm = document.getElementById('total_spm');
 total_spm.addEventListener('change', settotoal);
 var del;
 var countt = '';
-var timei = document.getElementById('time');
+var timei = timeInput;
 var countsave = '';
 var countit = 0;
 var countip = 0;
@@ -234,27 +323,27 @@ var ventcam = 0;
 var ModalChk = 0;
 var ModalGraf = 0;
 
-x.scrollTop = (parseFloat(document.getElementById('p1_spm').value) * 34.9);
-x2.scrollTop = (parseFloat(document.getElementById('p2_spm').value) * 34.9);
-x3.scrollTop = (parseFloat(document.getElementById('rpm').value) * 34.9);
+x.scrollTop = (parseFloat(p1SpmInput.value) * 34.9);
+x2.scrollTop = (parseFloat(p2SpmInput.value) * 34.9);
+x3.scrollTop = (parseFloat(rpmInput.value) * 34.9);
 
 /* function Subir5d1()
 {
 x.scrollTop = (parseInt(x.scrollTop)+150);
-document.getElementById('p1_spm').value = (parseFloat(document.getElementById('p1_spm').value) + 5);
+p1SpmInput.value = (parseFloat(p1SpmInput.value) + 5);
 }
 
 function Subir5d2()
 {
 x2.scrollTop = (parseInt(x2.scrollTop)+150);
-document.getElementById('p2_spm').value = (parseFloat(document.getElementById('p2_spm').value) + 5);
+p2SpmInput.value = (parseFloat(p2SpmInput.value) + 5);
 } */
 
 
 
 //Bloque para guardar lodo nuevo y crearlo
 
-function guardarnmud() {
+async function guardarnmud() {
   MWdata = document.getElementById('DataMW').value;
   FVdata = document.getElementById('DataFV').value;
   PVdata = document.getElementById('DataPV').value;
@@ -262,16 +351,12 @@ function guardarnmud() {
 
   console.log(MWdata, FVdata, PVdata, YPdata);
 
-  $.ajax({
-    url: "index_modulo/savenewmud.php",
-    data: {
-      MWdata: MWdata,
-      FVdata: FVdata,
-      PVdata: PVdata,
-      YPdata: YPdata
-    },
-    type: "POST"
-  })
+  await saveNewMud({
+    MWdata,
+    FVdata,
+    PVdata,
+    YPdata
+  });
 
   /* setInterval(SPnewmud, 300); */
 
@@ -284,18 +369,12 @@ function SPnewmud() {
 
 
 // Bloque para guardar pozo
-function guardarpozo() {
+async function guardarpozo() {
 
   Namepozo = document.getElementById('NamePozo').value;
   console.log(Namepozo);
 
-  $.ajax({
-    url: "index_modulo/savepozo.php",
-    data: {
-      Namepozo: Namepozo
-    },
-    type: "POST"
-  })
+  await savePozo(Namepozo);
 
   modalupdate.style.display = "none";
 
@@ -328,49 +407,48 @@ function cambvent() {
 //Fin cambio de ventana Choke
 
 // Funcion para Pause
-var Pausecb = document.getElementById('cbPause').value;
+let Pausecb = cbPauseElement ? Number(cbPauseElement.value) : 0;
 
-if (Pausecb == 1) {
-  $("#cbPause").prop("checked", true);
-  btnModalpause.style.background = "red";
-}
-else {
-  $("#cbPause").prop("checked", false);
-  btnModalpause.style.background = 'rgba(0,0,300,0.8)';
+if (cbPauseElement && btnModalpause) {
+  if (Pausecb === 1) {
+    $("#cbPause").prop("checked", true);
+    btnModalpause.style.background = "red";
+  }
+  else {
+    $("#cbPause").prop("checked", false);
+    btnModalpause.style.background = 'rgba(0,0,300,0.8)';
+  }
 }
 
 function PauseValue() {
-
-  modalpausebtn = document.getElementById("btnModalpause");
-  var Pausecb = document.getElementById('cbPause').value;
-
-  if (Pausecb == 1) {
-    Pausecb = 0;
-    document.getElementById('cbPause').value = Pausecb;
-  }
-  else {
-    Pausecb = 1;
-    document.getElementById('cbPause').value = Pausecb;
+  if (!cbPauseElement) {
+    return;
   }
 
+  Pausecb = Number(cbPauseElement.value);
+  Pausecb = Pausecb === 1 ? 0 : 1;
+  cbPauseElement.value = Pausecb;
 }
 
 function Pausedata() {
+  if (!cbPauseElement) {
+    return;
+  }
 
-  var Pausecb = document.getElementById('cbPause').value;
+  Pausecb = Number(cbPauseElement.value);
 
-  $.ajax({
-    url: "index_modulo/pause.php",
-    data: {
-      Pausecb: Pausecb,
-    },
-    type: "POST"
-  })
+  sendPauseData({
+    Pausecb,
+  });
 
-  modalpause.style.display = "none";
+  if (modalpause) {
+    modalpause.style.display = "none";
+  }
 
-  if (Pausecb == 1) {
-    btnModalpause.style.background = "red";
+  if (Pausecb === 1) {
+    if (btnModalpause) {
+      btnModalpause.style.background = "red";
+    }
     if (flagaudi == 0) {
       audiop1.volume = 0;
       audiop1d.volume = 0;
@@ -383,8 +461,12 @@ function Pausedata() {
     }
   }
   else {
-    modalpause.style.background = "none";
-    btnModalpause.style.background = 'rgba(0,0,300,0.8)';
+    if (modalpause) {
+      modalpause.style.background = "none";
+    }
+    if (btnModalpause) {
+      btnModalpause.style.background = 'rgba(0,0,300,0.8)';
+    }
     if (flagaudi == 1) {
       audiop1.volume = 1;
       audiop1d.volume = 1;
@@ -392,10 +474,22 @@ function Pausedata() {
       audiop3.volume = 1;
       audiop4.volume = 1;
       audiop5.volume = 1;
-      audioalar.volume =1;
+      audioalar.volume = 1;
       flagaudi = 0;
     }
   }
+}
+
+function updatePauseValue() {
+  Pausecb = cbPauseElement ? Number(cbPauseElement.value) : 0;
+  return Pausecb;
+}
+
+function updateBlockHigh() {
+  if (blockHighElement) {
+    block_high = blockHighElement.value;
+  }
+  return block_high;
 }
 
 //Fin funcion para pause
@@ -403,10 +497,10 @@ function Pausedata() {
 
 // Funcion para alarmas
 
-var alarmcb1 = document.getElementById('alarmcheckbox1').value;
-var alarmcb2 = document.getElementById('alarmcheckbox2').value;
-var alarmcb3 = document.getElementById('alarmcheckbox3').value;
-var alarmcb4 = document.getElementById('alarmcheckbox4').value;
+var alarmcb1 = alarmCheckbox1.value;
+var alarmcb2 = alarmCheckbox2.value;
+var alarmcb3 = alarmCheckbox3.value;
+var alarmcb4 = alarmCheckbox4.value;
 
 if (alarmcb1 == 1) {
   $("#alarmcheckbox1").prop("checked", true);
@@ -436,337 +530,223 @@ else {
   $("#alarmcheckbox4").prop("checked", false);
 }
 
-function alertcb1() {
+async function alertcb1() {
 
   if ($('#alarmcheckbox1').prop('checked')) {
-    document.getElementById('alarmcheckbox1').value = 1;
+    alarmCheckbox1.value = 1;
   }
   else {
-    document.getElementById('alarmcheckbox1').value = 0;
+    alarmCheckbox1.value = 0;
   }
 
-  var alarmnum1 = document.getElementById('alarmnum1').value;
-  var alarmcb1 = document.getElementById('alarmcheckbox1').value;
+  const alarmnum1 = document.getElementById('alarmnum1').value;
+  const alarmcb1 = alarmCheckbox1.value;
 
-  $.ajax({
-    url: "index_modulo/alertupdate.php",
-    data: {
-      val1: alarmnum1,
-      chb1: alarmcb1
-    },
-    type: "POST"
-  })
+  await updateAlert1({ val1: alarmnum1, chb1: alarmcb1 });
 
 }
 
-function alertd1() {
-  var alarmnum1 = document.getElementById('alarmnum1').value;
-  var alarmcb1 = document.getElementById('alarmcheckbox1').value;
+async function alertd1() {
+  const alarmnum1 = document.getElementById('alarmnum1').value;
+  const alarmcb1 = alarmCheckbox1.value;
 
-  $.ajax({
-    url: "index_modulo/alertupdate.php",
-    data: {
-      val1: alarmnum1,
-      chb1: alarmcb1
-    },
-    type: "POST"
-  })
+  await updateAlert1({ val1: alarmnum1, chb1: alarmcb1 });
 }
 
-function alertcb2() {
+async function alertcb2() {
 
   if ($('#alarmcheckbox2').prop('checked')) {
-    document.getElementById('alarmcheckbox2').value = 1;
+    alarmCheckbox2.value = 1;
   }
   else {
-    document.getElementById('alarmcheckbox2').value = 0;
+    alarmCheckbox2.value = 0;
   }
 
-  var alarmnum2 = document.getElementById('alarmnum2').value;
-  var alarmcb2 = document.getElementById('alarmcheckbox2').value;
+  const alarmnum2 = document.getElementById('alarmnum2').value;
+  const alarmcb2 = alarmCheckbox2.value;
 
-  $.ajax({
-    url: "index_modulo/alertupdate.php",
-    data: {
-      val2: alarmnum2,
-      chb2: alarmcb2
-    },
-    type: "POST"
-  })
+  await updateAlert2({ val2: alarmnum2, chb2: alarmcb2 });
 
 }
 
-function alertd2() {
-  var alarmnum2 = document.getElementById('alarmnum2').value;
-  var alarmcb2 = document.getElementById('alarmcheckbox2').value;
+async function alertd2() {
+  const alarmnum2 = document.getElementById('alarmnum2').value;
+  const alarmcb2 = alarmCheckbox2.value;
 
-  $.ajax({
-    url: "index_modulo/alertupdate.php",
-    data: {
-      val2: alarmnum2,
-      chb2: alarmcb2
-    },
-    type: "POST"
-  })
+  await updateAlert2({ val2: alarmnum2, chb2: alarmcb2 });
 }
 
-function alertcb3() {
+async function alertcb3() {
 
   if ($('#alarmcheckbox3').prop('checked')) {
-    document.getElementById('alarmcheckbox3').value = 1;
+    alarmCheckbox3.value = 1;
   }
   else {
-    document.getElementById('alarmcheckbox3').value = 0;
+    alarmCheckbox3.value = 0;
   }
 
-  var alarmnum3 = document.getElementById('alarmnum3').value;
-  var alarmcb3 = document.getElementById('alarmcheckbox3').value;
+  const alarmnum3 = document.getElementById('alarmnum3').value;
+  const alarmcb3 = alarmCheckbox3.value;
 
-  $.ajax({
-    url: "index_modulo/alertupdate.php",
-    data: {
-      val3: alarmnum3,
-      chb3: alarmcb3
-    },
-    type: "POST"
-  })
+  await updateAlert3({ val3: alarmnum3, chb3: alarmcb3 });
 
 }
 
-function alertd3() {
-  var alarmnum3 = document.getElementById('alarmnum3').value;
-  var alarmcb3 = document.getElementById('alarmcheckbox3').value;
+async function alertd3() {
+  const alarmnum3 = document.getElementById('alarmnum3').value;
+  const alarmcb3 = alarmCheckbox3.value;
 
-  $.ajax({
-    url: "index_modulo/alertupdate.php",
-    data: {
-      val3: alarmnum3,
-      chb3: alarmcb3
-    },
-    type: "POST"
-  })
+  await updateAlert3({ val3: alarmnum3, chb3: alarmcb3 });
 }
 
-function alertcb4() {
+async function alertcb4() {
 
   if ($('#alarmcheckbox4').prop('checked')) {
-    document.getElementById('alarmcheckbox4').value = 1;
+    alarmCheckbox4.value = 1;
   }
   else {
-    document.getElementById('alarmcheckbox4').value = 0;
+    alarmCheckbox4.value = 0;
   }
 
-  var alarmnum4 = document.getElementById('alarmnum4').value;
-  var alarmcb4 = document.getElementById('alarmcheckbox4').value;
+  const alarmnum4 = document.getElementById('alarmnum4').value;
+  const alarmcb4 = alarmCheckbox4.value;
 
-  $.ajax({
-    url: "index_modulo/alertupdate.php",
-    data: {
-      val4: alarmnum4,
-      chb4: alarmcb4
-    },
-    type: "POST"
-  })
+  await updateAlert4({ val4: alarmnum4, chb4: alarmcb4 });
 
 }
 
-function alertd4() {
-  var alarmnum4 = document.getElementById('alarmnum4').value;
-  var alarmcb4 = document.getElementById('alarmcheckbox4').value;
+async function alertd4() {
+  const alarmnum4 = document.getElementById('alarmnum4').value;
+  const alarmcb4 = alarmCheckbox4.value;
 
-  $.ajax({
-    url: "index_modulo/alertupdate.php",
-    data: {
-      val4: alarmnum4,
-      chb4: alarmcb4
-    },
-    type: "POST"
-  })
+  await updateAlert4({ val4: alarmnum4, chb4: alarmcb4 });
 }
 
-function alarmdata() {
-
-
-  ///// SE DESACTIVA FUNCION POR CAMBIOS EN ALARMAS SOLO CHECK
-
-  /* Dataler = $.ajax({
-    url: "index_modulo/alertconsul.php",
-    dataType: 'text',
-    type: "POST",
-    async: false
-  }).responseText;
-  jsal = JSON.parse(Dataler);
-
-  alertval1 = jsal[0];
-  alertcheck1 = jsal[1];
-  alertval2 = jsal[2];
-  alertcheck2 = jsal[3];
-  alertval3 = jsal[4];
-  alertcheck3 = jsal[5];
-  alertval4 = jsal[6];
-  alertcheck4 = jsal[7];
-
-  alarmcb1 = document.getElementById('alarmcheckbox1').value;
-  alarmcb2 = document.getElementById('alarmcheckbox2').value;
-  alarmcb3 = document.getElementById('alarmcheckbox3').value;
-  alarmcb4 = document.getElementById('alarmcheckbox4').value;
-
-  modalalarmbtn = document.getElementById("btnModalalarm");
-  alarmdatabtn = document.getElementById("alarmdata");
-  alarmdatabtn.style.backgroundColor = "Green"
-  luz1 = document.getElementById("luz1");
-  luz2 = document.getElementById("luz2");
-  luz3 = document.getElementById("luz3");
-  luz4 = document.getElementById("luz4");
-
-  if (alarmcb1 == 1 && parseInt(flowret) >= parseInt(alertval1)) {
-    luz1.style.background = "red";
-    audioalar.play(); //SE COMENTA POR DESACTIVACION DE SONIDOS
+async function alarmdata() {
+  const jsal = await fetchAlarmData();
+  if (!jsal) {
+    return;
   }
-  else {
-    luz1.style.background = "green";
-  }
+  applyAlarmData(jsal, { fromModal: true });
+}
 
-  if (alarmcb2 == 1 && parseInt(flowret) <= parseInt(alertval2)) {
-    luz2.style.background = "red";
-    audioalar.play(); //SE COMENTA POR DESACTIVACION DE SONIDOS
+async function alarmdata2() {
+  const jsal = await fetchAlarmData();
+  if (!jsal) {
+    return;
   }
-  else {
-    luz2.style.background = "green";
-  }
+  applyAlarmData(jsal);
+}
 
-  if (alarmcb3 == 1 && parseInt(gainloss) >= parseInt(alertval3)) {
-    luz3.style.background = "red";
-    audioalar.play(); //SE COMENTA POR DESACTIVACION DE SONIDOS
-  }
-  else {
-    luz3.style.background = "green";
+function applyAlarmData(jsal, { fromModal = false } = {}) {
+  const alertval1 = jsal[0];
+  const alertcheck1 = jsal[1];
+  const alertval2 = jsal[2];
+  const alertcheck2 = jsal[3];
+  const alertval3 = jsal[4];
+  const alertcheck3 = jsal[5];
+  const alertval4 = jsal[6];
+  const alertcheck4 = jsal[7];
+
+  const alarmcb1El = alarmCheckbox1;
+  const alarmcb2El = alarmCheckbox2;
+  const alarmcb3El = alarmCheckbox3;
+  const alarmcb4El = alarmCheckbox4;
+
+  const alarmcb1 = parseInt(alarmcb1El ? alarmcb1El.value : 0, 10) || 0;
+  const alarmcb2 = parseInt(alarmcb2El ? alarmcb2El.value : 0, 10) || 0;
+  const alarmcb3 = parseInt(alarmcb3El ? alarmcb3El.value : 0, 10) || 0;
+  const alarmcb4 = parseInt(alarmcb4El ? alarmcb4El.value : 0, 10) || 0;
+
+  const modalalarmbtn = btnModalAlarm;
+  const luz1 = document.getElementById('luz1');
+  const luz2 = document.getElementById('luz2');
+  const luz3 = document.getElementById('luz3');
+  const luz4 = document.getElementById('luz4');
+
+  const flowretValue = parseInt(flowret, 10) || 0;
+  const gainLossValue = parseInt(gainloss, 10) || 0;
+
+  if (luz1) {
+    if (alarmcb1 === 1 && flowretValue >= parseInt(alertval1, 10)) {
+      luz1.style.background = 'red';
+      if (alertcheck1 === 1) {
+        audioalar.play();
+      }
+    } else {
+      luz1.style.background = 'green';
+    }
   }
 
-  if (alarmcb4 == 1 && parseInt(gainloss) <= parseInt(alertval4)) {
-    luz4.style.background = "red";
-    audioalar.play(); //SE COMENTA POR DESACTIVACION DE SONIDOS
-  }
-  else {
-    luz4.style.background = "green";
+  if (luz2) {
+    if (alarmcb2 === 1 && flowretValue <= parseInt(alertval2, 10)) {
+      luz2.style.background = 'red';
+      if (alertcheck2 === 1) {
+        audioalar.play();
+      }
+    } else {
+      luz2.style.background = 'green';
+    }
   }
 
-  if (alarmcb1 == 0 && alarmcb2 == 0 && alarmcb3 == 0 && alarmcb4 == 0) {
+  if (luz3) {
+    if (alarmcb3 === 1 && gainLossValue >= parseInt(alertval3, 10)) {
+      luz3.style.background = 'red';
+      if (alertcheck3 === 1) {
+        audioalar.play();
+      }
+    } else {
+      luz3.style.background = 'green';
+    }
+  }
+
+  if (luz4) {
+    if (alarmcb4 === 1 && gainLossValue <= parseInt(alertval4, 10)) {
+      luz4.style.background = 'red';
+      if (alertcheck4 === 1) {
+        audioalar.play();
+      }
+    } else {
+      luz4.style.background = 'green';
+    }
+  }
+
+  if (modalalarmbtn && alarmcb1 === 0 && alarmcb2 === 0 && alarmcb3 === 0 && alarmcb4 === 0) {
     modalalarmbtn.style.background = 'rgba(0,0,300,0.8)';
   }
 
-  alarmcb1 = document.getElementById('alarmcheckbox1').value;
-  alarmcb2 = document.getElementById('alarmcheckbox2').value;
-  alarmcb3 = document.getElementById('alarmcheckbox3').value;
-  alarmcb4 = document.getElementById('alarmcheckbox4').value;
-
-  alarmnum1 = document.getElementById('alarmnum1').value;
-  alarmnum2 = document.getElementById('alarmnum2').value;
-  alarmnum3 = document.getElementById('alarmnum3').value;
-  alarmnum4 = document.getElementById('alarmnum4').value;
-
-  setTimeout(() => {
-    alarmdatabtn.style.backgroundColor = "#0606EC";
-    modalalarm.style.display = "none";
-  }, 2000); */
-
-}
-
-// Esta funcion se ejecuta en intervalos para comprobar la informacion en Tiempo Real
-function alarmdata2() {
-
-  Dataler = $.ajax({
-    url: "index_modulo/alertconsul.php",
-    dataType: 'text',
-    type: "POST",
-    async: false
-  }).responseText;
-  jsal = JSON.parse(Dataler);
-
-  alertval1 = jsal[0];
-  alertcheck1 = jsal[1];
-  alertval2 = jsal[2];
-  alertcheck2 = jsal[3];
-  alertval3 = jsal[4];
-  alertcheck3 = jsal[5];
-  alertval4 = jsal[6];
-  alertcheck4 = jsal[7];
-
-  alarmcb1 = document.getElementById('alarmcheckbox1').value;
-  alarmcb2 = document.getElementById('alarmcheckbox2').value;
-  alarmcb3 = document.getElementById('alarmcheckbox3').value;
-  alarmcb4 = document.getElementById('alarmcheckbox4').value;
-
-  modalalarmbtn = document.getElementById("btnModalalarm");
-  luz1 = document.getElementById("luz1");
-  luz2 = document.getElementById("luz2");
-  luz3 = document.getElementById("luz3");
-  luz4 = document.getElementById("luz4");
-
-  if (alarmcb1 == 1 && parseInt(flowret) >= parseInt(alertval1)) {
-    luz1.style.background = "red";
-    audioalar.play();
-  }
-  else {
-    luz1.style.background = "green";
-  }
-
-  if (alarmcb2 == 1 && parseInt(flowret) <= parseInt(alertval2)) {
-    luz2.style.background = "red";
-    audioalar.play();
-  }
-  else {
-    luz2.style.background = "green";
-  }
-
-  if (alarmcb3 == 1 && parseInt(gainloss) >= parseInt(alertval3)) {
-    luz3.style.background = "red";
-    audioalar.play();
-  }
-  else {
-    luz3.style.background = "green";
-  }
-
-  if (alarmcb4 == 1 && parseInt(gainloss) <= parseInt(alertval4)) {
-    luz4.style.background = "red";
-    audioalar.play();
-  }
-  else {
-    luz4.style.background = "green";
-  }
-
-  if (alarmcb1 == 0 && alarmcb2 == 0 && alarmcb3 == 0 && alarmcb4 == 0) {
-    modalalarmbtn.style.background = 'rgba(0,0,300,0.8)';
+  if (fromModal) {
+    const alarmdatabtn = document.getElementById('alarmdata');
+    if (alarmdatabtn) {
+      alarmdatabtn.style.backgroundColor = 'Green';
+      setTimeout(() => {
+        alarmdatabtn.style.backgroundColor = '#0606EC';
+        if (typeof modalalarm !== 'undefined' && modalalarm) {
+          modalalarm.style.display = 'none';
+        }
+      }, 2000);
+    }
   }
 }
+
 // fin funciones alarmas
 
 
 // funcion para guardar los datos de boton speed 
-function speedData() {
+async function speedData() {
   dataselsepeed = document.getElementById("speedsel").value;
 
-  Dataspd = $.ajax({
-    url: "index_modulo/speedconsul.php",
-    dataType: 'text',
-    type: "POST",
-    async: false
-  }).responseText;
-  jspd = JSON.parse(Dataspd);
+  const jspd = await fetchSpeedConfig();
+  if (!jspd) {
+    return;
+  }
 
-  constspeed = jspd[0];
-  constspeedi = constspeed[0];
+  const constspeed = jspd[0];
+  const constspeedi = constspeed[0];
 
   resultSpeed = parseInt(constspeedi * dataselsepeed);
 
-  $.ajax({
-    url: "index_modulo/speedupdate.php",
-    data: {
-      resultSpeed: resultSpeed,
-      speedval: dataselsepeed
-    },
-    type: "POST"
-  })
+  await updateSpeedSettings({ resultSpeed, speedval: dataselsepeed });
 
   modalspeed = document.getElementById("tvesModalgr");
   modalspeed.style.display = "none";
@@ -789,15 +769,15 @@ var axe = 0;
   progresbar.value = j;
   progresbar2.value = j;
   if (j === 50) {
-     return_flow = document.getElementById('return_flow').value = 0;
+     return_flow = returnFlowInput.value = 0;
   }
 
-   return_flow = document.getElementById('return_flow').value = axe++;
+   return_flow = returnFlowInput.value = axe++;
 
   if (progresbar.value === 100) {
     progresbar.value = 50;
     progresbar2.value = 50;
-     return_flow = document.getElementById('return_flow').value = 50;
+     return_flow = returnFlowInput.value = 50;
   }
 })
 
@@ -807,7 +787,7 @@ $('#bajarpor').click(function () {
   progresbar.value = j;
   progresbar2.value = j;
   if (j === 50) {
-     return_flow = document.getElementById('return_flow').value = 0;
+     return_flow = returnFlowInput.value = 0;
   }
   return_flow.value = axe--;
   if (progresbar.value === 0) {
@@ -826,18 +806,13 @@ var span = document.getElementsByClassName("close");
 // 
 var parrib = document.getElementById("palancaarrib");
 //
-btn[0].onclick = function () {
+btn[0].onclick = async function () {
   modal.style.display = "block";
   parrib.style.display = "none";
-
-  var pump =
-    $.ajax({
-      url: 'bopval_tr/bopv1.php',
-      dataType: 'text',
-      async: false
-    }).responseText;
-
-  pumpjs = JSON.parse(pump);
+  const pumpjs = await fetchBopValveStates();
+  if (!pumpjs) {
+    return;
+  }
   //b1
   document.getElementById('val1a').value = pumpjs[0];
   if (pumpjs[0] == 1) {
@@ -1177,20 +1152,20 @@ var perforador = document.getElementById('perforador');
 
 //Rutina para asignar el HookLoad y el WOBteorico
 var Hl = document.getElementById("Hl").value; //setup_var
-//var Hlaux = document.getElementById('agujadoshidden').value;
+//var Hlaux = agujadosHiddenInput.value;
 var Hlaux = document.getElementById("Hlaux").value; //toma el valor inicial de hook load para realizar operaciones sin alterarlo
-var zeroWob = document.getElementById("zeroWob").value;
+var zeroWob = zeroWobInput.value;
 var WOBteorico = document.getElementById("WOBteorico").value;
 //WOBteorico = zeroWob;
 //Rutina que baja bloque y aumenta Bit dept, depth y WOB
 var decrementoBloque = 0.2;
-var block_high = document.getElementById("block_high").value;
-var bit_depth = document.getElementById("bit_depth");
-var wobfisico = document.getElementById("wobfisico").value;
+updateBlockHigh();
+var bit_depth = bitDepthInput;
+var wobfisico = wobfisicoInput.value;
 var velocidad; //esta variable hace que la perforacion suceda mas rapido
 velocidad = 1;
 var pesoBloque = document.getElementById("pesoBloque").value;
-var cuñas = document.getElementById("cuñas");
+var cuñas = slipsControl;
 var estadoConectado = document.getElementById("estadoConectado").value;
 if (cuñas.value == 1) {
   document.images['stop'].src = mi_imagen1.src;
@@ -1198,7 +1173,7 @@ if (cuñas.value == 1) {
 
 
 // RUTINA QUE CAMBIA EL VALOR DE LAS CUÑAS Y MUESTRA COMPORTAMIENTOS 
-function cambia_imagen() {
+async function cambia_imagen() {
 
   if (perforador.value == 1) {
 
@@ -1233,14 +1208,9 @@ function cambia_imagen() {
 
     console.log(cuñasdata);
 
-    $.ajax({
-      url: "index_modulo/prueba.php",
-      data: {
-        cuñasdata: cuñasdata
-      },
-      type: "POST",
-      async: false,
-    })
+    await postPrueba({
+      cuñasdata: cuñasdata
+    });
 
   }
 
@@ -1262,24 +1232,24 @@ function calculoRopTorque() {
   var auxTQ;
   var auxTQrpm;
   var auxTQHl;
-  var rpm = document.getElementById("rpm").value;
+  var rpm = rpmInput.value;
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
 
     if (rpm > 0) {
-      auxTQrpm = ((100 / document.getElementById("rpm").value) / 100); //rpm calculado por rotacion simple y dividido por 100 para dar klb/ft
+      auxTQrpm = ((100 / rpmInput.value) / 100); //rpm calculado por rotacion simple y dividido por 100 para dar klb/ft
       auxTQHl = (0.3 * Hl) / 36; //rpm calculado por el peso de la sarta
       auxTQ = ctePer * diaBit * (wobfisico / 36); //rpm calculado por peso en la broca
-      document.getElementById("torque").value = (auxTQ + auxTQrpm + auxTQHl).toFixed(1);
-      document.getElementById("rop").value = (((ctePer * rpm * (Math.pow(wobfisico, 2))) / ((Math.pow(diaBit, 2)) * (Math.pow(s, 2))))).toFixed(1);
-      //document.getElementById("rop").value=33;
+      torqueInput.value = (auxTQ + auxTQrpm + auxTQHl).toFixed(1);
+      ropInput.value = (((ctePer * rpm * (Math.pow(wobfisico, 2))) / ((Math.pow(diaBit, 2)) * (Math.pow(s, 2))))).toFixed(1);
+      //ropInput.value=33;
       // if (wobfisico > 45) {
       //   AuxWob = (wobfisico - (wobfisico - 45) - 10);
-      //   document.getElementById("rop").value = (((ctePer * document.getElementById("rpm").value * (Math.pow(wobfisico, 2))) / ((Math.pow(diaBit, 2)) * (Math.pow(s, 2))))).toFixed(1);
-      //   if (document.getElementById("rpm").value > 0) {
-      //     document.getElementById("torque").value = (torque + (Math.pow((wobfisico - 45), 2)));
+      //   ropInput.value = (((ctePer * rpmInput.value * (Math.pow(wobfisico, 2))) / ((Math.pow(diaBit, 2)) * (Math.pow(s, 2))))).toFixed(1);
+      //   if (rpmInput.value > 0) {
+      //     torqueInput.value = (torque + (Math.pow((wobfisico - 45), 2)));
       //   }
       // }
       console.log(ctePer, rpm, wobfisico, diaBit, s);
@@ -1287,8 +1257,8 @@ function calculoRopTorque() {
       torque = 0;
     }
 
-    if (document.getElementById("rpm").value == 0) {
-      document.getElementById("rop").value = 0;
+    if (rpmInput.value == 0) {
+      ropInput.value = 0;
     }
   }
 }
@@ -1297,39 +1267,39 @@ function calculoRopTorque() {
 //'si Xft se perforan en 60 minutos;'entonces Xft se perforan en 3600 segundos:''Y Xft se perforan en 36.000 decimas de segundo
 //'aplicando regla de tres'el incremento cada 0.300 segundos debe ser dado por la siguiente formula:
 //3 decSeg*ROP/36000
-document.getElementById("rop").value = 0;
+ropInput.value = 0;
 
 function increasePerfora() {
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
 
     var incremento;
     if (wobfisico > 0) {
 
-      var hole_depth = document.getElementById('hole_depth').value;
+      var hole_depth = holeDepthInput.value;
 
-      anthd = Math.trunc(document.getElementById('show_depth').value);
+      anthd = Math.trunc(showDepthInput.value);
 
-      incremento = ((2.4 * document.getElementById("rop").value) / 10285);
-      var incrementoDos = ((2.4 * document.getElementById("rop").value) / 10285);
+      incremento = ((2.4 * ropInput.value) / 10285);
+      var incrementoDos = ((2.4 * ropInput.value) / 10285);
       //hole_depth.value =  parseFloat(hole_depth.value + (incremento * velocidad));
 
-      document.getElementById('hole_depth').value = (parseFloat(hole_depth) + parseFloat(incrementoDos)).toFixed(4);
-      hole_depth = document.getElementById('hole_depth').value;
+      holeDepthInput.value = (parseFloat(hole_depth) + parseFloat(incrementoDos)).toFixed(4);
+      hole_depth = holeDepthInput.value;
       // console.log(hole_depth);
-      document.getElementById("show_hole").value = parseFloat(hole_depth).toFixed(2);
+      showHoleInput.value = parseFloat(hole_depth).toFixed(2);
       // vis= holedepth.value(2)
-      document.getElementById("show_depth").value = parseFloat(hole_depth).toFixed(2);
+      showDepthInput.value = parseFloat(hole_depth).toFixed(2);
 
-      chanhd = Math.trunc(document.getElementById('show_depth').value);
+      chanhd = Math.trunc(showDepthInput.value);
 
-      document.getElementById("bit_depth").value = parseFloat(hole_depth).toFixed(2);
+      bitDepthInput.value = parseFloat(hole_depth).toFixed(2);
       // console.log(parseFloat(hole_depth).toFixed(2));
 
       wobfisico = wobfisico - (incremento * 3.3 * velocidad);
-      document.getElementById('wobfisico').value = wobfisico;
+      wobfisicoInput.value = wobfisico;
 
       if (loadCuña > 0) {
         Hlaux = Hl - loadCuña;
@@ -1346,18 +1316,16 @@ function increasePerfora() {
       if (chanhd > anthd) {
 
 
-        /*       var block_high = document.getElementById('block_high').value;
-              var hole_depth = document.getElementById('hole_depth').value;
-              var rop = document.getElementById('rop').value;
-              var bit_depth = document.getElementById('bit_depth').value;
+        /*       var block_high = blockHighElement.value;
+              var hole_depth = holeDepthInput.value;
+              var rop = ropInput.value;
+              var bit_depth = bitDepthInput.value;
               var action = 93;
               var bitactual = bit_depth.value;
               var estadocon = 1;
         
-              $.ajax({
-        
-                url: "index_modulo/prueba.php",
-                data: {
+              await postPrueba({
+
                   block_high: block_high,
                   hole_depth: hole_depth,
                   rop: rop,
@@ -1365,10 +1333,7 @@ function increasePerfora() {
                   action: action,
                   bitactual: bitactual,
                   estadocon: estadocon
-                },
-                type: "POST",
-                async: false
-              }) */
+              }); */
       }
       ////console.log('wobfisico en incrementa' + wobfisico);
     }
@@ -1378,7 +1343,7 @@ function increasePerfora() {
 //FUNCION BAJAR BLOQUE+++++++++++++++
 function bajarBloque() {
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   console.log(Pausecb);
 
@@ -1413,10 +1378,10 @@ function bajarBloque() {
 
     }
 
-    //console.log(parseInt(document.getElementById('block_high').value));
-    if (parseFloat(document.getElementById('block_high').value) > 0.2) { //El bloque 
-      decrementoBloque = parseFloat(document.getElementById('block_high').value) - 0.2;
-      document.getElementById("block_high").value = Math.abs(decrementoBloque).toFixed(1);
+    //console.log(parseInt(blockHighElement.value));
+    if (parseFloat(blockHighElement.value) > 0.2) { //El bloque 
+      decrementoBloque = parseFloat(blockHighElement.value) - 0.2;
+      blockHighElement.value = Math.abs(decrementoBloque).toFixed(1);
       //Comportamiento cuñas en fondo
       if (cuñas.value == 1) {
         console.log('Tiene cuñas no hace nada en fondo:');
@@ -1427,19 +1392,19 @@ function bajarBloque() {
           wobfisico = 0;
           bit_depth.value = parseFloat(bit_depth.value) + 0.2;
           bit_depth.value = Math.abs(bit_depth.value).toFixed(2);
-          document.getElementById("show_depth").value = bit_depth.value;
+          showDepthInput.value = bit_depth.value;
           console.log(bit_depth.value);
 
           if (bit_depth.value > hole_depth.value) {
-            document.getElementById("show_depth").value = parseFloat(hole_depth.value).toFixed(2);
+            showDepthInput.value = parseFloat(hole_depth.value).toFixed(2);
 
-            wobfisico = parseFloat(document.getElementById('wobfisico').value) + 0.2 * 3.3; //se multiplica el decrmento den profundidad 0.2 x cte 3.3 
-            document.getElementById("wobfisico").value = Math.abs(wobfisico).toFixed(1);
+            wobfisico = parseFloat(wobfisicoInput.value) + 0.2 * 3.3; //se multiplica el decrmento den profundidad 0.2 x cte 3.3 
+            wobfisicoInput.value = Math.abs(wobfisico).toFixed(1);
             //console.log('wob bajada:' + wobfisico);
             //console.log('WOBteorico:' + WOBteorico);
             if (estadoConectado = 1) {
               Hlaux = Hl - wobfisico;
-              //peso = HlT + parseFloat(document.getElementById('acum_peso_stuck_pipe').value);     
+              //peso = HlT + parseFloat(acumPesoStuckPipe.value);     
               WOBteorico = zeroWob - Hlaux;
               //console.log('wob bajada:' + wobfisico + "  estadoConectado:" + estadoConectado + " Hlaux" + Hlaux + " Hookload setup_var" + Hl);
             } else {
@@ -1452,13 +1417,13 @@ function bajarBloque() {
           //console.log('bit_depth+0.2 < hole_depth wob bajada:' + wobfisico);
 
         } else {
-          wobfisico = parseFloat(document.getElementById('wobfisico').value) + 0.2 * 3.3; //se multiplica el decrmento den profundidad 0.2 x cte 3.3 
-          document.getElementById("wobfisico").value = Math.abs(wobfisico).toFixed(1);
+          wobfisico = parseFloat(wobfisicoInput.value) + 0.2 * 3.3; //se multiplica el decrmento den profundidad 0.2 x cte 3.3 
+          wobfisicoInput.value = Math.abs(wobfisico).toFixed(1);
           //console.log('wob bajada:' + wobfisico);
           //console.log('WOBteorico:' + WOBteorico);
           if (estadoConectado = 1) {
             Hlaux = Hl - wobfisico;
-            //peso = HlT + parseFloat(document.getElementById('acum_peso_stuck_pipe').value);     
+            //peso = HlT + parseFloat(acumPesoStuckPipe.value);     
             WOBteorico = zeroWob - Hlaux;
             //console.log('wob bajada:' + wobfisico + "  estadoConectado:" + estadoConectado + " Hlaux" + Hlaux + " Hookload setup_var" + Hl);
           } else {
@@ -1477,7 +1442,7 @@ function bajarBloque() {
 var incrementoBloque = 0.2;
 
 function subirBloque() {
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
     if (cuñas.value == 1) {
@@ -1502,19 +1467,19 @@ function subirBloque() {
 
 
     /*   var sumBlock_incremento;  variuable*/
-    //console.log(parseInt(document.getElementById('block_high').value));
-    if (parseFloat(document.getElementById('block_high').value) >= 0.2) { //corregir con jesus limite de alatura maxima del bloque
+    //console.log(parseInt(blockHighElement.value));
+    if (parseFloat(blockHighElement.value) >= 0.2) { //corregir con jesus limite de alatura maxima del bloque
 
-      incrementoBloque = parseFloat(document.getElementById('block_high').value) + 0.2;
-      document.getElementById("block_high").value = Math.abs(incrementoBloque).toFixed(1);
+      incrementoBloque = parseFloat(blockHighElement.value) + 0.2;
+      blockHighElement.value = Math.abs(incrementoBloque).toFixed(1);
       if (wobfisico > 0) {
-        wobfisico = parseFloat(document.getElementById('wobfisico').value) - 0.2 * 3.3;
-        document.getElementById("wobfisico").value = Math.abs(wobfisico).toFixed(1);
+        wobfisico = parseFloat(wobfisicoInput.value) - 0.2 * 3.3;
+        wobfisicoInput.value = Math.abs(wobfisico).toFixed(1);
         //console.log('wob subida:' + wobfisico);
         //console.log('WOBteorico:' + WOBteorico);
         if (estadoConectado = 1) {
           Hlaux = Hl - wobfisico;
-          //peso = HlT + parseFloat(document.getElementById('acum_peso_stuck_pipe').value)
+          //peso = HlT + parseFloat(acumPesoStuckPipe.value)
           WOBteorico = zeroWob - Hlaux;
           //console.log('wob bajada:' + wobfisico + "  estadoConectado:" + estadoConectado + " Hlaux" + Hlaux + " Hookload setup_var" + Hl);
         } else {
@@ -1524,7 +1489,7 @@ function subirBloque() {
         }
       } else {
         bit_depth.value = parseFloat(bit_depth.value).toFixed(2) - 0.2;
-        document.getElementById("show_depth").value = parseFloat(bit_depth.value).toFixed(2);
+        showDepthInput.value = parseFloat(bit_depth.value).toFixed(2);
       }
     }
   }
@@ -1550,7 +1515,7 @@ var agujados = document.getElementById('agujados');
 //agujados.style.transform="rotate("+totalR+"deg)";
 
 var sola = document.getElementById('agujaunohidden').value;
-var solb = document.getElementById('agujadoshidden').value;;
+var solb = agujadosHiddenInput.value;;
 
 /* agujauno.style.transform = "rotate(" + 294 + "deg)";
 */
@@ -1578,7 +1543,7 @@ else {
 //ESTA LINEA LO GRAFICA ALA INICIO DE LA PAGINA ANTES DE ENTRARA A UNA FUNCION
 //************funcion para  aguja aumento ***********************************************************************************
 function wobagujabajar() {
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
     var sumwobxar = (-WOBteorico * 3.040) + 294;
@@ -1594,26 +1559,21 @@ function wobagujabajar() {
 
 
 //******************boton de el martin deker********************
-$('#mdboton').click(function () {
+$('#mdboton').click(async function () {
   if (perforador.value == 1) {
-    document.getElementById("zeroWob").value = Hlaux;
+    zeroWobInput.value = Hlaux;
     zeroWob = Hlaux;
     WOBteorico = zeroWob - Hlaux;
 
     agujauno.style.transform = "rotate(" + 294 + "deg)";
 
-    $.ajax({
-      url: "index_modulo/prueba.php",
-      data: {
+    await postPrueba({
+
         WOBteorico: WOBteorico,
         Hlaux: Hlaux,
         wobfisico: wobfisico,
         zeroWob: zeroWob
-
-      },
-      type: "POST",
-      async: false,
-    })
+    });
 
 
     //console.log(' hl:' + Hl + ' zeroWob ' + zeroWob + '  WOBteoricooooooooo  ' + WOBteorico);
@@ -1626,11 +1586,11 @@ var ini = block_high * 21.31;
 imgdawn.style.marginTop = "" + -ini + "px";
 
 function bajartaladro() {
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
 
-    var block_highcount = document.getElementById("block_high").value;
+    var block_highcount = blockHighElement.value;
     var sum = block_highcount * 21.21;
     audiop4.play();
     imgdawn.style.marginTop = "" + -sum + "px";
@@ -1638,10 +1598,10 @@ function bajartaladro() {
 }
 
 function subirtaladro() {
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
-    var block_highcount = document.getElementById("block_high").value;
+    var block_highcount = blockHighElement.value;
     var sum = block_highcount * 21.21;
     ////console.log(sum);
     audiop3.play(); //SE COMENTA POR DESACTIVACION DE SONIDOS
@@ -1654,7 +1614,7 @@ function subirtaladro() {
 //imgdawn.style.marginTop = "-1940px";
 var sumBlock_incremento;
 var hideblock_high = document.getElementById('hideblock_high').value;
-var block_high = document.getElementById("block_high").value;
+updateBlockHigh();
 var startmeta = Math.abs(-block_high * 21, 55); //con tuberia de 90 pies, cada pie tiene 39.61 segun formula px-1940/90=21,55(calculo para pies de altura teniendo en cuenta los px)	
 ////console.log("px"+startmeta);i
 ////console.log("ft"+block_high);
@@ -1669,11 +1629,11 @@ function setintervalin() {
   if (incrementoBloque) {
     incrementoBloque = incrementoBloque + 0.2;
     sumBlock_incremento = parseInt(block_high) - incrementoBloque;
-    document.getElementById("block_high").value = Math.abs(sumBlock_incremento).toFixed(1);
+    blockHighElement.value = Math.abs(sumBlock_incremento).toFixed(1);
     var hide_bitDepthi = parseInt(document.getElementById('hide_bitDepth').value) + incrementoBloque;
     console.log('intervalin')
     bit_depth.value = hide_bitDepthi;
-    document.getElementById("show_depth").value = bit_depth.value;
+    showDepthInput.value = bit_depth.value;
     sumBlock_decrementoi = parseInt(block_high) + incrementoBloque;
     sumBlock_decrementoi = hideblock_high;
     /*//console.log(defval.value);
@@ -1697,18 +1657,18 @@ function setintervaldis() {
   if (decrementoBloque) {
     decrementoBloque = decrementoBloque + 0.2;
     sumBlock_decremento = parseInt(block_high) + decrementoBloque;
-    document.getElementById("block_high").value = Math.abs(sumBlock_decremento).toFixed(1);
+    blockHighElement.value = Math.abs(sumBlock_decremento).toFixed(1);
     sumBlock_decrementoi = parseInt(block_high) + decrementoBloque;
     sumBlock_decrementoi = hideblock_high;
     imgdawn.style.marginTop = "" + pxdata + "px";
   }
 
   /*
-  var cosa =Math.abs(document.getElementById("block_high").value).toFixed(1);
+  var cosa =Math.abs(blockHighElement.value).toFixed(1);
   var tempbit = bitd.value;
   var sinD=Math.abs(bitd.value).toFixed(1);
-  document.getElementById("block_high").value = Math.abs(divi/24,44).toFixed(1);
-  var cosa2=cosa-Math.abs(document.getElementById("block_high").value).toFixed(1);
+  blockHighElement.value = Math.abs(divi/24,44).toFixed(1);
+  var cosa2=cosa-Math.abs(blockHighElement.value).toFixed(1);
   if (cosa2>0) {
     bitd.value= Math.abs(parseFloat(sinD) +parseFloat(Math.abs(cosa2))).toFixed(1);
   }
@@ -1719,7 +1679,7 @@ function setintervaldis() {
       idt=idt-5;
     } 
   divi=idt+835;
-  var cosa =Math.abs(document.getElementById("block_high").value).toFixed(1);
+  var cosa =Math.abs(blockHighElement.value).toFixed(1);
   
   /*var tempbit = bitd.value;
   var sinD=Math.abs(bitd.value).toFixed(1);
@@ -1727,11 +1687,11 @@ function setintervaldis() {
   
   
   
-  document.getElementById("block_high").value = Math.abs(divi/24,44).toFixed(1);
+  blockHighElement.value = Math.abs(divi/24,44).toFixed(1);
   imgdawn.style.marginTop = ""+idt+"px"; 
   
   
-  var cosa2=cosa-Math.abs(document.getElementById("block_high").value).toFixed(1);
+  var cosa2=cosa-Math.abs(blockHighElement.value).toFixed(1);
   
   
   if (cosa2>0) {
@@ -1761,7 +1721,7 @@ function setintervaldis() {
 
 $('#incrementa').click(function () {
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   console.log(Pausecb);
 
@@ -1771,7 +1731,7 @@ $('#incrementa').click(function () {
       var xd = setInterval(bajarBloque, 1000); //calcular hook load y wob fisico.....wob teorico
       var aja = setInterval(bajartaladro, 1000); //grafica el bloque bajando
       var wobbajar = setInterval(wobagujabajar, 1000); // baja altura de bloque de bit depth y wob
-      document.getElementById("show_depth").value = bit_depth.value;
+      showDepthInput.value = bit_depth.value;
       // var wobagujabajar=setInterval(wobagujabajar,1000);// corre la aguja de el wob
       //var xd=setInterval(setintervalin,1000);
       //funcion para marcacion de hl\
@@ -1824,7 +1784,7 @@ $('#incrementa').click(function () {
 $('#disminuye').click(function () {
 
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
     ironr.src = "img/ironquieto.png";
@@ -1832,7 +1792,7 @@ $('#disminuye').click(function () {
     var wobbajar = setInterval(wobagujabajar, 1000);
     var aja = setInterval(subirtaladro, 1000);
     var xd = setInterval(subirBloque, 1000);
-    document.getElementById("show_depth").value = bit_depth.value;
+    showDepthInput.value = bit_depth.value;
     $('#clear').click(function () {
 
       clearInterval(xd);
@@ -1874,12 +1834,12 @@ $('#disminuye').click(function () {
 //esta funcion se ejecuta cuando el gif de el bloque termina de subir
 var flat16 = 0;
 
-function timeoutiron() {
-  var block_high = document.getElementById("block_high").value;
-  var rpmm = document.getElementById("rpm").value;
-  var p1 = document.getElementById('p1_spm').value;
-  var p2 = document.getElementById('p2_spm').value;
-  var cunas = document.getElementById('cuñas').value;
+async function timeoutiron() {
+  updateBlockHigh();
+  var rpmm = rpmInput.value;
+  var p1 = p1SpmInput.value;
+  var p2 = p2SpmInput.value;
+  var cunas = slipsControl.value;
 
   if (p1 > 0 || block_high > 4.2 || p2 > 0 || rpmm > 0 || cunas == 0) {
     alert('pumps activated or block height is not 4.2 to 4 or rpm is activated or Slips sits idle ');
@@ -1896,65 +1856,55 @@ function timeoutiron() {
     imgdawn.src = "img/soltandotu.gif";
     imgdawn.src = "";
     ironr.src = "img/ironrunner.gif";
-    document.getElementById('ironraux').src = "";
+    ironrAuxElement.src = "";
 
     var estadocon = 1;
     var estadocon2 = 1;
 
-    $.ajax({
-      url: "index_modulo/prueba.php",
-      data: {
+    await postPrueba({
+
         estadocon2: estadocon2
-      },
-      type: "POST"
-    })
+    });
 
     //if (flat16 == 0) {
     // flat16 = 1;
-    setTimeout(function () {
+    setTimeout(async function () {
 
       imgdawn.style.marginTop = "" + -1985 + "px";
       imgdawn.src = "img/tuberia.png";
       ironr.src = "";
-      document.getElementById('ironraux').src = "img/ironquieto.png";
-      document.getElementById('block_high').value = 93;
+      ironrAuxElement.src = "img/ironquieto.png";
+      blockHighElement.value = 93;
 
       var estadocon = 1;
       var action = 93;
       var bitactual = bit_depth.value;
 
-      $.ajax({
-        url: "index_modulo/prueba.php",
-        data: {
+      await postPrueba({
+
           action: action,
           bitactual: bitactual,
           estadocon: estadocon
-        },
-        succes: estadoconfun(),
-        type: "POST"
-      })
+      });
 
     }, 16000);
   }
 }
 
-function estadoconfun() {
+async function estadoconfun() {
 
   var estadocon2 = 0;
 
-  $.ajax({
-    url: "index_modulo/prueba.php",
-    data: {
+  await postPrueba({
+
       estadocon2: estadocon2
-    },
-    type: "POST"
-  })
+  });
 }
 
 /* function desablebtns() {
   var despr = document.getElementById('despr');
   var cuna = document.getElementById('cuna');
-  var p1 = document.getElementById('p1_spm').value;
+  var p1 = p1SpmInput.value;
   imgdawn.src = "img/soltandotu.gif";
   imgdawn.style.marginTop = "-130px";
 } */
@@ -1972,40 +1922,39 @@ $('#despr').click(function () {
 )
 
 /*if (perforador.value == 1) {
-    var block_high = document.getElementById("block_high").value;
-    var rpmm = document.getElementById("rpm").value;
+    var block_high = blockHighElement.value;
+    var rpmm = rpmInput.value;
     var a = sola;
     var b = solb;
-    var p1 = document.getElementById('calp1_spm').value;
-    var p1total = document.getElementById('p1_total_spm').value;
-    var p2 = document.getElementById('calp2_spm').value;
-    var p2total = document.getElementById('p2_total_spm').value;
-    var stpmt = document.getElementById('total_spm').value;
-    var totalskt = document.getElementById('total_strokes').value;
+    var p1 = calp1SpmInput.value;
+    var p1total = p1TotalSpmInput.value;
+    var p2 = calp2SpmInput.value;
+    var p2total = p2TotalSpmInput.value;
+    var stpmt = totalSpmInput.value;
+    var totalskt = totalStrokesInput.value;
 
-    var hole_depth = document.getElementById('hole_depth').value;
-    var rop = document.getElementById('rop').value;
-    var bit_depth = document.getElementById('bit_depth').value;
-    var cassing_pressure = document.getElementById('cassing_pressure').value;
-    var fluid_volume = document.getElementById('fluid_volume').value;
-    var pump_pressure = document.getElementById('pump_pressure').value;
-    var rpm = document.getElementById('rpm').value;
-    var torque = document.getElementById('torque').value;
-    var time = document.getElementById('time').value;
-    var block_high = document.getElementById('block_high').value;
-    var zeroWob = document.getElementById("zeroWob").value;
-    var cuñas = document.getElementById("cuñas").value;
+    var hole_depth = holeDepthInput.value;
+    var rop = ropInput.value;
+    var bit_depth = bitDepthInput.value;
+    var cassing_pressure = cassingPressureInput.value;
+    var fluid_volume = fluidVolumeInput.value;
+    var pump_pressure = pumpPressureInput.value;
+    var rpm = rpmInput.value;
+    var torque = torqueInput.value;
+    var time = timeInput.value;
+    var block_high = blockHighElement.value;
+    var zeroWob = zeroWobInput.value;
+    var cuñas = slipsControl.value;
  
     if (p1 > 0 || block_high > 4.2 || p2 > 0 || rpmm > 0 ) {
       alert('pumps activated or block height is not 4.2 to 4 or rpm is activated ');
     } else {
       var estadocon = 1;
-      var Pausecb = document.getElementById('cbPause').value;
+      updatePauseValue();
       console.time("Eje2");
       
-      $.ajax({
-        url: "index_modulo/prueba.php",
-        data: {
+      await postPrueba({
+
           a: a,
           b: b,
           p1: p1,
@@ -2028,10 +1977,7 @@ $('#despr').click(function () {
           time: time,
           estadocon: estadocon,
           pause: Pausecb
-        },
-        type: "POST",
-        success: function (datos) { }
-      })
+      });
       
       console.timeEnd("Eje2");
       desablebtns();
@@ -2046,7 +1992,7 @@ $('#despr').click(function () {
 
 disminuye.onclick = function () {
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
 
@@ -2059,7 +2005,7 @@ disminuye.onclick = function () {
 }
 
 incrementa.onclick = function () {
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
 
@@ -2088,7 +2034,7 @@ aumentartStk = 0;
 
 function timer() {
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
 
@@ -2113,8 +2059,8 @@ function timerbom1() {
 
   //console.log("Si me ejecuto bro");
 
-  xdef1 = parseFloat(document.getElementById("p1_spm").value);
-  xdeftemp1 = parseFloat(document.getElementById('calp1_spm').value);
+  xdef1 = parseFloat(p1SpmInput.value);
+  xdeftemp1 = parseFloat(calp1SpmInput.value);
 
   /* console.log('Inicio ', entradab1, 'xdeftemp: ',xdeftemp, 'xdeftemp1: ', xdeftemp1,'xdef1: ',xdef1); */
 
@@ -2143,12 +2089,12 @@ function timerbom1() {
 
       if (xdeftemp >= xdef1) {
         xdeftemp = xdef1;
-        document.getElementById('calp1_spm').value = xdeftemp;
+        calp1SpmInput.value = xdeftemp;
         killinterval();
         /*         console.log('salida3'); */
       }
       else {
-        document.getElementById('calp1_spm').value = xdeftemp;
+        calp1SpmInput.value = xdeftemp;
         /*  console.log('salida4'); */
       }
     }
@@ -2161,13 +2107,13 @@ function timerbom1() {
 
     if (xdef1 < xdeftemp1) {
       xdeftemp = xdef1;
-      document.getElementById('calp1_spm').value = xdeftemp;
+      calp1SpmInput.value = xdeftemp;
       killinterval();
       /*   console.log('salida6'); */
     }
 
     if (xdef1 < xdeftemp) {
-      document.getElementById('calp1_spm').value = xdef1;
+      calp1SpmInput.value = xdef1;
       killinterval();
       /* console.log('salida7'); */
     }
@@ -2191,14 +2137,14 @@ function myFunctionVal() {
 
   var xdef = parseInt(x.scrollTop / 34.9);
 
-  document.getElementById("p1_spm").value = xdef;
+  p1SpmInput.value = xdef;
 
 }
 
 // ESTA FUNCION TAMBIEN VALIDA EL MODVIMIENTO DE LOS GIF DE LODO Y LOS AUDIOS DE BOMBA
 function myFunction() {
 
-  var p1 = document.getElementById("p1_spm").value;
+  var p1 = p1SpmInput.value;
   var xdef = parseInt(x.scrollTop / 34.9);
   //console.log(xdef);
   //console.log('bomba activa 1');
@@ -2209,9 +2155,9 @@ function myFunction() {
   clearInterval(counter);
 
   if (defaultVal == currentVal) {
-    document.getElementById("p1_spm").value = xdef;
+    p1SpmInput.value = xdef;
   } else {
-    document.getElementById("p1_spm").value = xdef;
+    p1SpmInput.value = xdef;
   }
 
   console.log(currentVal);
@@ -2228,7 +2174,7 @@ function myFunction() {
     }
 
   } else {
-    p2 = document.getElementById('p2_spm').value;
+    p2 = p2SpmInput.value;
     if (flatlodogif == 1 && p2 < 1) {
       video.src = 'img/sinlodo.gif';
       audiop1d.pause();
@@ -2237,9 +2183,6 @@ function myFunction() {
     }
   }
 
-  var p1_spm = document.getElementById('p1_spm');
-  var p2_spm = document.getElementById('p2_spm');
-  var total_spm = document.getElementById('total_spm');
   var suma = Number(p1_spm.value.replace(/[^0-9\.-]+/g, "")) + Number(p2_spm.value.replace(/[^0-9\.-]+/g, ""))
   total_spm.value = suma;
   settotoal();// Toma el valor de SPMT y realiza el contador de SKST
@@ -2251,43 +2194,32 @@ function myFunction() {
   // Guarda SPMB1,calcula flujo y spp
 
   /*
-  var p1 = document.getElementById("p1_spm").value;
+  var p1 = p1SpmInput.value;
   
   if (flatb1php == 0)
   {
     flatb1php = 1;
-  $.ajax({
+  await postPrueba({
 
-    url: "index_modulo/prueba.php",
-    data: {
       p1: p1
-    },
-    type: "POST",
-    async: false,
-    succes: flatb1php = 0
-  })  
+  });  
   */
   //************************************************************************************************************
   // ********************************* CONSULTA EN BASE DE DATOS Y LUEGO ACTUALIZA EN WEB (VALORES DE FLUID_VOLUME, PUMPPRESSURE,ECD)
   // **********************************************************************************************************
   /*
-  var fluid_volume =
-    $.ajax({
-      type: "POST",
-      url: 'consul_tr/fluid_volume.php',
-      data: {
+  const js = await fetchFluidMetrics({
         p1: p1
-      },
-      dataType: 'text',
-      async: false
-    }).responseText;
-  js = JSON.parse(fluid_volume);
+  });
+  if (!js) {
+    return;
+  }
   
   console.log(js[0]);
   
-  document.getElementById('fluid_volume').value = js[0];
-  document.getElementById('pump_pressure').value = js[1];
-  document.getElementById('ecd').value = js[2];
+  fluidVolumeInput.value = js[0];
+  pumpPressureInput.value = js[1];
+  ecdInput.value = js[2];
 
   }*/
 }
@@ -2295,7 +2227,7 @@ function myFunction() {
 $('#pumpoff').click(function () {
 
   if (flatpumoff == 1) {
-    document.getElementById('pumpoff').src = "img/pumpoff.png";
+    pumpOffImage.src = "img/pumpoff.png";
     flatpumoff = 0;
   }
 
@@ -2305,7 +2237,7 @@ aumentartStk2 = 0;
 
 function timer2() {
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
 
@@ -2325,8 +2257,8 @@ var xdef2 = 0;
 
 function timerbom2() {
 
-  xdef2 = parseFloat(document.getElementById("p2_spm").value);
-  xdeftemp2 = parseFloat(document.getElementById('calp2_spm').value);
+  xdef2 = parseFloat(p2SpmInput.value);
+  xdeftemp2 = parseFloat(calp2SpmInput.value);
 
   if (entradab2 == 1) {
 
@@ -2347,11 +2279,11 @@ function timerbom2() {
       }
       if (xdeftemp_2 >= xdef2) {
         xdeftemp_2 = xdef2;
-        document.getElementById('calp2_spm').value = xdeftemp_2;
+        calp2SpmInput.value = xdeftemp_2;
         killinterval2();
       }
       else {
-        document.getElementById('calp2_spm').value = xdeftemp_2;
+        calp2SpmInput.value = xdeftemp_2;
       }
     }
 
@@ -2363,12 +2295,12 @@ function timerbom2() {
 
     if (xdef2 < xdeftemp2) {
       xdeftemp_2 = xdef2;
-      document.getElementById('calp2_spm').value = xdeftemp_2;
+      calp2SpmInput.value = xdeftemp_2;
       killinterval2();
     }
 
     if (xdef2 < xdeftemp_2) {
-      document.getElementById('calp2_spm').value = xdef2;
+      calp2SpmInput.value = xdef2;
       killinterval2();
     }
 
@@ -2387,7 +2319,7 @@ function flujoBombas() {
 function myFunctionVal2() {
   var xdef2 = parseInt(x2.scrollTop / 34.9);
 
-  document.getElementById("p2_spm").value = xdef2;
+  p2SpmInput.value = xdef2;
 }
 
 function myFunction2() {
@@ -2413,9 +2345,9 @@ function myFunction2() {
   //audiop1.pause();
   // }
   if (defaultVal2 == currentVal2) {
-    document.getElementById("p2_spm").value = xdef2;
+    p2SpmInput.value = xdef2;
   } else {
-    document.getElementById("p2_spm").value = xdef2;
+    p2SpmInput.value = xdef2;
     // p2_total_spm.value = count2;
   }
   if (currentVal2 >= 1) {
@@ -2429,14 +2361,14 @@ function myFunction2() {
       flagb0 = 0;
     }
   } else {
-    p1 = document.getElementById('p1_spm').value;
+    p1 = p1SpmInput.value;
     if (flatlodogif == 1 && p1 < 1) {
       video.src = 'img/sinlodo.gif';
       audiop1d.pause();
       flatlodogif = 0;
       flag0 = 1;
     }
-    // document.getElementById("calp2_spm").value = 0;
+    // calp2SpmInput.value = 0;
     // xdeftemp_2 = 0;
   }
 
@@ -2444,21 +2376,18 @@ function myFunction2() {
     if (globbomb2 == "Explotion" && p2 >= 0) {
       if (flatpumoff == 0) {
         alarmaon.play(); 
-        document.getElementById('pumpoff').src = "img/pumpoffrojo.png";
+        pumpOffImage.src = "img/pumpoffrojo.png";
         flatpumoff = 1;
       }
     }
     else {
       if (flatpumoff == 1) {
-        document.getElementById('pumpoff').src = "img/pumpoff.png";
+        pumpOffImage.src = "img/pumpoff.png";
         flatpumoff = 0;
       }
     }
     // Fin bloque que valida estado explotion */
 
-  var p1_spm = document.getElementById('p1_spm');
-  var p2_spm = document.getElementById('p2_spm');
-  var total_spm = document.getElementById('total_spm');
   var suma = Number(p1_spm.value.replace(/[^0-9\.-]+/g, "")) + Number(p2_spm.value.replace(/[^0-9\.-]+/g, ""))
   total_spm.value = suma;
   settotoal();
@@ -2470,67 +2399,52 @@ function myFunction2() {
   // Guarda SPMB2,calcula flujo y spp
   /*
 
-  var p2 = document.getElementById("p2_spm").value;
+  var p2 = p2SpmInput.value;
 
   if (flatb2php == 0)
   {
     flatb2php = 1;
-  $.ajax({
-    url: "index_modulo/prueba.php",
-    data: {
+  await postPrueba({
+
       p2: p2
-    },
-    type: "POST",
-    async: false,
-    succes: flatb2php = 0
-  })
+  });
 */
 
   //************************************************************************************************************
   // ********************************* CONSULTA EN BASE DE DATOS Y LUEGO ACTUALIZA EN WEB (VALORES DE FLUID_VOLUME, PUMPPRESSURE,ECD)
   // **********************************************************************************************************
   /*
-  var fluid_volume =
-    $.ajax({
-      type: "POST",
-      url: 'consul_tr/fluid_volume.php',
-      data: {
+  const js = await fetchFluidMetrics({
         p2: p2
-      },
-      dataType: 'text',
-      async: false
-    }).responseText;
-  js = JSON.parse(fluid_volume);
+  });
+  if (!js) {
+    return;
+  }
 
-  document.getElementById('fluid_volume').value = js[0];
-  document.getElementById('pump_pressure').value = js[1];
-  document.getElementById('ecd').value = js[2];
+  fluidVolumeInput.value = js[0];
+  pumpPressureInput.value = js[1];
+  ecdInput.value = js[2];
   }*/
 }
 
 
-var p1_spm = document.getElementById('p1_spm');
-var p2_spm = document.getElementById('p2_spm');
-var total_spm = document.getElementById('total_spm');
 var suma = Number(p1_spm.value.replace(/[^0-9\.-]+/g, "")) + Number(p2_spm.value.replace(/[^0-9\.-]+/g, ""))
 total_spm.value = suma;
 
 
 function myFunctionVal3() {
-  var x3 = document.getElementById("myRange3");
-  var xdef3 = parseInt(x3.scrollTop / 34.9);
-  document.getElementById("rpm").value = xdef3;
+  const xdef3 = parseInt(x3.scrollTop / 34.9, 10);
+  rpmInput.value = xdef3;
 }
 
 function myFunction3() {
-  var x3 = document.getElementById("myRange3");
-  var xdef3 = parseInt(x3.scrollTop / 34.9);
-  var defaultVal3 = x3.defaultValue;
-  var currentVal3 = xdef3;
+  const xdef3 = parseInt(x3.scrollTop / 34.9, 10);
+  const defaultVal3 = x3.defaultValue;
+  const currentVal3 = xdef3;
   if (defaultVal3 == currentVal3) {
-    document.getElementById("rpm").value = xdef3;
+    rpmInput.value = xdef3;
   } else {
-    document.getElementById("rpm").value = xdef3;
+    rpmInput.value = xdef3;
   }
 
 
@@ -2544,7 +2458,7 @@ function myFunction3() {
   }
   if (currentVal3 == 0) {
     if (flattuberiagif == 1) {
-      document.getElementById("torque").value = 0;
+      torqueInput.value = 0;
       imgdawn.src = "img/tuberia.png";
       audiop2.pause();
       flattuberiagif = 0;
@@ -2559,21 +2473,21 @@ function myFunction3() {
 
 function timertotal() {
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   if (Pausecb == 0) {
 
     countt++;
     // = (Number(p1_total_spm.value) + Number(p2_total_spm.value));
-    // var total_strokes = document.getElementById('total_strokes').value = countt;
-    document.getElementById('total_strokes').value = countt.toFixed(0);
+    // var total_strokes = totalStrokesInput.value = countt;
+    totalStrokesInput.value = countt.toFixed(0);
 
   }
 }
 
 // Toma el valor de SPMT y realiza el contador de SKST
 function settotoal() {
-  var xt = document.getElementById('total_spm');
+  var xt = totalSpmInput;
   var defaultVal = x.defaultValue;
   var currentValu = xt.value;
   var currentopu = currentValu / 60;
@@ -2591,7 +2505,6 @@ function settotoal() {
 
 function resetp1f() {
   if (perforador.value == 1) {
-    var x = document.getElementById("myRange");
     count = 0;
     valord.value = 0;
     aumentartStk = 0;
@@ -2601,7 +2514,6 @@ function resetp1f() {
 
 function resetp2f() {
   if (perforador.value == 1) {
-    var x2 = document.getElementById("myRange2");
     count2 = 0;
     valord2.value = 0;
     aumentartStk2 = 0;
@@ -2636,38 +2548,23 @@ $('#resetstkpm').click(function () {
 
 
 //controla los tiempos de actualizacion de los datos que se guardan tambien controla el cronometro que se ve en la parte de time en la consola
-function timeri() {
+async function timeri() {
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
   var startTime = moment().format('x');
   var delta = 0;
 
-  Dataspd = $.ajax({
-    url: "index_modulo/speedconsul.php",
-    dataType: 'text',
-    type: "POST",
-    async: false
-  }).responseText;
-
-  jspd = JSON.parse(Dataspd);
+  const jspd = await fetchSpeedConfig();
+  if (!jspd) {
+    return;
+  }
 
   dataspeed = jspd[0];
   dataspeedt = dataspeed[0];
 
-
-  Dataspd = $.ajax({
-    url: "index_modulo/speedconsul.php",
-    dataType: 'text',
-    type: "POST",
-    async: false
-  }).responseText;
-
-  jspd = JSON.parse(Dataspd);
-
   dataspeed = jspd[2];
   dataspeedt = dataspeed[0]; /// SELECCION DE TIEMPO EJEMPLO SI ES 1/2/10/20/50
-
   if (Pausecb == 0) {
 
     if (perforador.value == 1) {
@@ -2693,14 +2590,10 @@ function timeri() {
 
       timei.value = counthoursi + ':' + countmini + ':' + countip;
 
-      $.ajax({
-        url: "index_modulo/pause.php",
-        data: {
-          counthoursi: counthoursi,
-          countmini: countmini,
-          countip: countip
-        },
-        type: "POST"
+      sendPauseData({
+        counthoursi: counthoursi,
+        countmini: countmini,
+        countip: countip
       })
     }
   }
@@ -2714,10 +2607,10 @@ function timeri() {
 
   if (ModalChk == 1) {
 
-    globalfluid = document.getElementById('pump_pressure').value;
+    globalfluid = pumpPressureInput.value;
     document.getElementById('dataglob1').value = globalfluid;
 
-    globalfluid1 = document.getElementById('cassing_pressure').value;
+    globalfluid1 = cassingPressureInput.value;
     document.getElementById('dataglob2').value = globalfluid1;
 
     valorspp2 = document.getElementById('dataglob2').value;
@@ -2735,13 +2628,13 @@ function timeri() {
     // ********************************* CALCULO DE PROFUNDIDAD
     // **********************************************************************************************************
 
-    var hole_depth = document.getElementById('hole_depth').value;
+    var hole_depth = holeDepthInput.value;
     time = 1;
 
 
-    var rop = document.getElementById('rop').value;
-    var bit_depth = document.getElementById('bit_depth').value;
-    var block_high = document.getElementById('block_high').value;
+    var rop = ropInput.value;
+    var bit_depth = bitDepthInput.value;
+    updateBlockHigh();
     var a = sola;
     var b = solb;
     var well = 0;
@@ -2749,18 +2642,13 @@ function timeri() {
     // console.log(bit_depth, block_high)
 
     if (Pausecb == 0) {
-      $.ajax({
-        url: "index_modulo/prueba.php",
-        data: {
+      await postPrueba({
+
           WOBteorico: WOBteorico,
           Hlaux: Hlaux,
           wobfisico: wobfisico,
           zeroWob: zeroWob
-
-        },
-        type: "POST",
-        async: false,
-      })
+      });
     }
 
 
@@ -2768,30 +2656,25 @@ function timeri() {
 
     if (Pausecb == 0) {
 
-      $.ajax({
-        url: "index_modulo/prueba.php",
-        data: {
+      await postPrueba({
+
           hole_depth: hole_depth,
           rop: rop,
           block_high: block_high,
           bit_depth: bit_depth,
           time: time,
           well: well,
-
-        },
-        type: "POST",
-        async: false,
-      })
+      });
 
     }
 
-    var p1 = document.getElementById("p1_spm").value; // Bomba 1
-    var p2 = document.getElementById("p2_spm").value; // Bomba 2
-    var p1total = document.getElementById('p1_total_spm').value;
-    var p2total = document.getElementById('p2_total_spm').value;
-    var stpmt = document.getElementById('total_spm').value;
-    var totalskt = document.getElementById('total_strokes').value;
-    var rpm = document.getElementById("rpm").value
+    var p1 = p1SpmInput.value; // Bomba 1
+    var p2 = p2SpmInput.value; // Bomba 2
+    var p1total = p1TotalSpmInput.value;
+    var p2total = p2TotalSpmInput.value;
+    var stpmt = totalSpmInput.value;
+    var totalskt = totalStrokesInput.value;
+    var rpm = rpmInput.value
     var a = sola;
     var b = solb;
 
@@ -2845,7 +2728,7 @@ function timeri() {
     }
     if (rpm == 0) {
       if (flattuberiagif == 1) {
-        document.getElementById("torque").value = 0;
+        torqueInput.value = 0;
         imgdawn.src = "img/tuberia.png";
         audiop2.pause();
         flattuberiagif = 0;
@@ -2856,9 +2739,8 @@ function timeri() {
 
     if (Pausecb == 0) {
       if (flag0 == 0) {
-        $.ajax({
-          url: "index_modulo/prueba.php",
-          data: {
+        await postPrueba({
+
             p1: p1,
             p1total: p1total,
             p2: p2,
@@ -2867,17 +2749,13 @@ function timeri() {
             totalskt: totalskt,
             a: a,
             b: b
-          },
-          type: "POST",
-          async: false,
-        })
+        });
       }
       else {
         if (flagb0 == 0) {
           {
-            $.ajax({
-              url: "index_modulo/prueba.php",
-              data: {
+            await postPrueba({
+
                 p1: p1,
                 p1total: p1total,
                 p2: p2,
@@ -2886,10 +2764,7 @@ function timeri() {
                 totalskt: totalskt,
                 a: a,
                 b: b
-              },
-              type: "POST",
-              async: false,
-            })
+            });
 
             flagb0 = 1;
           }
@@ -2903,31 +2778,26 @@ function timeri() {
 
     cosult1 = 0;
 
-    choque4.value = document.getElementById('total_spm').value;
+    choque4.value = totalSpmInput.value;
     choque5.value = total_strokes.value;
 
-    var fluid_volume =
-      $.ajax({
-        type: "POST",
-        url: 'consul_tr/fluid_volume.php',
-        data: {
+    const js = await fetchFluidMetrics({
           cosult1: cosult1
-        },
-        dataType: 'text',
-        async: false
-      }).responseText;
-    js = JSON.parse(fluid_volume);
+    });
+    if (!js) {
+      return;
+    }
 
-    document.getElementById('fluid_volume').value = js[0];
-    document.getElementById('pump_pressure').value = js[1];
-    document.getElementById('ecd').value = Number(js[2]).toFixed(2);
-    document.getElementById('cassing_pressure').value = Number(js[7]).toFixed(0);
+    fluidVolumeInput.value = js[0];
+    pumpPressureInput.value = js[1];
+    ecdInput.value = Number(js[2]).toFixed(2);
+    cassingPressureInput.value = Number(js[7]).toFixed(0);
 
 
     if (js[4] == 'Explotion' && p1 > 0) {
-      document.getElementById('p1_spm').value = 0;
-      document.getElementById('myRange').scrollTop = 0;
-      document.getElementById('pumpoff').src = "img/pumpoffrojo.png";
+      p1SpmInput.value = 0;
+      x.scrollTop = 0;
+      pumpOffImage.src = "img/pumpoffrojo.png";
       video.src = 'img/sinlodo.gif';
       audiop1d.pause();
       alarmaon.play();
@@ -2941,9 +2811,9 @@ function timeri() {
 
 
     if (js[5] == 'Explotion' && p2 > 0) {
-      document.getElementById('p2_spm').value = 0;
-      document.getElementById('myRange2').scrollTop = 0;
-      document.getElementById('pumpoff').src = "img/pumpoffrojo.png";
+      p2SpmInput.value = 0;
+      x2.scrollTop = 0;
+      pumpOffImage.src = "img/pumpoffrojo.png";
       video.src = 'img/sinlodo.gif';
       audiop1d.pause();
       alarmaon.play();
@@ -2963,8 +2833,8 @@ function timeri() {
     if (globbomb1 == "Explotion" && globbomb2 == "Explotion") { /// Estado ded bomba 1 y 2 en explotion 
 
       if (p1 > 0) {
-        document.getElementById('p2_spm').value = 0;
-        document.getElementById('pumpoff').src = "img/pumpoffrojo.png";
+        p2SpmInput.value = 0;
+        pumpOffImage.src = "img/pumpoffrojo.png";
         video.src = 'img/sinlodo.gif';
         audiop1d.pause();
         alarmaon.play();
@@ -2972,8 +2842,8 @@ function timeri() {
       }
 
       if (p2 > 0) {
-        document.getElementById('p2_spm').value = 0;
-        document.getElementById('pumpoff').src = "img/pumpoffrojo.png";
+        p2SpmInput.value = 0;
+        pumpOffImage.src = "img/pumpoffrojo.png";
         video.src = 'img/sinlodo.gif';
         audiop1d.pause();
         alarmaon.play();
@@ -2985,8 +2855,8 @@ function timeri() {
     if (globbomb1 == "Bombeando" && globbomb2 == "Explotion" || globbomb1 == "Desfogue" && globbomb2 == "Explotion") { // Estado de b 1 en desfogue o bombeando y estado bomba 2 en explotion 
 
       if (p2 > 0) {
-        document.getElementById('p2_spm').value = 0;
-        document.getElementById('pumpoff').src = "img/pumpoffrojo.png";
+        p2SpmInput.value = 0;
+        pumpOffImage.src = "img/pumpoffrojo.png";
         video.src = 'img/sinlodo.gif';
         audiop1d.pause();
 
@@ -2995,12 +2865,12 @@ function timeri() {
       }
 
       else if (flatpumoff == 1) {
-        document.getElementById('p1_spm').value = 0;
-        document.getElementById('p2_spm').value = 0;
+        p1SpmInput.value = 0;
+        p2SpmInput.value = 0;
         $("#myRange").scrollTop(0);
         $("#myRange2").scrollTop(0);
         // document.getElementById('myRange1').scrollTop = 0;
-        document.getElementById('pumpoff').src = "img/pumpoffrojo.png";
+        pumpOffImage.src = "img/pumpoffrojo.png";
         video.src = 'img/sinlodo.gif';
         audiop1d.pause();
       }
@@ -3017,20 +2887,20 @@ function timeri() {
     if (globbomb2 == "Bombeando" && globbomb1 == "Explotion" || globbomb2 == "Desfogue" && globbomb1 == "Explotion") {
 
       if (p1 > 0) {
-        document.getElementById('p1_spm').value = 0;
-        document.getElementById('pumpoff').src = "img/pumpoffrojo.png";
+        p1SpmInput.value = 0;
+        pumpOffImage.src = "img/pumpoffrojo.png";
         video.src = 'img/sinlodo.gif';
         audiop1d.pause();
         alarmaon.play();
       }
 
       else if (flatpumoff == 1) {
-        document.getElementById('p1_spm').value = 0;
-        document.getElementById('p2_spm').value = 0;
+        p1SpmInput.value = 0;
+        p2SpmInput.value = 0;
         $("#myRange").scrollTop(0);
         $("#myRange2").scrollTop(0);
         // document.getElementById('myRange1').scrollTop = 0;
-        document.getElementById('pumpoff').src = "img/pumpoffrojo.png";
+        pumpOffImage.src = "img/pumpoffrojo.png";
         video.src = 'img/sinlodo.gif';
         audiop1d.pause();
       }
@@ -3067,28 +2937,28 @@ function timeri() {
 
     document.getElementById('Gain LossG').innerHTML = 'Gain Loss: ' + gainloss.toFixed(1);
 
-    document.getElementById('return_flow').value = flowret.toFixed(1);
+    returnFlowInput.value = flowret.toFixed(1);
     document.getElementById('gain').value = gainloss.toFixed(1);
 
     GainData = Math.sign(gainloss);
     FlowretData = Math.sign(flowret);
 
     if (GainData == -1) {
-      document.getElementById('progresbar').value = 0;
+      progresbarElement.value = 0;
       PosiDataG = Math.abs(gainloss);
-      document.getElementById('progresbar3').value = PosiDataG;
+      progresbar3Element.value = PosiDataG;
     }
     else {
-      document.getElementById('progresbar3').value = 0;
+      progresbar3Element.value = 0;
       PosiDataG = Math.abs(gainloss);
-      document.getElementById('progresbar').value = PosiDataG;
+      progresbarElement.value = PosiDataG;
     }
 
     if (FlowretData == -1) {
-      document.getElementById('progresbar2').value = 0;
+      progresbar2Element.value = 0;
     }
     else {
-      document.getElementById('progresbar2').value = flowret;
+      progresbar2Element.value = flowret;
     }
 
 
@@ -3132,18 +3002,13 @@ function timeri() {
       // **********************************************************************************************************
       // Copia la tabla Var_rt en time_rt
       time = 0;
-      rpm = document.getElementById('rpm').value;
+      rpm = rpmInput.value;
 
-      $.ajax({
+      await postPrueba({
 
-        url: "index_modulo/prueba.php",
-        data: {
           time: time,
           rpm: rpm
-        },
-        type: "POST",
-        async: false
-      })
+      });
 
 
       // Guarda SPMB1,calcula flujo y spp
@@ -3156,27 +3021,17 @@ function timeri() {
           flatb1php = 1;
           if (Pausecb == 0) {
             if (flag0 == 0) {
-              $.ajax({
-                url: "index_modulo/prueba.php",
-                data: {
+              await postPrueba({
+
                   p1: p1
-                },
-                type: "POST",
-                async: false,
-                succes: flatb1php = 0
-              })
+              });
             }
             else {
               if (flagb0 == 0) {
-                $.ajax({
-                  url: "index_modulo/prueba.php",
-                  data: {
+                await postPrueba({
+
                     p1: p1
-                  },
-                  type: "POST",
-                  async: false,
-                  succes: flatb1php = 0
-                })
+                });
                 flagb0 = 1;
               }
             }
@@ -3185,20 +3040,15 @@ function timeri() {
           // ********************************* CONSULTA EN BASE DE DATOS Y LUEGO ACTUALIZA EN WEB (VALORES DE FLUID_VOLUME, PUMPPRESSURE,ECD)
           // **********************************************************************************************************
 
-          var fluid_volume =
-            $.ajax({
-              type: "POST",
-              url: 'consul_tr/fluid_volume.php',
-              data: {
+          const js = await fetchFluidMetrics({
                 p1: p1
-              },
-              dataType: 'text',
-              async: false
-            }).responseText;
-          js = JSON.parse(fluid_volume);
-          document.getElementById('fluid_volume').value = js[0];
-          document.getElementById('pump_pressure').value = js[1];
-          document.getElementById('ecd').value = js[2];
+          });
+          if (!js) {
+            return;
+          }
+          fluidVolumeInput.value = js[0];
+          pumpPressureInput.value = js[1];
+          ecdInput.value = js[2];
         }
 
       }
@@ -3210,27 +3060,17 @@ function timeri() {
           flatb2s1 = p2;
           if (Pausecb == 0) {
             if (flag0 == 0) {
-              $.ajax({
-                url: "index_modulo/prueba.php",
-                data: {
+              await postPrueba({
+
                   p2: p2
-                },
-                type: "POST",
-                async: false,
-                succes: flatb2php = 0
-              })
+              });
             }
             else {
               if (flagb0 == 0) {
-                $.ajax({
-                  url: "index_modulo/prueba.php",
-                  data: {
+                await postPrueba({
+
                     p2: p2
-                  },
-                  type: "POST",
-                  async: false,
-                  succes: flatb2php = 0
-                })
+                });
                 flagb0 = 1;
               }
             }
@@ -3240,21 +3080,16 @@ function timeri() {
           // ********************************* CONSULTA EN BASE DE DATOS Y LUEGO ACTUALIZA EN WEB (VALORES DE FLUID_VOLUME, PUMPPRESSURE,ECD)
           // **********************************************************************************************************
 
-          var fluid_volume =
-            $.ajax({
-              type: "POST",
-              url: 'consul_tr/fluid_volume.php',
-              data: {
+          const js = await fetchFluidMetrics({
                 p2: p2
-              },
-              dataType: 'text',
-              async: false
-            }).responseText;
-          js = JSON.parse(fluid_volume);
+          });
+          if (!js) {
+            return;
+          }
 
-          document.getElementById('fluid_volume').value = js[0];
-          document.getElementById('pump_pressure').value = js[1];
-          document.getElementById('ecd').value = js[2];
+          fluidVolumeInput.value = js[0];
+          pumpPressureInput.value = js[1];
+          ecdInput.value = js[2];
         }
 
 
@@ -3270,14 +3105,10 @@ function timeri() {
 
     /////////// BLOQUE PARA VALVULAS
 
-    var pumpdata =
-      $.ajax({
-        url: 'bop_modulo/bopmini/llamardatamini.php',
-        dataType: 'text',
-        async: false
-      }).responseText;
-
-    var jsval = JSON.parse(pumpdata);
+    const jsval = await fetchMiniBopValveStates();
+    if (!jsval) {
+      return;
+    }
     var vl1 = jsval[0];
     var vl2 = jsval[1];
     var vl3 = jsval[2];
@@ -3555,61 +3386,61 @@ function timeri() {
     }
 
     if (vl31 == 0) {
-      document.getElementById('axul').innerHTML = '.';
-      document.getElementById("axul").style.backgroundColor = "red";
+      axulElement.innerHTML = '.';
+      axulElement.style.backgroundColor = "red";
 
     } else {
-      document.getElementById('axul').innerHTML = '.';
-      document.getElementById("axul").style.backgroundColor = "green";
+      axulElement.innerHTML = '.';
+      axulElement.style.backgroundColor = "green";
 
     }
 
 
     if (vl32 == 0) {
-      document.getElementById('axul2').innerHTML = '.';
-      document.getElementById("axul2").style.backgroundColor = "red";
+      axul2Element.innerHTML = '.';
+      axul2Element.style.backgroundColor = "red";
 
     } else {
-      document.getElementById('axul2').innerHTML = '.';
-      document.getElementById("axul2").style.backgroundColor = "green";
+      axul2Element.innerHTML = '.';
+      axul2Element.style.backgroundColor = "green";
     }
 
     if (vl33 == 0) {
-      document.getElementById('axul3').innerHTML = '.';
-      document.getElementById("axul3").style.backgroundColor = "red";
+      axul3Element.innerHTML = '.';
+      axul3Element.style.backgroundColor = "red";
 
     } else {
-      document.getElementById('axul3').innerHTML = '.';
-      document.getElementById("axul3").style.backgroundColor = "green";
+      axul3Element.innerHTML = '.';
+      axul3Element.style.backgroundColor = "green";
     }
 
 
     if (vl34 == 0) {
-      document.getElementById('axul4').innerHTML = '.';
-      document.getElementById("axul4").style.backgroundColor = "red";
+      axul4Element.innerHTML = '.';
+      axul4Element.style.backgroundColor = "red";
 
     } else {
-      document.getElementById('axul4').innerHTML = '.';
-      document.getElementById("axul4").style.backgroundColor = "green";
+      axul4Element.innerHTML = '.';
+      axul4Element.style.backgroundColor = "green";
     }
 
     if (vl35 == 0) {
-      document.getElementById('palancakill').src = 'img/Palancaclose.png';
-      document.getElementById('palancakill').style.left = "57px"
+      palancaKillLever.src = 'img/Palancaclose.png';
+      palancaKillLever.style.left = "57px"
 
     } else {
-      document.getElementById('palancakill').src = 'img/Palancaopen.png';
-      document.getElementById('palancakill').style.left = "53px"
+      palancaKillLever.src = 'img/Palancaopen.png';
+      palancaKillLever.style.left = "53px"
     }
 
     if (vl36 == 0) {
 
-      document.getElementById('palanchoque').src = 'img/Palancaclose.png';
-      document.getElementById('palanchoque').style.left = "147px"
+      palanchoqueLever.src = 'img/Palancaclose.png';
+      palanchoqueLever.style.left = "147px"
 
     } else {
-      document.getElementById('palanchoque').src = 'img/Palancaopen.png';
-      document.getElementById('palanchoque').style.left = "142px"
+      palanchoqueLever.src = 'img/Palancaopen.png';
+      palanchoqueLever.style.left = "142px"
     }
 
 
@@ -3627,36 +3458,35 @@ function tiempoeje() {
 var startTime = moment().format('x');
 var delta = 0;
 
-function save() {
+async function save() {
   var a = sola;
   var b = solb;
-  var p1 = document.getElementById('calp1_spm').value;
-  var p1total = document.getElementById('p1_total_spm').value;
-  var p2 = document.getElementById('calp2_spm').value;
-  var p2total = document.getElementById('p2_total_spm').value;
-  var stpmt = document.getElementById('total_spm').value;
-  var totalskt = document.getElementById('total_strokes').value;
-  var hole_depth = document.getElementById('hole_depth').value;
-  var rop = document.getElementById('rop').value;
-  var bit_depth = document.getElementById('bit_depth').value;
-  var cassing_pressure = document.getElementById('cassing_pressure').value;
-  var fluid_volume = document.getElementById('fluid_volume').value;
-  var pump_pressure = document.getElementById('pump_pressure').value;
-  var rpm = document.getElementById('rpm').value;
-  var torque = document.getElementById('torque').value;
-  var time = document.getElementById('time').value;
-  var block_high = document.getElementById('block_high').value;
-  var zeroWob = document.getElementById("zeroWob").value;
-  var cuñas = document.getElementById("cuñas").value;
+  var p1 = calp1SpmInput.value;
+  var p1total = p1TotalSpmInput.value;
+  var p2 = calp2SpmInput.value;
+  var p2total = p2TotalSpmInput.value;
+  var stpmt = totalSpmInput.value;
+  var totalskt = totalStrokesInput.value;
+  var hole_depth = holeDepthInput.value;
+  var rop = ropInput.value;
+  var bit_depth = bitDepthInput.value;
+  var cassing_pressure = cassingPressureInput.value;
+  var fluid_volume = fluidVolumeInput.value;
+  var pump_pressure = pumpPressureInput.value;
+  var rpm = rpmInput.value;
+  var torque = torqueInput.value;
+  var time = timeInput.value;
+  updateBlockHigh();
+  var zeroWob = zeroWobInput.value;
+  var cuñas = slipsControl.value;
 
   //actualiza el estado de las bombas en forma global
   //fin actualiza el estado de las bombas en forma global
 
-  var Pausecb = document.getElementById('cbPause').value;
+  updatePauseValue();
 
-  $.ajax({
-    url: "index_modulo/prueba.php",
-    data: {
+  await postPrueba({
+
       a: a,
       b: b,
       p1: p1,
@@ -3678,12 +3508,7 @@ function save() {
       cuñas: cuñas,
       time: time,
       pause: Pausecb
-    },
-    type: "POST",
-    success: function (datos) {
-      $("#rchan").value = 'holakase';
-    }
-  })
+  });
 
 
   /*  var begin=Date.now();   
@@ -3711,12 +3536,8 @@ function save() {
 
   /* console.log(delta); */
 
-  /*   $.ajax({
-      url: "index_modulo/pause.php",
-      data: {
-        Tiempo: delta
-      },
-      type: "POST"
+  /*   sendPauseData({
+      Tiempo: delta
     }) */
 
 }
@@ -3729,21 +3550,16 @@ var globalfluid;
 var globaltotalstk;
 var flatgif = 1;
 
-function mostrarTR() {
+async function mostrarTR() {
 
   datarol = 0;
 
-  var fluid_volume =
-    $.ajax({
-      type: "POST",
-      url: 'consul_tr/fluid_volume.php',
-      dataType: 'text',
-      data: {
-        datarol: datarol
-      },
-      async: false
-    }).responseText;
-  js = JSON.parse(fluid_volume);
+  const js = await fetchFluidMetrics({
+    datarol: datarol
+  });
+  if (!js) {
+    return;
+  }
 
   if (js[0] == "") {
     js[0] = 0;
@@ -3753,33 +3569,33 @@ function mostrarTR() {
   }
 
   //// DATOS DE CONSOLA
-  document.getElementById('fluid_volume').value = js[0];
-  document.getElementById('pump_pressure').value = js[1];
-  document.getElementById('ecd').value = js[2];
-  document.getElementById('p1_spm').value = js[3];
-  document.getElementById('p2_spm').value = js[4];
-  document.getElementById('p1_total_spm').value = js[5];
-  document.getElementById('p2_total_spm').value = js[6];
-  document.getElementById('total_strokes').value = js[7];
-  document.getElementById('total_spm').value = js[8];
-  document.getElementById('block_high').value = js[9];
-  document.getElementById('show_hole').value = js[10];
-  document.getElementById('hole_depth').value = js[10];
-  document.getElementById('rop').value = js[11];
-  document.getElementById('show_depth').value = js[12];
-  document.getElementById('bit_depth').value = js[12];
-  document.getElementById('rpm').value = js[13];
+  fluidVolumeInput.value = js[0];
+  pumpPressureInput.value = js[1];
+  ecdInput.value = js[2];
+  p1SpmInput.value = js[3];
+  p2SpmInput.value = js[4];
+  p1TotalSpmInput.value = js[5];
+  p2TotalSpmInput.value = js[6];
+  totalStrokesInput.value = js[7];
+  totalSpmInput.value = js[8];
+  blockHighElement.value = js[9];
+  showHoleInput.value = js[10];
+  holeDepthInput.value = js[10];
+  ropInput.value = js[11];
+  showDepthInput.value = js[12];
+  bitDepthInput.value = js[12];
+  rpmInput.value = js[13];
 
 
   // GIFS
-  if (document.getElementById('p1_spm').value > 0 || document.getElementById('p1_spm').value > 0) {
+  if (p1SpmInput.value > 0 || p1SpmInput.value > 0) {
     video.src = 'img/lodo.gif';
     audiop1d.play();
     audiop1d.loop = true;
   }
 
-  if (document.getElementById('p1_spm').value == 0) {
-    if (document.getElementById('p2_spm').value == 0) {
+  if (p1SpmInput.value == 0) {
+    if (p2SpmInput.value == 0) {
       video.src = 'img/sinlodo.gif';
       audiop1d.pause();
     }
@@ -3792,7 +3608,7 @@ function mostrarTR() {
 
 
   ///// BAJADA DEL TALADRO
-  var block_highcount = document.getElementById("block_high").value;
+  var block_highcount = blockHighElement.value;
   var sum = block_highcount * 21.21;
   imgdawn.style.marginTop = "" + -sum + "px";
 
@@ -3832,7 +3648,7 @@ function mostrarTR() {
 
       ironr.src = "img/ironrunner.gif";
 
-      document.getElementById('ironraux').src = "";
+      ironrAuxElement.src = "";
 
       setTimeout(function () {
 
@@ -3840,7 +3656,7 @@ function mostrarTR() {
 
         ironr.src = "";
 
-        document.getElementById('ironraux').src = "img/ironquieto.png";
+        ironrAuxElement.src = "img/ironquieto.png";
 
       }, 16000);
 
@@ -4101,9 +3917,9 @@ if (document.getElementById("btnModalset")) {
   }
 }
 
-if (document.getElementById("btnModalalarm")) {
+if (btnModalAlarm) {
   var modalalarm = document.getElementById("tvesModalalarm");
-  var btnalarm = document.getElementById("btnModalalarm");
+  var btnalarm = btnModalAlarm;
   var spanalarm = document.getElementsByClassName("close2")[6];
   //  var bodyalarm = document.getElementsByTagName("body")[6];
 
@@ -4122,13 +3938,11 @@ if (document.getElementById("btnModalalarm")) {
   }
 }
 
-if (document.getElementById("btnModalpause")) {
-  var modalpause = document.getElementById("tvesModalpause");
-  var btnpause = document.getElementById("btnModalpause");
-  var spanpause = document.getElementsByClassName("close2")[9];
-  var bodypause = document.getElementsByTagName("body")[9];
+if (btnModalpause && modalpause) {
+  const spanpause = document.getElementsByClassName("close2")[9];
+  const bodypause = document.getElementsByTagName("body")[9];
 
-  btnpause.onclick = function () {
+  btnModalpause.onclick = function () {
     modalpause.style.display = "block";
 
     bodypause.style.position = "static";
@@ -4136,12 +3950,14 @@ if (document.getElementById("btnModalpause")) {
     bodypause.style.overflow = "hidden";
   }
 
-  spanpause.onclick = function () {
-    modalpause.style.display = "none";
+  if (spanpause) {
+    spanpause.onclick = function () {
+      modalpause.style.display = "none";
 
-    bodypause.style.position = "inherit";
-    bodypause.style.height = "auto";
-    bodypause.style.overflow = "visible";
+      bodypause.style.position = "inherit";
+      bodypause.style.height = "auto";
+      bodypause.style.overflow = "visible";
+    }
   }
 
   window.onclick = function (event) {
@@ -4350,218 +4166,37 @@ if (document.getElementById("btnModalinfo")) {
 
 
 // BLOQUE PARA CAMBIAR LAS VALVULAS DE CIRCULACION
+let valv1cir = 0;
+let valv2cir = 0;
+let valv3cir = 0;
+let valv4cir = 0;
+let valv5cir = 0;
+let valv6cir = 0;
+let valm1cir = 0;
 
-Circula = $.ajax({
-  url: "index_modulo/circuconsul.php",
-  dataType: 'text',
-  type: "POST",
-  async: false
-}).responseText;
-jscir = JSON.parse(Circula);
+async function cargarValvulasCirculacion() {
+  const jscir = await fetchCirculationValves();
+  if (!jscir) {
+    return;
+  }
 
-var datacirv1 = jscir[0];
-var datacirv2 = jscir[1];
-var datacirv3 = jscir[2];
-var datacirv4 = jscir[3];
-var datacirv5 = jscir[4];
-var datacirv6 = jscir[5];
-var datacirm1 = jscir[6];
+  var datacirv1 = jscir[0];
+  var datacirv2 = jscir[1];
+  var datacirv3 = jscir[2];
+  var datacirv4 = jscir[3];
+  var datacirv5 = jscir[4];
+  var datacirv6 = jscir[5];
+  var datacirm1 = jscir[6];
 
-var cirv1 = datacirv1[0];
-var cirv2 = datacirv2[0];
-var cirv3 = datacirv3[0];
-var cirv4 = datacirv4[0];
-var cirv5 = datacirv5[0];
-var cirv6 = datacirv6[0];
-var mot1 = datacirm1[0];
+  var cirv1 = datacirv1[0];
+  var cirv2 = datacirv2[0];
+  var cirv3 = datacirv3[0];
+  var cirv4 = datacirv4[0];
+  var cirv5 = datacirv5[0];
+  var cirv6 = datacirv6[0];
+  var mot1 = datacirm1[0];
 
-var valv1cir = 0;
-var valv2cir = 0;
-var valv3cir = 0;
-var valv4cir = 0;
-var valv5cir = 0;
-var valv6cir = 0;
-var valm1cir = 0;
-
-
-if (cirv1 == 0) {
-  $("#circuval1Off").css({
-    "display": "Block"
-  });
-
-  $("#circuval1On").css({
-    "display": "None"
-  });
-
-  document.getElementById('circuval1text').innerText = 'CLOSE';
-  valv1cir = 0;
-}
-else {
-  $("#circuval1Off").css({
-    "display": "None"
-  });
-
-  $("#circuval1On").css({
-    "display": "Block"
-  });
-  document.getElementById('circuval1text').innerText = 'OPEN';
-  valv1cir = 1;
-}
-
-if (cirv2 == 0) {
-  $("#circuval2Off").css({
-    "display": "Block"
-  });
-
-  $("#circuval2On").css({
-    "display": "None"
-  });
-
-  document.getElementById('circuval2text').innerText = 'CLOSE';
-  valv2cir = 0;
-}
-else {
-  $("#circuval2Off").css({
-    "display": "None"
-  });
-
-  $("#circuval2On").css({
-    "display": "Block"
-  });
-  document.getElementById('circuval2text').innerText = 'OPEN';
-  valv2cir = 1;
-}
-
-if (cirv3 == 0) {
-  $("#circuval3Off").css({
-    "display": "Block"
-  });
-
-  $("#circuval3On").css({
-    "display": "None"
-  });
-
-  document.getElementById('circuval3text').innerText = 'CLOSE';
-  valv3cir = 0;
-}
-else {
-  $("#circuval3Off").css({
-    "display": "None"
-  });
-
-  $("#circuval3On").css({
-    "display": "Block"
-  });
-
-  document.getElementById('circuval3text').innerText = 'OPEN';
-  valv3cir = 0;
-
-}
-
-if (cirv4 == 0) {
-  $("#circuval4Off").css({
-    "display": "Block"
-  });
-
-  $("#circuval4On").css({
-    "display": "None"
-  });
-
-  document.getElementById('circuval4text').innerText = 'CLOSE';
-  valv4cir = 0;
-}
-else {
-  $("#circuval4Off").css({
-    "display": "None"
-  });
-
-  $("#circuval4On").css({
-    "display": "Block"
-  });
-
-  document.getElementById('circuval4text').innerText = 'OPEN';
-  valv4cir = 0;
-}
-
-if (cirv5 == 0) {
-  $("#circuval5Off").css({
-    "display": "Block"
-  });
-
-  $("#circuval5On").css({
-    "display": "None"
-  });
-
-  document.getElementById('circuval5text').innerText = 'CLOSE';
-  valv5cir = 0;
-}
-else {
-  $("#circuval5Off").css({
-    "display": "None"
-  });
-
-  $("#circuval5On").css({
-    "display": "Block"
-  });
-
-  document.getElementById('circuval5text').innerText = 'OPEN';
-  valv5cir = 0;
-}
-
-if (cirv6 == 0) {
-  $("#circuval6Off").css({
-    "display": "Block"
-  });
-
-  $("#circuval6On").css({
-    "display": "None"
-  });
-
-  document.getElementById('circuval6text').innerText = 'CLOSE';
-  valv6cir = 0;
-}
-else {
-  $("#circuval6Off").css({
-    "display": "None"
-  });
-
-  $("#circuval6On").css({
-    "display": "Block"
-  });
-
-  document.getElementById('circuval6text').innerText = 'OPEN';
-  valv6cir = 0;
-}
-
-if (mot1 == 0) {
-  $("#circumot1Off").css({
-    "display": "Block"
-  });
-
-  $("#circumot1On").css({
-    "display": "None"
-  });
-
-  document.getElementById('circumot1text').innerText = 'OFF';
-  valm1cir = 0;
-}
-else {
-  $("#circumot1Off").css({
-    "display": "None"
-  });
-
-  $("#circumot1On").css({
-    "display": "Block"
-  });
-
-  document.getElementById('circumot1text').innerText = 'ON';
-  valm1cir = 1;
-}
-
-
-
-function camval1cir() {
-  if (valv1cir == 1) {
+  if (cirv1 == 0) {
     $("#circuval1Off").css({
       "display": "Block"
     });
@@ -4570,7 +4205,7 @@ function camval1cir() {
       "display": "None"
     });
 
-    document.getElementById('circuval1text').innerText = 'CLOSE';
+    circuval1Text.innerText = 'CLOSE';
     valv1cir = 0;
   }
   else {
@@ -4581,21 +4216,11 @@ function camval1cir() {
     $("#circuval1On").css({
       "display": "Block"
     });
-    document.getElementById('circuval1text').innerText = 'OPEN';
+    circuval1Text.innerText = 'OPEN';
     valv1cir = 1;
   }
 
-  $.ajax({
-    url: "index_modulo/valcir.php",
-    data: {
-      valv1cir: valv1cir,
-    },
-    type: "POST"
-  })
-}
-
-function camval2cir() {
-  if (valv2cir == 1) {
+  if (cirv2 == 0) {
     $("#circuval2Off").css({
       "display": "Block"
     });
@@ -4604,7 +4229,7 @@ function camval2cir() {
       "display": "None"
     });
 
-    document.getElementById('circuval2text').innerText = 'CLOSE';
+    circuval2Text.innerText = 'CLOSE';
     valv2cir = 0;
   }
   else {
@@ -4615,21 +4240,11 @@ function camval2cir() {
     $("#circuval2On").css({
       "display": "Block"
     });
-    document.getElementById('circuval2text').innerText = 'OPEN';
+    circuval2Text.innerText = 'OPEN';
     valv2cir = 1;
   }
 
-  $.ajax({
-    url: "index_modulo/valcir.php",
-    data: {
-      valv2cir: valv2cir,
-    },
-    type: "POST"
-  })
-}
-
-function camval3cir() {
-  if (valv3cir == 1) {
+  if (cirv3 == 0) {
     $("#circuval3Off").css({
       "display": "Block"
     });
@@ -4638,7 +4253,7 @@ function camval3cir() {
       "display": "None"
     });
 
-    document.getElementById('circuval3text').innerText = 'CLOSE';
+    circuval3Text.innerText = 'CLOSE';
     valv3cir = 0;
   }
   else {
@@ -4649,21 +4264,13 @@ function camval3cir() {
     $("#circuval3On").css({
       "display": "Block"
     });
-    document.getElementById('circuval3text').innerText = 'OPEN';
-    valv3cir = 1;
+
+    circuval3Text.innerText = 'OPEN';
+    valv3cir = 0;
+
   }
 
-  $.ajax({
-    url: "index_modulo/valcir.php",
-    data: {
-      valv3cir: valv3cir,
-    },
-    type: "POST"
-  })
-}
-
-function camval4cir() {
-  if (valv4cir == 1) {
+  if (cirv4 == 0) {
     $("#circuval4Off").css({
       "display": "Block"
     });
@@ -4672,7 +4279,7 @@ function camval4cir() {
       "display": "None"
     });
 
-    document.getElementById('circuval4text').innerText = 'CLOSE';
+    circuval4Text.innerText = 'CLOSE';
     valv4cir = 0;
   }
   else {
@@ -4683,21 +4290,12 @@ function camval4cir() {
     $("#circuval4On").css({
       "display": "Block"
     });
-    document.getElementById('circuval4text').innerText = 'OPEN';
-    valv4cir = 1;
+
+    circuval4Text.innerText = 'OPEN';
+    valv4cir = 0;
   }
 
-  $.ajax({
-    url: "index_modulo/valcir.php",
-    data: {
-      valv4cir: valv4cir,
-    },
-    type: "POST"
-  })
-}
-
-function camval5cir() {
-  if (valv5cir == 1) {
+  if (cirv5 == 0) {
     $("#circuval5Off").css({
       "display": "Block"
     });
@@ -4706,7 +4304,7 @@ function camval5cir() {
       "display": "None"
     });
 
-    document.getElementById('circuval5text').innerText = 'CLOSE';
+    circuval5Text.innerText = 'CLOSE';
     valv5cir = 0;
   }
   else {
@@ -4717,21 +4315,12 @@ function camval5cir() {
     $("#circuval5On").css({
       "display": "Block"
     });
-    document.getElementById('circuval5text').innerText = 'OPEN';
-    valv5cir = 1;
+
+    circuval5Text.innerText = 'OPEN';
+    valv5cir = 0;
   }
 
-  $.ajax({
-    url: "index_modulo/valcir.php",
-    data: {
-      valv5cir: valv5cir,
-    },
-    type: "POST"
-  })
-}
-
-function camval6cir() {
-  if (valv6cir == 1) {
+  if (cirv6 == 0) {
     $("#circuval6Off").css({
       "display": "Block"
     });
@@ -4740,7 +4329,7 @@ function camval6cir() {
       "display": "None"
     });
 
-    document.getElementById('circuval6text').innerText = 'CLOSE';
+    circuval6Text.innerText = 'CLOSE';
     valv6cir = 0;
   }
   else {
@@ -4751,21 +4340,12 @@ function camval6cir() {
     $("#circuval6On").css({
       "display": "Block"
     });
-    document.getElementById('circuval6text').innerText = 'OPEN';
-    valv6cir = 1;
+
+    circuval6Text.innerText = 'OPEN';
+    valv6cir = 0;
   }
 
-  $.ajax({
-    url: "index_modulo/valcir.php",
-    data: {
-      valv6cir: valv6cir,
-    },
-    type: "POST"
-  })
-}
-
-function cammot1cir() {
-  if (valm1cir == 1) {
+  if (mot1 == 0) {
     $("#circumot1Off").css({
       "display": "Block"
     });
@@ -4774,7 +4354,7 @@ function cammot1cir() {
       "display": "None"
     });
 
-    document.getElementById('circumot1text').innerText = 'OFF';
+    circumot1Text.innerText = 'OFF';
     valm1cir = 0;
   }
   else {
@@ -4786,17 +4366,233 @@ function cammot1cir() {
       "display": "Block"
     });
 
-    document.getElementById('circumot1text').innerText = 'ON';
+    circumot1Text.innerText = 'ON';
     valm1cir = 1;
   }
 
-  $.ajax({
-    url: "index_modulo/valcir.php",
-    data: {
+
+
+
+}
+
+cargarValvulasCirculacion();
+
+async function camval1cir() {
+  if (valv1cir == 1) {
+    $("#circuval1Off").css({
+      "display": "Block"
+    });
+
+    $("#circuval1On").css({
+      "display": "None"
+    });
+
+    circuval1Text.innerText = 'CLOSE';
+    valv1cir = 0;
+  }
+  else {
+    $("#circuval1Off").css({
+      "display": "None"
+    });
+
+    $("#circuval1On").css({
+      "display": "Block"
+    });
+    circuval1Text.innerText = 'OPEN';
+    valv1cir = 1;
+  }
+
+  await updateCirculationValve({
+
+      valv1cir: valv1cir,
+  });
+}
+
+async function camval2cir() {
+  if (valv2cir == 1) {
+    $("#circuval2Off").css({
+      "display": "Block"
+    });
+
+    $("#circuval2On").css({
+      "display": "None"
+    });
+
+    circuval2Text.innerText = 'CLOSE';
+    valv2cir = 0;
+  }
+  else {
+    $("#circuval2Off").css({
+      "display": "None"
+    });
+
+    $("#circuval2On").css({
+      "display": "Block"
+    });
+    circuval2Text.innerText = 'OPEN';
+    valv2cir = 1;
+  }
+
+  await updateCirculationValve({
+
+      valv2cir: valv2cir,
+  });
+}
+
+async function camval3cir() {
+  if (valv3cir == 1) {
+    $("#circuval3Off").css({
+      "display": "Block"
+    });
+
+    $("#circuval3On").css({
+      "display": "None"
+    });
+
+    circuval3Text.innerText = 'CLOSE';
+    valv3cir = 0;
+  }
+  else {
+    $("#circuval3Off").css({
+      "display": "None"
+    });
+
+    $("#circuval3On").css({
+      "display": "Block"
+    });
+    circuval3Text.innerText = 'OPEN';
+    valv3cir = 1;
+  }
+
+  await updateCirculationValve({
+
+      valv3cir: valv3cir,
+  });
+}
+
+async function camval4cir() {
+  if (valv4cir == 1) {
+    $("#circuval4Off").css({
+      "display": "Block"
+    });
+
+    $("#circuval4On").css({
+      "display": "None"
+    });
+
+    circuval4Text.innerText = 'CLOSE';
+    valv4cir = 0;
+  }
+  else {
+    $("#circuval4Off").css({
+      "display": "None"
+    });
+
+    $("#circuval4On").css({
+      "display": "Block"
+    });
+    circuval4Text.innerText = 'OPEN';
+    valv4cir = 1;
+  }
+
+  await updateCirculationValve({
+
+      valv4cir: valv4cir,
+  });
+}
+
+async function camval5cir() {
+  if (valv5cir == 1) {
+    $("#circuval5Off").css({
+      "display": "Block"
+    });
+
+    $("#circuval5On").css({
+      "display": "None"
+    });
+
+    circuval5Text.innerText = 'CLOSE';
+    valv5cir = 0;
+  }
+  else {
+    $("#circuval5Off").css({
+      "display": "None"
+    });
+
+    $("#circuval5On").css({
+      "display": "Block"
+    });
+    circuval5Text.innerText = 'OPEN';
+    valv5cir = 1;
+  }
+
+  await updateCirculationValve({
+
+      valv5cir: valv5cir,
+  });
+}
+
+async function camval6cir() {
+  if (valv6cir == 1) {
+    $("#circuval6Off").css({
+      "display": "Block"
+    });
+
+    $("#circuval6On").css({
+      "display": "None"
+    });
+
+    circuval6Text.innerText = 'CLOSE';
+    valv6cir = 0;
+  }
+  else {
+    $("#circuval6Off").css({
+      "display": "None"
+    });
+
+    $("#circuval6On").css({
+      "display": "Block"
+    });
+    circuval6Text.innerText = 'OPEN';
+    valv6cir = 1;
+  }
+
+  await updateCirculationValve({
+
+      valv6cir: valv6cir,
+  });
+}
+
+async function cammot1cir() {
+  if (valm1cir == 1) {
+    $("#circumot1Off").css({
+      "display": "Block"
+    });
+
+    $("#circumot1On").css({
+      "display": "None"
+    });
+
+    circumot1Text.innerText = 'OFF';
+    valm1cir = 0;
+  }
+  else {
+    $("#circumot1Off").css({
+      "display": "None"
+    });
+
+    $("#circumot1On").css({
+      "display": "Block"
+    });
+
+    circumot1Text.innerText = 'ON';
+    valm1cir = 1;
+  }
+
+  await updateCirculationValve({
+
       valm1cir: valm1cir,
-    },
-    type: "POST"
-  })
+  });
 }
 
 
@@ -4835,53 +4631,46 @@ function mossztt() {
   }
 }
 
-FechaData = $.ajax({
-  url: "Modulo_graficas/php/fecha.php",
-  dataType: 'text',
-  type: "POST",
-  async: false
-}).responseText;
-jsfecha = JSON.parse(FechaData);
+async function loadInitialFechaData() {
+  jsfecha = await fetchFechaData();
+  if (!jsfecha) {
+    return;
+  }
+  DataChar = jsfecha[1];
+}
 
-DataChar = jsfecha[1];
+loadInitialFechaData();
 
 setTimeout(() => {
-  document.getElementById('texcarg').innerText = 'Loading environment';
+  texcargLabel.innerText = 'Loading environment';
 }, 10000);
 
 setTimeout(() => {
-  document.getElementById('texcarg').innerText = 'Loading drill';
+  texcargLabel.innerText = 'Loading drill';
 }, 20000);
 
 setTimeout(() => {
-  document.getElementById('texcarg').innerText = 'Loading data';
+  texcargLabel.innerText = 'Loading data';
 }, 30000);
 
 setTimeout(() => {
-  document.getElementById('texcarg').innerText = 'Updating environment';
+  texcargLabel.innerText = 'Updating environment';
 }, 40000);
 
 setTimeout(() => {
-  document.getElementById('texcarg').innerText = 'Updating drill';
+  texcargLabel.innerText = 'Updating drill';
 }, 50000);
 
 setTimeout(() => {
-  document.getElementById('texcarg').innerText = 'Updating data';
+  texcargLabel.innerText = 'Updating data';
 }, 60000);
 
-setTimeout(() => {
+setTimeout(async () => {
   continue_var = 0;
-  document.getElementById("continueprac").value = continue_var;
-  actpract = $.ajax({
-    url: "Modulo_graficas/php/fecha.php",
-    dataType: 'text',
-    type: "POST",
-    data:
-    {
-      continue: continue_var
-    },
-    async: false
-  })
+  continuepracInput.value = continue_var;
+  await fetchFechaData({
+    continue: continue_var
+  });
 }, 600000);
 
 var setinttime
@@ -4919,7 +4708,7 @@ console.log(DataChar);
 var contenedorop = document.getElementById('contenedor_opc');
 var bot_opc = document.getElementById("bot_opc");
 var bot_ops = document.getElementById("bot_ops");
-var continue_var = document.getElementById("continueprac").value;
+var continue_var = continuepracInput.value;
 
 
 
@@ -4940,9 +4729,9 @@ bot_opc.onclick = function () {
   bot_ops.style.display = "none";
 
   continue_var = 1
-  document.getElementById("continueprac").value = continue_var;
+  continuepracInput.value = continue_var;
 
-  contibtn = $.ajax({
+  contibtn = ajaxRequest({
     url: "Modulo_graficas/php/fecha.php",
     dataType: 'text',
     type: "POST",
@@ -4963,7 +4752,7 @@ bot_ops.onclick = function () {
   contenedorop.style.opacity = '0';
 
   continue_var = 1
-  document.getElementById("continueprac").value = continue_var;
+  continuepracInput.value = continue_var;
 
   var deep = document.getElementById('deeph').value;
   var bitdeeph = document.getElementById('bitdeeph').value;
@@ -4972,7 +4761,7 @@ bot_ops.onclick = function () {
 
   d40 = document.getElementById("selectGra").value; // Plantillas de graficacion Ejemplo: Drill/WellControl
   Hora = document.getElementById("HoraGraf").value; // Escala de Tiempo
-  FechaData = $.ajax({
+  FechaData = ajaxRequest({
     url: "Modulo_graficas/php/fecha.php",
     dataType: 'text',
     type: "POST",
@@ -4987,7 +4776,7 @@ bot_ops.onclick = function () {
 
   FechaActCom = jsfecha[0];
 
-  $.ajax({
+  ajaxRequest({
     url: "index_modulo/rolactudatos.php",
     data: {
       deep: deep,
@@ -4997,44 +4786,43 @@ bot_ops.onclick = function () {
     type: "POST",
   });
 
-
-  document.getElementById('cbPause').value = 1;
-  var Pausecb = document.getElementById('cbPause').value;
+  if (cbPauseElement) {
+    cbPauseElement.value = 1;
+  }
+  updatePauseValue();
 
   $("#cbPause").prop("checked", true);
-  btnModalpause.style.background = "red";
+  if (btnModalpause) {
+    btnModalpause.style.background = "red";
+  }
 
-  $.ajax({
-    url: "index_modulo/pause.php",
-    data: {
-      Pausecb: Pausecb,
-    },
-    type: "POST"
+  sendPauseData({
+    Pausecb: Pausecb,
   })
 
 
   //location.reload();
 
-  document.getElementById('block_high').value = altura;
-  document.getElementById('bit_depth').value = bitdeeph;
-  document.getElementById("show_depth").value = bitdeeph;
+  blockHighElement.value = altura;
+  bitDepthInput.value = bitdeeph;
+  showDepthInput.value = bitdeeph;
   document.getElementById('defval').value = bitdeeph;
-  document.getElementById('hole_depth').value = deep;
-  document.getElementById('show_hole').value = deep;
-  document.getElementById('p1_spm').value = 0;
-  document.getElementById('p2_spm').value = 0;
-  document.getElementById('total_spm').value = 0;
-  document.getElementById('p1_total_spm').value = 0;
-  document.getElementById('p2_total_spm').value = 0;
-  document.getElementById('fluid_volume').value = 0;
-  document.getElementById('pump_pressure').value = 0;
-  document.getElementById('total_strokes').value = 0;
-  document.getElementById('torque').value = 0;
-  document.getElementById('rop').value = 0;
-  document.getElementById('cassing_pressure').value = 0;
+  holeDepthInput.value = deep;
+  showHoleInput.value = deep;
+  p1SpmInput.value = 0;
+  p2SpmInput.value = 0;
+  totalSpmInput.value = 0;
+  p1TotalSpmInput.value = 0;
+  p2TotalSpmInput.value = 0;
+  fluidVolumeInput.value = 0;
+  pumpPressureInput.value = 0;
+  totalStrokesInput.value = 0;
+  torqueInput.value = 0;
+  ropInput.value = 0;
+  cassingPressureInput.value = 0;
 
   var sola = document.getElementById('agujaunohidden').value;
-  var solb = document.getElementById('agujadoshidden').value;
+  var solb = agujadosHiddenInput.value;
 
   counthoursi = 0;
   countmini = 0;
@@ -5046,29 +4834,26 @@ bot_ops.onclick = function () {
 
 
   imgdawn = document.getElementById('imgmov');
-  block_highcount = document.getElementById("block_high").value;
+  block_highcount = blockHighElement.value;
   sum = block_highcount * 21.21;
   imgdawn.style.marginTop = "" + -sum + "px";
 
-  document.getElementById('myRange').scrollTop = 0;
-  document.getElementById('myRange2').scrollTop = 0;
-  document.getElementById('myRange3').scrollTop = 0;
+  x.scrollTop = 0;
+  x2.scrollTop = 0;
+  x3.scrollTop = 0;
 
   setTimeout(() => {
-    document.getElementById('cbPause').value = 0;
-    var Pausecb = document.getElementById('cbPause').value;
+    if (cbPauseElement) {
+      cbPauseElement.value = 0;
+    }
+    updatePauseValue();
 
     $("#cbPause").prop("checked", false);
-    btnModalpause.style.background = 'rgba(0,0,300,0.8)';
+    if (btnModalpause) {
+      btnModalpause.style.background = 'rgba(0,0,300,0.8)';
+    }
 
-    $.ajax({
-      url: "index_modulo/pause.php",
-      data: {
-        Pausecb: Pausecb,
-      },
-      type: "POST",
-      succes: location.reload()
-    })
+    sendPauseData({ Pausecb }).then(() => location.reload())
 
   }, 2000);
 
@@ -5079,6 +4864,33 @@ bot_ops.onclick = function () {
 
 
 //36076500=0,0553846153846154
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
