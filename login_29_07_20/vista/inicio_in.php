@@ -11,6 +11,7 @@ session_start();
 error_reporting(0);
 $usuval=$_SESSION['username'];
 $cod_usuario=$_SESSION['codigo_rol'];
+$o_pozo=$_POST['o_pozo'];
 $_SESSION['pozocon']=$_POST['o_pozo'];
 if ($usuval==null||$usuval='') {
   echo "Es necesario iniciar sesión/

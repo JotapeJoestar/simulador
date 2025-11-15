@@ -6,6 +6,8 @@ if (!dbServices) {
 const {
   saveNewMud,
   savePozo,
+  saveP1Value,
+  saveP2Value,
   updateAlert1,
   updateAlert2,
   updateAlert3,
@@ -56,12 +58,8 @@ let d2 = document.getElementById("d2");
 let d3 = document.getElementById("d3");
 var ironr = document.getElementById('ironr');
 var palanca1 = document.getElementById('palanca1');
-var progresbar = progresbarElement.value;
-var progresbar2 = progresbar2Element.value;
-var progresbar3 = progresbar3Element.value;
 /* var progresbar4 = document.getElementById('progresbar4').value; */
 var subirpor = document.getElementById('subirpor');
-var return_flow = returnFlowInput;
 var gain = document.getElementById('gain');
 var separador = document.getElementById('separador');
 var nav2de = document.getElementById('nav2de');
@@ -100,7 +98,7 @@ const alarmCheckbox1 = document.getElementById('alarmcheckbox1');
 const alarmCheckbox2 = document.getElementById('alarmcheckbox2');
 const alarmCheckbox3 = document.getElementById('alarmcheckbox3');
 const alarmCheckbox4 = document.getElementById('alarmcheckbox4');
-const slipsControl = slipsControl;
+const slipsControl = document.getElementById('cuñas');
 const ironrAuxElement = document.getElementById('ironraux');
 const palanchoqueLever = document.getElementById('palanchoque');
 const palancaKillLever = document.getElementById('palancakill');
@@ -123,6 +121,10 @@ const agujadosHiddenInput = document.getElementById('agujadoshidden');
 const showHoleInput = document.getElementById('show_hole');
 const btnModalAlarm = document.getElementById('btnModalalarm');
 const acumPesoStuckPipe = document.getElementById('acum_peso_stuck_pipe');
+const progresbar = progresbarElement;
+const progresbar2 = progresbar2Element;
+const progresbar3 = progresbar3Element;
+const return_flow = returnFlowInput;
 //audios////audios////audios////audios////audios////audios////audios////audios//
 
 
@@ -490,6 +492,16 @@ function updateBlockHigh() {
     block_high = blockHighElement.value;
   }
   return block_high;
+}
+
+function persistPumpValue(pumpKey, value) {
+  if (value === undefined || value === null) {
+    return;
+  }
+  const payload = pumpKey === "p1" ? { p1: value } : { p2: value };
+  postPrueba(payload).catch((error) => {
+    console.error(`Error al guardar ${pumpKey === "p1" ? "bomba 1" : "bomba 2"}:`, error);
+  });
 }
 
 //Fin funcion para pause
@@ -2186,6 +2198,7 @@ function myFunction() {
   var suma = Number(p1_spm.value.replace(/[^0-9\.-]+/g, "")) + Number(p2_spm.value.replace(/[^0-9\.-]+/g, ""))
   total_spm.value = suma;
   settotoal();// Toma el valor de SPMT y realiza el contador de SKST
+  persistPumpValue("p1", p1SpmInput.value);
 
 
   // ************************************************************************************************************
@@ -2391,6 +2404,7 @@ function myFunction2() {
   var suma = Number(p1_spm.value.replace(/[^0-9\.-]+/g, "")) + Number(p2_spm.value.replace(/[^0-9\.-]+/g, ""))
   total_spm.value = suma;
   settotoal();
+  persistPumpValue("p2", p2SpmInput.value);
 
 
   //************************************************************************************************************

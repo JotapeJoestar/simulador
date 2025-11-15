@@ -6,7 +6,7 @@ session_start();
 error_reporting(0);
 $usuval=$_SESSION['username'];
 //
-$pozo_consul=="";
+$pozo_consul="";
 $pozo_consul=$_POST['o_pozo'];
 if($pozo_consul=="Defaull"){
 	$usuval="Factory";

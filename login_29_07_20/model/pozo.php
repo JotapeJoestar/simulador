@@ -42,5 +42,3 @@ $result=mysqli_query($conexion,$query);
 
 
 
-
-
